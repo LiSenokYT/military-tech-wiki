@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MilitaryTech Wiki - Энциклопедия военной техники</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="main-header">
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <h1>MilitaryTech<span>Wiki</span></h1>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="#main" class="nav-link active">Главная</a></li>
+                    <li><a href="#ground" class="nav-link">Наземная</a></li>
+                    <li><a href="#air" class="nav-link">Воздушная</a></li>
+                    <li><a href="#naval" class="nav-link">Морская</a></li>
+                    <li><a href="#ammo" class="nav-link">Боеприпасы</a></li>
+                </ul>
+                <div class="search-box">
+                    <input type="text" placeholder="Поиск техники..." id="searchInput">
+                    <button class="search-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                            <path d="M21 21L16.514 16.506L21 21ZM19 10.5C19 15.194 15.194 19 10.5 19C5.806 19 2 15.194 2 10.5C2 5.806 5.806 2 10.5 2C15.194 2 19 5.806 19 10.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="main">
+        <div class="hero-background">
+            <div class="particles"></div>
+        </div>
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    <span class="title-main">ЭНЦИКЛОПЕДИЯ</span>
+                    <span class="title-sub">ВОЕННОЙ ТЕХНИКИ</span>
+                </h1>
+                <p class="hero-description">
+                    От первых танков до современных истребителей. Полная информация о военной технике 
+                    со всего мира с детальными характеристиками и историей создания.
+                </p>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">2500+</span>
+                        <span class="stat-label">Единиц техники</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">85</span>
+                        <span class="stat-label">Стран</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">120+</span>
+                        <span class="stat-label">Лет истории</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="categories">
+        <div class="container">
+            <h2 class="section-title">КАТЕГОРИИ ТЕХНИКИ</h2>
+            <div class="categories-grid">
+                <a href="#ground" class="category-card" data-category="ground">
+                    <div class="category-icon">
+                        <svg width="60" height="60" viewBox="0 0 24 24" fill="none">
+                            <path d="M20 9L12 4L4 9V20H20V9Z" stroke="currentColor" stroke-width="1.5"/>
+                            <path d="M8 12H16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                            <path d="M8 16H16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <h3>Наземная техника</h3>
+                    <p>Танки, БМП, САУ, ПВО и другая наземная военная техника</p>
+                    <span class="category-count">1200+ единиц</span>
+                </a>
+
+                <a href="#air" class="category-card" data-category="air">
+                    <div class="category-icon">
+                        <svg width="60" height="60" viewBox="0 0 24 24" fill="none">
+                            <path d="M2 19H22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                            <path d="M18.5 19V6.5C18.5 5.5 17.8284 4.5 17 4.5H7C6.17157 4.5 5.5 5.5 5.5 6.5V19" stroke="currentColor" stroke-width="1.5"/>
+                            <path d="M12 4.5V2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                            <path d="M9.5 19V14.5H14.5V19" stroke="currentColor" stroke-width="1.5"/>
+                        </svg>
+                    </div>
+                    <h3>Воздушная техника</h3>
+                    <p>Истребители, бомбардировщики, вертолеты и БПЛА</p>
+                    <span class="category-count">800+ единиц</span>
+                </a>
+
+                <a href="#naval" class="category-card" data-category="naval">
+                    <div class="category-icon">
+                        <svg width="60" height="60" viewBox="0 0 24 24" fill="none">
+                            <path d="M21 13V5C21 3 20 2 18 2H6C4 2 3 3 3 5V13H21Z" stroke="currentColor" stroke-width="1.5"/>
+                            <path d="M3 13L2 19H22L21 13" stroke="currentColor" stroke-width="1.5"/>
+                            <path d="M8 10H10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                            <path d="M14 10H16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <h3>Морская техника</h3>
+                    <p>Корабли, подлодки, катера и другая морская техника</p>
+                    <span class="category-count">400+ единиц</span>
+                </a>
+
+                <a href="#ammo" class="category-card" data-category="ammo">
+                    <div class="category-icon">
+                        <svg width="60" height="60" viewBox="0 0 24 24" fill="none">
+                            <path d="M12 2V22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                            <path d="M8 6H16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                            <path d="M8 12H16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                            <path d="M8 18H16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                            <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/>
+                        </svg>
+                    </div>
+                    <h3>Боеприпасы</h3>
+                    <p>Снаряды, ракеты, бомбы и другое вооружение</p>
+                    <span class="category-count">600+ видов</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Recent Additions -->
+    <section class="recent-additions">
+        <div class="container">
+            <h2 class="section-title">НОВЫЕ ПОСТУПЛЕНИЯ</h2>
+            <div class="additions-grid">
+                <div class="addition-card">
+                    <div class="card-image">
+                        <img src="https://via.placeholder.com/300x200/1a1a1a/666666?text=T-14+Armata" alt="T-14 Armata">
+                    </div>
+                    <div class="card-content">
+                        <h3>T-14 Armata</h3>
+                        <p>Российский основной боевой танк нового поколения</p>
+                        <div class="card-meta">
+                            <span class="meta-country">Россия</span>
+                            <span class="meta-year">2015</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="addition-card">
+                    <div class="card-image">
+                        <img src="https://via.placeholder.com/300x200/1a1a1a/666666?text=F-35+Lightning+II" alt="F-35 Lightning II">
+                    </div>
+                    <div class="card-content">
+                        <h3>F-35 Lightning II</h3>
+                        <pАмериканский многоцелевой истребитель пятого поколения</p>
+                        <div class="card-meta">
+                            <span class="meta-country">США</span>
+                            <span class="meta-year">2006</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="addition-card">
+                    <div class="card-image">
+                        <img src="https://via.placeholder.com/300x200/1a1a1a/666666?text=Type+055" alt="Type 055">
+                    </div>
+                    <div class="card-content">
+                        <h3>Type 055</h3>
+                        <p>Китайский эсминец УРО нового поколения</p>
+                        <div class="card-meta">
+                            <span class="meta-country">Китай</span>
+                            <span class="meta-year">2019</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>MilitaryTech Wiki</h3>
+                    <p>Самая полная энциклопедия военной техники в мире</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Разделы</h4>
+                    <ul>
+                        <li><a href="#ground">Наземная техника</a></li>
+                        <li><a href="#air">Воздушная техника</a></li>
+                        <li><a href="#naval">Морская техника</a></li>
+                        <li><a href="#ammo">Боеприпасы</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Технологии</h4>
+                    <ul>
+                        <li>Supabase</li>
+                        <li>Vercel</li>
+                        <li>GitHub</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 MilitaryTech Wiki. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="scripts/main.js"></script>
+</body>
+</html>

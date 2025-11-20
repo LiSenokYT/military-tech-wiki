@@ -132,7 +132,7 @@
                         <div class="filter-item">
                             <label>Масса (тонн)</label>
                             <div class="range-slider">
-                                <input type="range" class="slider" min="5" max="80" value="80">
+                                <input type="range" class="slider mass-slider" min="5" max="80" value="80">
                                 <div class="range-values">
                                     <span>5 т</span>
                                     <span id="mass-value">80 т</span>
@@ -143,7 +143,7 @@
                         <div class="filter-item">
                             <label>Экипаж</label>
                             <div class="range-slider">
-                                <input type="range" class="slider" min="1" max="12" value="12">
+                                <input type="range" class="slider crew-slider" min="1" max="12" value="12">
                                 <div class="range-values">
                                     <span>1 чел</span>
                                     <span id="crew-value">12 чел</span>
@@ -234,22 +234,34 @@
                             <label>Дополнительное вооружение</label>
                             <div class="checkbox-group">
                                 <label class="checkbox">
-                                    <input type="checkbox" value="pkt"> Пулемет ПКТ
+                                    <input type="checkbox" value="pkt">
+                                    <span class="checkmark"></span>
+                                    <span class="checkbox-text">Пулемет ПКТ</span>
                                 </label>
                                 <label class="checkbox">
-                                    <input type="checkbox" value="nsvt"> Пулемет НСВТ
+                                    <input type="checkbox" value="nsvt">
+                                    <span class="checkmark"></span>
+                                    <span class="checkbox-text">Пулемет НСВТ</span>
                                 </label>
                                 <label class="checkbox">
-                                    <input type="checkbox" value="atgm"> ПТУР
+                                    <input type="checkbox" value="atgm">
+                                    <span class="checkmark"></span>
+                                    <span class="checkbox-text">ПТУР</span>
                                 </label>
                                 <label class="checkbox">
-                                    <input type="checkbox" value="aagun"> Зенитный пулемет
+                                    <input type="checkbox" value="aagun">
+                                    <span class="checkmark"></span>
+                                    <span class="checkbox-text">Зенитный пулемет</span>
                                 </label>
                                 <label class="checkbox">
-                                    <input type="checkbox" value="grenade"> Гранатомет
+                                    <input type="checkbox" value="grenade">
+                                    <span class="checkmark"></span>
+                                    <span class="checkbox-text">Гранатомет</span>
                                 </label>
                                 <label class="checkbox">
-                                    <input type="checkbox" value="missile"> Ракетное вооружение
+                                    <input type="checkbox" value="missile">
+                                    <span class="checkmark"></span>
+                                    <span class="checkbox-text">Ракетное вооружение</span>
                                 </label>
                             </div>
                         </div>
@@ -285,22 +297,34 @@
                             <label>Системы защиты</label>
                             <div class="checkbox-group">
                                 <label class="checkbox">
-                                    <input type="checkbox" value="aps"> КАЗ
+                                    <input type="checkbox" value="aps">
+                                    <span class="checkmark"></span>
+                                    <span class="checkbox-text">КАЗ</span>
                                 </label>
                                 <label class="checkbox">
-                                    <input type="checkbox" value="era"> ДЗ
+                                    <input type="checkbox" value="era">
+                                    <span class="checkmark"></span>
+                                    <span class="checkbox-text">ДЗ</span>
                                 </label>
                                 <label class="checkbox">
-                                    <input type="checkbox" value="slat"> Решетчатые экраны
+                                    <input type="checkbox" value="slat">
+                                    <span class="checkmark"></span>
+                                    <span class="checkbox-text">Решетчатые экраны</span>
                                 </label>
                                 <label class="checkbox">
-                                    <input type="checkbox" value="smoke"> Дымовые гранатометы
+                                    <input type="checkbox" value="smoke">
+                                    <span class="checkmark"></span>
+                                    <span class="checkbox-text">Дымовые гранатометы</span>
                                 </label>
                                 <label class="checkbox">
-                                    <input type="checkbox" value="laser"> Система оповещения
+                                    <input type="checkbox" value="laser">
+                                    <span class="checkmark"></span>
+                                    <span class="checkbox-text">Система оповещения</span>
                                 </label>
                                 <label class="checkbox">
-                                    <input type="checkbox" value="nbc"> Оборудование ОМП
+                                    <input type="checkbox" value="nbc">
+                                    <span class="checkmark"></span>
+                                    <span class="checkbox-text">Оборудование ОМП</span>
                                 </label>
                             </div>
                         </div>
@@ -348,149 +372,7 @@
             </div>
 
             <div class="equipment-grid" id="equipment-grid">
-                <!-- Equipment cards will be loaded here -->
-                <div class="equipment-card">
-                    <div class="card-image">
-                        <div class="image-placeholder">T-14 Армата</div>
-                        <div class="card-badges">
-                            <span class="badge country ru">Россия</span>
-                            <span class="badge type mbt">ОБТ</span>
-                            <span class="badge year">2015</span>
-                        </div>
-                    </div>
-                    <div class="card-content">
-                        <h3 class="card-title">T-14 Армата</h3>
-                        <p class="card-subtitle">Основной боевой танк</p>
-                        
-                        <div class="card-stats">
-                            <div class="stat">
-                                <i class="fas fa-weight-hanging"></i>
-                                <span>55 т</span>
-                            </div>
-                            <div class="stat">
-                                <i class="fas fa-user"></i>
-                                <span>3 чел</span>
-                            </div>
-                            <div class="stat">
-                                <i class="fas fa-crosshairs"></i>
-                                <span>125 мм</span>
-                            </div>
-                            <div class="stat">
-                                <i class="fas fa-tachometer-alt"></i>
-                                <span>80 км/ч</span>
-                            </div>
-                        </div>
-
-                        <div class="card-features">
-                            <span class="feature">ДЗ «Малахит»</span>
-                            <span class="feature">КАЗ «Афганит»</span>
-                            <span class="feature">125 мм 2А82</span>
-                        </div>
-
-                        <div class="card-actions">
-                            <button class="btn-primary">Подробнее</button>
-                            <button class="btn-secondary">
-                                <i class="far fa-heart"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="equipment-card">
-                    <div class="card-image">
-                        <div class="image-placeholder">M1A2 Abrams</div>
-                        <div class="card-badges">
-                            <span class="badge country us">США</span>
-                            <span class="badge type mbt">ОБТ</span>
-                            <span class="badge year">1992</span>
-                        </div>
-                    </div>
-                    <div class="card-content">
-                        <h3 class="card-title">M1A2 Abrams</h3>
-                        <p class="card-subtitle">Основной боевой танк</p>
-                        
-                        <div class="card-stats">
-                            <div class="stat">
-                                <i class="fas fa-weight-hanging"></i>
-                                <span>63.9 т</span>
-                            </div>
-                            <div class="stat">
-                                <i class="fas fa-user"></i>
-                                <span>4 чел</span>
-                            </div>
-                            <div class="stat">
-                                <i class="fas fa-crosshairs"></i>
-                                <span>120 мм</span>
-                            </div>
-                            <div class="stat">
-                                <i class="fas fa-tachometer-alt"></i>
-                                <span>67 км/ч</span>
-                            </div>
-                        </div>
-
-                        <div class="card-features">
-                            <span class="feature">ГТД 1500 л.с.</span>
-                            <span class="feature">СУО CITV</span>
-                            <span class="feature">ДЗ</span>
-                        </div>
-
-                        <div class="card-actions">
-                            <button class="btn-primary">Подробнее</button>
-                            <button class="btn-secondary">
-                                <i class="far fa-heart"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="equipment-card">
-                    <div class="card-image">
-                        <div class="image-placeholder">Leopard 2A7</div>
-                        <div class="card-badges">
-                            <span class="badge country de">Германия</span>
-                            <span class="badge type mbt">ОБТ</span>
-                            <span class="badge year">2014</span>
-                        </div>
-                    </div>
-                    <div class="card-content">
-                        <h3 class="card-title">Leopard 2A7</h3>
-                        <p class="card-subtitle">Основной боевой танк</p>
-                        
-                        <div class="card-stats">
-                            <div class="stat">
-                                <i class="fas fa-weight-hanging"></i>
-                                <span>67 т</span>
-                            </div>
-                            <div class="stat">
-                                <i class="fas fa-user"></i>
-                                <span>4 чел</span>
-                            </div>
-                            <div class="stat">
-                                <i class="fas fa-crosshairs"></i>
-                                <span>120 мм</span>
-                            </div>
-                            <div class="stat">
-                                <i class="fas fa-tachometer-alt"></i>
-                                <span>72 км/ч</span>
-                            </div>
-                        </div>
-
-                        <div class="card-features">
-                            <span class="feature">DM63</span>
-                            <span class="feature">PERI-RTWL</span>
-                            <span class="feature">CLARA</span>
-                        </div>
-
-                        <div class="card-actions">
-                            <button class="btn-primary">Подробнее</button>
-                            <button class="btn-secondary">
-                                <i class="far fa-heart"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Add more equipment cards as needed -->
+                <!-- Equipment cards will be loaded here by JavaScript -->
             </div>
 
             <div class="pagination">

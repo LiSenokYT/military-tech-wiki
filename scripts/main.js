@@ -15,10 +15,11 @@ function initApp() {
     // Initialize animations
     initAnimations();
     
-    // Initialize equipment cards
-    initEquipmentCards();
+    // Initialize category cards
+    initCategoryCards();
     
-    // Add any other initializations here
+    // Initialize stats counters
+    initStatsCounters();
 }
 
 function initSmoothScrolling() {
@@ -33,7 +34,7 @@ function initSmoothScrolling() {
             
             const targetElement = document.querySelector(targetId);
             if (targetElement) {
-                const offsetTop = targetElement.getBoundingClientRect().top + window.pageYOffset - 80;
+                const offsetTop = targetElement.getBoundingClientRect().top + window.pageYOffset - 100;
                 
                 window.scrollTo({
                     top: offsetTop,
@@ -50,7 +51,7 @@ function initNavigation() {
     
     function updateActiveNavLink() {
         let currentSection = '';
-        const scrollPosition = window.scrollY + 100;
+        const scrollPosition = window.scrollY + 150;
         
         sections.forEach(section => {
             const sectionTop = section.offsetTop;
@@ -63,7 +64,8 @@ function initNavigation() {
         
         navLinks.forEach(link => {
             link.classList.remove('active');
-            if (link.getAttribute('href') === `#${currentSection}`) {
+            if (link.getAttribute('href') === `#${currentSection}` || 
+                (currentSection === '' && link.getAttribute('href') === '#main')) {
                 link.classList.add('active');
             }
         });
@@ -90,34 +92,65 @@ function initAnimations() {
     }, observerOptions);
     
     // Observe elements that should animate
-    const animateElements = document.querySelectorAll('.category-card, .equipment-card, .stat-item');
+    const animateElements = document.querySelectorAll('.category-card, .feature-card, .stat-card, .stat-item, .hero-button');
     animateElements.forEach(el => {
         observer.observe(el);
     });
 }
 
-function initEquipmentCards() {
-    // Add click handlers for equipment cards
-    const equipmentCards = document.querySelectorAll('.equipment-card');
+function initCategoryCards() {
+    // Add interactive effects to category cards
+    const categoryCards = document.querySelectorAll('.category-card.large');
     
-    equipmentCards.forEach(card => {
-        card.addEventListener('click', function() {
-            // This will be expanded when we have individual equipment pages
-            console.log('Equipment card clicked:', this.querySelector('h3').textContent);
-            // For now, just add a visual feedback
-            this.style.transform = 'scale(0.95)';
-            setTimeout(() => {
-                this.style.transform = '';
-            }, 150);
+    categoryCards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-8px)';
+        });
+        
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
         });
     });
+}
+
+function initStatsCounters() {
+    // Animate stats counters when they come into view
+    const statElements = document.querySelectorAll('.stat-number');
+    
+    const statsObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const statElement = entry.target;
+                const targetValue = parseInt(statElement.textContent.replace(/,/g, ''));
+                animateCounter(statElement, 0, targetValue, 2000);
+                statsObserver.unobserve(statElement);
+            }
+        });
+    }, { threshold: 0.5 });
+    
+    statElements.forEach(stat => {
+        statsObserver.observe(stat);
+    });
+}
+
+function animateCounter(element, start, end, duration) {
+    let startTimestamp = null;
+    const step = (timestamp) => {
+        if (!startTimestamp) startTimestamp = timestamp;
+        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+        const value = Math.floor(progress * (end - start) + start);
+        element.textContent = value.toLocaleString();
+        if (progress < 1) {
+            window.requestAnimationFrame(step);
+        }
+    };
+    window.requestAnimationFrame(step);
 }
 
 // Utility function for future API calls
 async function fetchEquipmentData(category, filters = {}) {
     // This will be implemented when we connect to Supabase
     try {
-        // Placeholder for future API implementation
         const response = await fetch(`/api/${category}`, {
             method: 'POST',
             headers: {
@@ -135,34 +168,16 @@ async function fetchEquipmentData(category, filters = {}) {
 
 // Search functionality (to be expanded)
 function initSearch() {
-    const searchInput = document.createElement('input');
-    searchInput.type = 'text';
-    searchInput.placeholder = 'Поиск техники...';
-    searchInput.className = 'search-input';
-    
-    // This will be expanded when we have search functionality
-    searchInput.addEventListener('input', debounce(function(e) {
-        console.log('Search query:', e.target.value);
-        // Implement search logic here
-    }, 300));
-}
-
-// Utility function for debouncing
-function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
+    // This will be implemented when we add search functionality
+    console.log('Search functionality ready to be implemented');
 }
 
 // Export functions for use in other modules
 window.MilitaryTechWiki = {
     fetchEquipmentData,
     initSearch,
-    debounce
+    animateCounter
 };
+
+// Initialize when page loads
+window.addEventListener('load', initApp);

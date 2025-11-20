@@ -4,1460 +4,551 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Наземная техника - MilitaryTech Wiki</title>
-    <style>
-        /* Reset and Base Styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --primary-color: #2a2a2a;
-            --secondary-color: #3a3a3a;
-            --accent-color: #b8860b;
-            --accent-hover: #daa520;
-            --text-primary: #ffffff;
-            --text-secondary: #b0b0b0;
-            --text-muted: #666666;
-            --border-color: #444444;
-            --gradient-metal: linear-gradient(145deg, #2a2a2a, #1a1a1a);
-            --gradient-accent: linear-gradient(145deg, #b8860b, #daa520);
-            --shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-            --shadow-hover: 0 8px 30px rgba(184, 134, 11, 0.3);
-            --filter-bg: #1a1a1a;
-        }
-
-        body {
-            font-family: 'Roboto', Arial, sans-serif;
-            background: var(--gradient-metal);
-            color: var(--text-primary);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        .container {
-            max-width: 1600px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* Header Styles */
-        .main-header {
-            background: rgba(42, 42, 42, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border-color);
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-        }
-
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 0;
-        }
-
-        .logo h1 {
-            font-size: 1.8rem;
-            background: var(--gradient-accent);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .logo span {
-            color: var(--text-primary);
-        }
-
-        .logo a {
-            text-decoration: none;
-        }
-
-        .nav-menu {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-        }
-
-        .nav-link {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .nav-link:hover,
-        .nav-link.active {
-            color: var(--accent-color);
-        }
-
-        .search-box {
-            display: flex;
-            align-items: center;
-            background: var(--secondary-color);
-            border-radius: 25px;
-            padding: 0.5rem 1rem;
-            border: 1px solid var(--border-color);
-        }
-
-        .search-box input {
-            background: none;
-            border: none;
-            color: var(--text-primary);
-            outline: none;
-            width: 200px;
-        }
-
-        .search-btn {
-            background: none;
-            border: none;
-            color: var(--accent-color);
-            cursor: pointer;
-            padding: 0;
-        }
-
-        /* Page Header */
-        .page-header {
-            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
-            padding: 120px 0 40px;
-            margin-top: 80px;
-        }
-
-        .page-title {
-            font-size: 3rem;
-            text-align: center;
-            margin-bottom: 1rem;
-            background: linear-gradient(45deg, var(--accent-color), #ffffff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .page-subtitle {
-            text-align: center;
-            color: var(--text-secondary);
-            font-size: 1.2rem;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        /* Quick Stats */
-        .quick-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin: 2rem 0;
-        }
-
-        .stat-card {
-            background: var(--secondary-color);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: 1.5rem;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-
-        .stat-card:hover {
-            border-color: var(--accent-color);
-        }
-
-        .stat-number {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--accent-color);
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-label {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-
-        /* Catalog Layout */
-        .catalog-layout {
-            display: grid;
-            grid-template-columns: 320px 1fr;
-            gap: 2rem;
-            padding: 1rem 0 3rem;
-            min-height: 800px;
-        }
-
-        /* Filter Sidebar */
-        .filter-sidebar {
-            background: var(--filter-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 15px;
-            padding: 1.5rem;
-            height: fit-content;
-            position: sticky;
-            top: 100px;
-            max-height: calc(100vh - 120px);
-            overflow-y: auto;
-        }
-
-        .filter-sidebar::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .filter-sidebar::-webkit-scrollbar-track {
-            background: var(--primary-color);
-            border-radius: 3px;
-        }
-
-        .filter-sidebar::-webkit-scrollbar-thumb {
-            background: var(--accent-color);
-            border-radius: 3px;
-        }
-
-        .filter-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .filter-title {
-            font-size: 1.3rem;
-            color: var(--accent-color);
-            font-weight: 700;
-        }
-
-        .filter-controls {
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        .filter-btn {
-            background: none;
-            border: 1px solid var(--border-color);
-            color: var(--text-secondary);
-            padding: 0.4rem 0.8rem;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.8rem;
-        }
-
-        .filter-btn:hover {
-            border-color: var(--accent-color);
-            color: var(--accent-color);
-        }
-
-        .filter-btn.apply {
-            background: var(--accent-color);
-            color: var(--primary-color);
-            border-color: var(--accent-color);
-        }
-
-        .filter-btn.apply:hover {
-            background: var(--accent-hover);
-        }
-
-        /* Filter Groups Grid */
-        .filter-groups-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1rem;
-        }
-
-        .filter-group {
-            background: var(--primary-color);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .filter-group-header {
-            padding: 1rem;
-            background: var(--secondary-color);
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: all 0.3s ease;
-        }
-
-        .filter-group-header:hover {
-            background: #333;
-        }
-
-        .filter-group-title {
-            font-size: 1rem;
-            color: var(--text-primary);
-            font-weight: 600;
-        }
-
-        .filter-group-icon {
-            color: var(--accent-color);
-            transition: transform 0.3s ease;
-        }
-
-        .filter-group.active .filter-group-icon {
-            transform: rotate(180deg);
-        }
-
-        .filter-group-content {
-            padding: 1rem;
-            display: none;
-        }
-
-        .filter-group.active .filter-group-content {
-            display: block;
-        }
-
-        .filter-options {
-            display: flex;
-            flex-direction: column;
-            gap: 0.8rem;
-            max-height: 300px;
-            overflow-y: auto;
-            padding-right: 5px;
-        }
-
-        .filter-options::-webkit-scrollbar {
-            width: 4px;
-        }
-
-        .filter-options::-webkit-scrollbar-track {
-            background: var(--primary-color);
-            border-radius: 2px;
-        }
-
-        .filter-options::-webkit-scrollbar-thumb {
-            background: var(--accent-color);
-            border-radius: 2px;
-        }
-
-        .filter-option {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            cursor: pointer;
-            padding: 0.3rem 0;
-        }
-
-        .filter-option input[type="checkbox"],
-        .filter-option input[type="radio"] {
-            width: 16px;
-            height: 16px;
-            accent-color: var(--accent-color);
-            flex-shrink: 0;
-        }
-
-        .filter-option label {
-            color: var(--text-secondary);
-            cursor: pointer;
-            flex: 1;
-            font-size: 0.9rem;
-        }
-
-        .filter-count {
-            background: var(--accent-color);
-            color: var(--primary-color);
-            padding: 0.2rem 0.5rem;
-            border-radius: 8px;
-            font-size: 0.7rem;
-            font-weight: 700;
-            min-width: 30px;
-            text-align: center;
-        }
-
-        /* Range Sliders */
-        .range-inputs {
-            display: flex;
-            gap: 0.8rem;
-            margin-bottom: 1rem;
-        }
-
-        .range-input {
-            flex: 1;
-            background: var(--secondary-color);
-            border: 1px solid var(--border-color);
-            border-radius: 5px;
-            padding: 0.5rem;
-            color: var(--text-primary);
-            text-align: center;
-            font-size: 0.9rem;
-        }
-
-        .range-slider {
-            width: 100%;
-            height: 4px;
-            background: var(--border-color);
-            border-radius: 2px;
-            outline: none;
-            accent-color: var(--accent-color);
-            margin-bottom: 0.5rem;
-        }
-
-        .range-labels {
-            display: flex;
-            justify-content: space-between;
-            color: var(--text-muted);
-            font-size: 0.8rem;
-        }
-
-        /* Equipment Grid */
-        .catalog-main {
-            min-height: 600px;
-        }
-
-        .results-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-            padding: 1rem;
-            background: var(--secondary-color);
-            border-radius: 10px;
-            border: 1px solid var(--border-color);
-        }
-
-        .results-count {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-
-        .sort-select {
-            background: var(--primary-color);
-            border: 1px solid var(--border-color);
-            border-radius: 5px;
-            padding: 0.5rem 1rem;
-            color: var(--text-primary);
-            cursor: pointer;
-            font-size: 0.9rem;
-        }
-
-        .equipment-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .equipment-card {
-            background: var(--secondary-color);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .equipment-card:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-hover);
-            border-color: var(--accent-color);
-        }
-
-        .card-image {
-            width: 100%;
-            height: 180px;
-            background: linear-gradient(135deg, #2a2a2a 0%, #3a3a3a 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-
-        .card-badge {
-            position: absolute;
-            top: 0.8rem;
-            right: 0.8rem;
-            background: var(--gradient-accent);
-            color: var(--primary-color);
-            padding: 0.3rem 0.7rem;
-            border-radius: 12px;
-            font-size: 0.7rem;
-            font-weight: 700;
-            text-transform: uppercase;
-        }
-
-        .card-content {
-            padding: 1.2rem;
-        }
-
-        .card-title {
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
-            color: var(--text-primary);
-            line-height: 1.3;
-        }
-
-        .card-description {
-            color: var(--text-secondary);
-            margin-bottom: 1rem;
-            line-height: 1.5;
-            font-size: 0.85rem;
-        }
-
-        .card-meta {
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .meta-tag {
-            background: var(--primary-color);
-            padding: 0.3rem 0.7rem;
-            border-radius: 12px;
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-            border: 1px solid var(--border-color);
-        }
-
-        .card-stats {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 0.5rem;
-            margin-top: 1rem;
-            padding-top: 1rem;
-            border-top: 1px solid var(--border-color);
-        }
-
-        .stat {
-            text-align: center;
-        }
-
-        .stat-value {
-            display: block;
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 700;
-            color: var(--accent-color);
-            font-size: 0.85rem;
-        }
-
-        .stat-label {
-            display: block;
-            font-size: 0.65rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            margin-top: 0.2rem;
-        }
-
-        /* Footer */
-        .main-footer {
-            background: var(--primary-color);
-            border-top: 1px solid var(--border-color);
-            padding: 3rem 0 1rem;
-            margin-top: 4rem;
-        }
-
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 3rem;
-            margin-bottom: 2rem;
-        }
-
-        .footer-section h3,
-        .footer-section h4 {
-            color: var(--accent-color);
-            margin-bottom: 1rem;
-            font-family: 'Orbitron', sans-serif;
-        }
-
-        .footer-section h3 {
-            font-size: 1.5rem;
-        }
-
-        .footer-section h4 {
-            font-size: 1.1rem;
-        }
-
-        .footer-section p,
-        .footer-section li {
-            color: var(--text-secondary);
-            line-height: 1.8;
-        }
-
-        .footer-section ul {
-            list-style: none;
-        }
-
-        .footer-section a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .footer-section a:hover {
-            color: var(--accent-color);
-        }
-
-        .social-links {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .social-link {
-            color: var(--accent-color);
-            text-decoration: none;
-            padding: 0.5rem 1rem;
-            border: 1px solid var(--border-color);
-            border-radius: 5px;
-            transition: all 0.3s ease;
-            font-size: 0.9rem;
-        }
-
-        .social-link:hover {
-            background: var(--accent-color);
-            color: var(--primary-color);
-        }
-
-        .footer-bottom {
-            text-align: center;
-            padding-top: 2rem;
-            border-top: 1px solid var(--border-color);
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
-        .footer-bottom p:first-child {
-            margin-bottom: 0.5rem;
-        }
-
-        /* Responsive */
-        @media (max-width: 1200px) {
-            .catalog-layout {
-                grid-template-columns: 280px 1fr;
-            }
-            
-            .equipment-grid {
-                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            }
-        }
-
-        @media (max-width: 1024px) {
-            .catalog-layout {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-            
-            .filter-sidebar {
-                position: static;
-                max-height: none;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .equipment-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .quick-stats {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .results-header {
-                flex-direction: column;
-                gap: 1rem;
-                align-items: flex-start;
-            }
-            
-            .footer-content {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-            
-            .page-title {
-                font-size: 2.2rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .quick-stats {
-                grid-template-columns: 1fr;
-            }
-            
-            .navbar {
-                flex-direction: column;
-                gap: 1rem;
-            }
-            
-            .nav-menu {
-                flex-wrap: wrap;
-                justify-content: center;
-                gap: 1rem;
-            }
-            
-            .search-box input {
-                width: 150px;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/ground.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <!-- Header -->
-    <header class="main-header">
-        <div class="container">
-            <nav class="navbar">
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
                 <div class="logo">
-                    <a href="index.html">
-                        <h1>MilitaryTech<span>Wiki</span></h1>
+                    <a href="index.html" style="text-decoration: none; color: inherit;">
+                        <h1>MilitaryTech Wiki</h1>
+                        <span>Энциклопедия военной техники</span>
                     </a>
                 </div>
-                <ul class="nav-menu">
-                    <li><a href="index.html" class="nav-link">Главная</a></li>
-                    <li><a href="ground.html" class="nav-link active">Наземная</a></li>
-                    <li><a href="#" class="nav-link">Воздушная</a></li>
-                    <li><a href="#" class="nav-link">Морская</a></li>
-                    <li><a href="#" class="nav-link">Боеприпасы</a></li>
-                </ul>
-                <div class="search-box">
-                    <input type="text" placeholder="Поиск техники..." id="searchInput">
-                    <button class="search-btn">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                            <path d="M21 21L16.514 16.506L21 21ZM19 10.5C19 15.194 15.194 19 10.5 19C5.806 19 2 15.194 2 10.5C2 5.806 5.806 2 10.5 2C15.194 2 19 5.806 19 10.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                        </svg>
-                    </button>
+                <div class="nav-links">
+                    <a href="index.html" class="nav-link">Главная</a>
+                    <a href="ground.html" class="nav-link active">Наземная</a>
+                    <a href="air.html" class="nav-link">Воздушная</a>
+                    <a href="naval.html" class="nav-link">Морская</a>
+                    <a href="ammunition.html" class="nav-link">Боеприпасы</a>
                 </div>
-            </nav>
-        </div>
+            </div>
+        </nav>
     </header>
 
     <!-- Page Header -->
     <section class="page-header">
         <div class="container">
-            <h1 class="page-title">КАТАЛОГ НАЗЕМНОЙ ТЕХНИКИ</h1>
-            <p class="page-subtitle">Полная база данных бронетанковой, артиллерийской и специальной военной техники</p>
+            <div class="page-header-content">
+                <h1>Наземная военная техника</h1>
+                <p>Танки, бронетехника, артиллерия, системы ПВО и инженерная техника со всего мира</p>
+                <div class="header-stats">
+                    <div class="header-stat">
+                        <span class="stat-number">2,847</span>
+                        <span class="stat-label">Единиц техники</span>
+                    </div>
+                    <div class="header-stat">
+                        <span class="stat-number">68</span>
+                        <span class="stat-label">Стран</span>
+                    </div>
+                    <div class="header-stat">
+                        <span class="stat-number">1940-2024</span>
+                        <span class="stat-label">Период</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
-    <div class="container">
-        <!-- Quick Stats -->
-        <div class="quick-stats">
-            <div class="stat-card">
-                <div class="stat-number">1,247</div>
-                <div class="stat-label">Единиц техники</div>
+    <!-- Filters Section -->
+    <section class="filters-section">
+        <div class="container">
+            <div class="filters-header">
+                <h2><i class="fas fa-filter"></i> Расширенный фильтр</h2>
+                <div class="filter-controls">
+                    <button class="filter-btn active" data-filter="all">Все фильтры</button>
+                    <button class="filter-btn" data-filter="basic">Основные</button>
+                    <button class="filter-btn" data-filter="technical">Технические</button>
+                    <button class="filter-btn" data-filter="weapons">Вооружение</button>
+                    <button class="filter-btn" data-filter="protection">Защита</button>
+                    <button class="reset-filters">
+                        <i class="fas fa-redo"></i>
+                        Сбросить
+                    </button>
+                </div>
             </div>
-            <div class="stat-card">
-                <div class="stat-number">42</div>
-                <div class="stat-label">Стран производителей</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number">85</div>
-                <div class="stat-label">Лет истории</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number">24</div>
-                <div class="stat-label">Основных категорий</div>
-            </div>
-        </div>
 
-        <!-- Catalog Layout -->
-        <div class="catalog-layout">
-            <!-- Filter Sidebar -->
-            <aside class="filter-sidebar">
-                <div class="filter-header">
-                    <h2 class="filter-title">ФИЛЬТРЫ</h2>
-                    <div class="filter-controls">
-                        <button class="filter-btn apply">Применить</button>
-                        <button class="filter-btn reset">Сбросить</button>
+            <div class="filters-grid">
+                <!-- Basic Filters -->
+                <div class="filter-group" data-category="basic">
+                    <h3>Основные параметры</h3>
+                    <div class="filter-row">
+                        <div class="filter-item">
+                            <label>Тип техники</label>
+                            <select class="filter-select" multiple size="4">
+                                <option value="mbt">Основной боевой танк</option>
+                                <option value="light-tank">Легкий танк</option>
+                                <option value="heavy-tank">Тяжелый танк</option>
+                                <option value="ifv">Боевая машина пехоты</option>
+                                <option value="apc">Бронетранспортер</option>
+                                <option value="spg">Самоходная артиллерия</option>
+                                <option value="mlrs">РСЗО</option>
+                                <option value="atgm">ПТРК</option>
+                                <option value="spaa">ЗСУ</option>
+                                <option value="sam">ЗРК</option>
+                                <option value="engineering">Инженерная техника</option>
+                                <option value="recon">Разведывательная</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-item">
+                            <label>Страна</label>
+                            <select class="filter-select" multiple size="4">
+                                <option value="ru">Россия</option>
+                                <option value="us">США</option>
+                                <option value="de">Германия</option>
+                                <option value="fr">Франция</option>
+                                <option value="uk">Великобритания</option>
+                                <option value="cn">Китай</option>
+                                <option value="jp">Япония</option>
+                                <option value="kr">Южная Корея</option>
+                                <option value="il">Израиль</option>
+                                <option value="ua">Украина</option>
+                                <option value="pl">Польша</option>
+                                <option value="se">Швеция</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-item">
+                            <label>Годы службы</label>
+                            <div class="range-inputs">
+                                <input type="number" class="range-input" placeholder="1940" min="1940" max="2024">
+                                <span>—</span>
+                                <input type="number" class="range-input" placeholder="2024" min="1940" max="2024">
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="filter-groups-grid">
-                    <!-- Basic Filters -->
-                    <div class="filter-group active">
-                        <div class="filter-group-header">
-                            <div class="filter-group-title">Основные параметры</div>
-                            <div class="filter-group-icon">▼</div>
-                        </div>
-                        <div class="filter-group-content">
-                            <div class="filter-options">
-                                <div class="filter-option">
-                                    <input type="checkbox" id="inService" checked>
-                                    <label for="inService">На вооружении</label>
-                                    <span class="filter-count">843</span>
-                                </div>
-                                <div class="filter-option">
-                                    <input type="checkbox" id="modern" checked>
-                                    <label for="modern">Современные модели</label>
-                                    <span class="filter-count">567</span>
-                                </div>
-                                <div class="filter-option">
-                                    <input type="checkbox" id="historical">
-                                    <label for="historical">Исторические</label>
-                                    <span class="filter-count">324</span>
-                                </div>
-                                <div class="filter-option">
-                                    <input type="checkbox" id="prototype">
-                                    <label for="prototype">Прототипы</label>
-                                    <span class="filter-count">89</span>
-                                </div>
-                                <div class="filter-option">
-                                    <input type="checkbox" id="export">
-                                    <label for="export">Экспортные версии</label>
-                                    <span class="filter-count">234</span>
+                <!-- Technical Filters -->
+                <div class="filter-group" data-category="technical">
+                    <h3>Технические характеристики</h3>
+                    <div class="filter-row">
+                        <div class="filter-item">
+                            <label>Масса (тонн)</label>
+                            <div class="range-slider">
+                                <input type="range" class="slider" min="5" max="80" value="80">
+                                <div class="range-values">
+                                    <span>5 т</span>
+                                    <span id="mass-value">80 т</span>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Type Filter -->
-                    <div class="filter-group active">
-                        <div class="filter-group-header">
-                            <div class="filter-group-title">Тип техники</div>
-                            <div class="filter-group-icon">▼</div>
-                        </div>
-                        <div class="filter-group-content">
-                            <div class="filter-options">
-                                <div class="filter-option">
-                                    <input type="checkbox" id="type-tank" checked>
-                                    <label for="type-tank">Основные боевые танки</label>
-                                    <span class="filter-count">287</span>
-                                </div>
-                                <div class="filter-option">
-                                    <input type="checkbox" id="type-light-tank">
-                                    <label for="type-light-tank">Лёгкие танки</label>
-                                    <span class="filter-count">134</span>
-                                </div>
-                                <div class="filter-option">
-                                    <input type="checkbox" id="type-bmp">
-                                    <label for="type-bmp">Боевые машины пехоты</label>
-                                    <span class="filter-count">156</span>
-                                </div>
-                                <div class="filter-option">
-                                    <input type="checkbox" id="type-btr">
-                                    <label for="type-btr">Бронетранспортёры</label>
-                                    <span class="filter-count">198</span>
-                                </div>
-                                <div class="filter-option">
-                                    <input type="checkbox" id="type-mrap">
-                                    <label for="type-mrap">MRAP</label>
-                                    <span class="filter-count">67</span>
-                                </div>
-                                <div class="filter-option">
-                                    <input type="checkbox" id="type-artillery">
-                                    <label for="type-artillery">Самоходная артиллерия</label>
-                                    <span class="filter-count">89</span>
-                                </div>
-                                <div class="filter-option">
-                                    <input type="checkbox" id="type-towed">
-                                    <label for="type-towed">Буксируемая артиллерия</label>
-                                    <span class="filter-count">76</span>
-                                </div>
-                                <div class="filter-option">
-                                    <input type="checkbox" id="type-rls">
-                                    <label for="type-rls">РСЗО</label>
-                                    <span class="filter-count">45</span>
-                                </div>
-                                <div class="filter-option">
-                                    <input type="checkbox" id="type-pvo">
-                                    <label for="type-pvo">Зенитные комплексы</label>
-                                    <span class="filter-count">67</span>
-                                </div>
-                                <div class="filter-option">
-                                    <input type="checkbox" id="type-engineering">
-                                    <label for="type-engineering">Инженерная техника</label>
-                                    <span class="filter-count">45</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Country Filter -->
-                    <div class="filter-group">
-                        <div class="filter-group-header">
-                            <div class="filter-group-title">Страна производитель</div>
-                            <div class="filter-group-icon">▼</div>
-                        </div>
-                        <div class="filter-group-content">
-                            <div class="filter-options">
-                                <div class="filter-option">
-                                    <input type="checkbox" id="country-ru">
-                                    <label for="country-ru">🇷🇺 Россия / СССР</label>
-                                    <span class="filter-count">234</span>
-                                </div>
-                                <div class="filter-option">
-                                    <input type="checkbox" id="country-us">
-                                    <label for="country-us">🇺🇸 США</label>
-                                    <span class="filter-count">198</span>
-                                </div>
-                                <div class="filter-option">
-                                    <input type="checkbox" id="country-cn">
-                                    <label for="country-cn">🇨🇳 Китай</label>
-                                    <span class="filter-count">167</span>
-                                </div>
-                                <div class="filter-option">
-                                    <input type="checkbox" id="country-de">
-                                    <label for="country-de">🇩🇪 Германия</label>
-                                    <span class="filter-count">145</span>
-                                </div>
-                                <div class="filter-option">
-                                    <input type="checkbox" id="country-fr">
-                                    <label for="country-fr">🇫🇷 Франция</label>
-                                    <span class="filter-count">98</span>
-                                </div>
-                                <div class="filter-option">
-                                    <input type="checkbox" id="country-uk">
-                                    <label for="country-uk">🇬🇧 Великобритания</label>
-                                    <span class="filter-count">87</span>
-                                </div>
-                                <div class="filter-option">
-                                    <input type="checkbox" id="country-il">
-                                    <label for="country-il">🇮🇱 Израиль</label>
-                                    <span class="filter-count">65</span>
-                                </div>
-                                <div class="filter-option">
-                                    <input type="checkbox" id="country-kr">
-                                    <label for="country-kr">🇰🇷 Южная Корея</label>
-                                    <span class="filter-count">54</span>
-                                </div>
-                                <div class="filter-option">
-                                    <input type="checkbox" id="country-jp">
-                                    <label for="country-jp">🇯🇵 Япония</label>
-                                    <span class="filter-count">43</span>
-                                </div>
-                                <div class="filter-option">
-                                    <input type="checkbox" id="country-it">
-                                    <label for="country-it">🇮🇹 Италия</label>
-                                    <span class="filter-count">38</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Technical Specifications -->
-                    <div class="filter-group">
-                        <div class="filter-group-header">
-                            <div class="filter-group-title">Технические характеристики</div>
-                            <div class="filter-group-icon">▼</div>
-                        </div>
-                        <div class="filter-group-content">
-                            <!-- Weight -->
-                            <div style="margin-bottom: 1.5rem;">
-                                <div style="font-size: 0.9rem; color: var(--text-primary); margin-bottom: 0.8rem;">Масса (тонны)</div>
-                                <div class="range-inputs">
-                                    <input type="number" class="range-input" placeholder="От" min="0" max="100" value="0">
-                                    <input type="number" class="range-input" placeholder="До" min="0" max="100" value="70">
-                                </div>
-                                <input type="range" class="range-slider" min="0" max="100" value="70">
-                                <div class="range-labels">
-                                    <span>0 т</span>
-                                    <span>100 т</span>
-                                </div>
-                            </div>
-
-                            <!-- Year -->
-                            <div style="margin-bottom: 1.5rem;">
-                                <div style="font-size: 0.9rem; color: var(--text-primary); margin-bottom: 0.8rem;">Годы производства</div>
-                                <div class="range-inputs">
-                                    <input type="number" class="range-input" placeholder="От" min="1940" max="2024" value="1940">
-                                    <input type="number" class="range-input" placeholder="До" min="1940" max="2024" value="2024">
-                                </div>
-                                <input type="range" class="range-slider" min="1940" max="2024" value="2024">
-                                <div class="range-labels">
-                                    <span>1940</span>
-                                    <span>2024</span>
-                                </div>
-                            </div>
-
-                            <!-- Crew -->
-                            <div style="margin-bottom: 1.5rem;">
-                                <div style="font-size: 0.9rem; color: var(--text-primary); margin-bottom: 0.8rem;">Экипаж</div>
-                                <div class="range-inputs">
-                                    <input type="number" class="range-input" placeholder="От" min="1" max="15" value="1">
-                                    <input type="number" class="range-input" placeholder="До" min="1" max="15" value="15">
-                                </div>
-                                <input type="range" class="range-slider" min="1" max="15" value="15">
-                                <div class="range-labels">
+                        <div class="filter-item">
+                            <label>Экипаж</label>
+                            <div class="range-slider">
+                                <input type="range" class="slider" min="1" max="12" value="12">
+                                <div class="range-values">
                                     <span>1 чел</span>
-                                    <span>15 чел</span>
+                                    <span id="crew-value">12 чел</span>
                                 </div>
                             </div>
+                        </div>
 
-                            <!-- Speed -->
-                            <div>
-                                <div style="font-size: 0.9rem; color: var(--text-primary); margin-bottom: 0.8rem;">Скорость (км/ч)</div>
-                                <div class="range-inputs">
-                                    <input type="number" class="range-input" placeholder="От" min="0" max="120" value="0">
-                                    <input type="number" class="range-input" placeholder="До" min="0" max="120" value="80">
-                                </div>
-                                <input type="range" class="range-slider" min="0" max="120" value="80">
-                                <div class="range-labels">
-                                    <span>0 км/ч</span>
-                                    <span>120 км/ч</span>
-                                </div>
+                        <div class="filter-item">
+                            <label>Мощность двигателя (л.с.)</label>
+                            <div class="range-inputs">
+                                <input type="number" class="range-input" placeholder="100" min="100" max="2500">
+                                <span>—</span>
+                                <input type="number" class="range-input" placeholder="2500" min="100" max="2500">
                             </div>
                         </div>
                     </div>
 
-                    <!-- Armament Filter -->
-                    <div class="filter-group">
-                        <div class="filter-group-header">
-                            <div class="filter-group-title">Вооружение</div>
-                            <div class="filter-group-icon">▼</div>
+                    <div class="filter-row">
+                        <div class="filter-item">
+                            <label>Скорость по шоссе (км/ч)</label>
+                            <div class="range-inputs">
+                                <input type="number" class="range-input" placeholder="30" min="30" max="120">
+                                <span>—</span>
+                                <input type="number" class="range-input" placeholder="120" min="30" max="120">
+                            </div>
                         </div>
-                        <div class="filter-group-content">
-                            <div class="filter-options">
-                                <div class="filter-option">
-                                    <input type="checkbox" id="arm-gun">
-                                    <label for="arm-gun">Пушка</label>
-                                    <span class="filter-count">456</span>
-                                </div>
-                                <div class="filter-option">
-                                    <input type="checkbox" id="arm-missile">
-                                    <label for="arm-missile">ПТУР / Ракеты</label>
-                                    <span class="filter-count">234</span>
-                                </div>
-                                <div class="filter-option">
-                                    <input type="checkbox" id="arm-machinegun">
-                                    <label for="arm-machinegun">Пулеметы</label>
-                                    <span class="filter-count">678</span>
-                                </div>
-                                <div class="filter-option">
-                                    <input type="checkbox" id="arm-grenade">
-                                    <label for="arm-grenade">Автоматические гранатометы</label>
-                                    <span class="filter-count">123</span>
-                                </div>
-                                <div class="filter-option">
-                                    <input type="checkbox" id="arm-mortar">
-                                    <label for="arm-mortar">Минометы</label>
-                                    <span class="filter-count">67</span>
-                                </div>
-                                <div class="filter-option">
-                                    <input type="checkbox" id="arm-howitzer">
-                                    <label for="arm-howitzer">Гаубицы</label>
-                                    <span class="filter-count">89</span>
-                                </div>
+
+                        <div class="filter-item">
+                            <label>Запас хода (км)</label>
+                            <div class="range-inputs">
+                                <input type="number" class="range-input" placeholder="100" min="100" max="1500">
+                                <span>—</span>
+                                <input type="number" class="range-input" placeholder="1500" min="100" max="1500">
+                            </div>
+                        </div>
+
+                        <div class="filter-item">
+                            <label>Двигатель</label>
+                            <select class="filter-select">
+                                <option value="">Любой</option>
+                                <option value="diesel">Дизельный</option>
+                                <option value="gasoline">Бензиновый</option>
+                                <option value="turbine">Газотурбинный</option>
+                                <option value="hybrid">Гибридный</option>
+                                <option value="electric">Электрический</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Weapons Filters -->
+                <div class="filter-group" data-category="weapons">
+                    <h3>Вооружение</h3>
+                    <div class="filter-row">
+                        <div class="filter-item">
+                            <label>Основное орудие (мм)</label>
+                            <div class="range-inputs">
+                                <input type="number" class="range-input" placeholder="20" min="20" max="155">
+                                <span>—</span>
+                                <input type="number" class="range-input" placeholder="155" min="20" max="155">
+                            </div>
+                        </div>
+
+                        <div class="filter-item">
+                            <label>Тип орудия</label>
+                            <select class="filter-select" multiple size="3">
+                                <option value="smoothbore">Гладкоствольное</option>
+                                <option value="rifled">Нарезное</option>
+                                <option value="howitzer">Гаубица</option>
+                                <option value="gun">Пушка</option>
+                                <option value="autocannon">Автоматическая пушка</option>
+                                <option value="mortar">Миномет</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-item">
+                            <label>Боекомплект</label>
+                            <div class="range-inputs">
+                                <input type="number" class="range-input" placeholder="10" min="10" max="200">
+                                <span>—</span>
+                                <input type="number" class="range-input" placeholder="200" min="10" max="200">
                             </div>
                         </div>
                     </div>
 
-                    <!-- Protection Filter -->
-                    <div class="filter-group">
-                        <div class="filter-group-header">
-                            <div class="filter-group-title">Защита</div>
-                            <div class="filter-group-icon">▼</div>
-                        </div>
-                        <div class="filter-group-content">
-                            <div class="filter-options">
-                                <div class="filter-option">
-                                    <input type="checkbox" id="prot-composite">
-                                    <label for="prot-composite">Композитная броня</label>
-                                    <span class="filter-count">189</span>
-                                </div>
-                                <div class="filter-option">
-                                    <input type="checkbox" id="prot-reactive">
-                                    <label for="prot-reactive">Динамическая защита</label>
-                                    <span class="filter-count">67</span>
-                                </div>
-                                <div class="filter-option">
-                                    <input type="checkbox" id="prot-active">
-                                    <label for="prot-active">Активная защита</label>
-                                    <span class="filter-count">45</span>
-                                </div>
-                                <div class="filter-option">
-                                    <input type="checkbox" id="prot-era">
-                                    <label for="prot-era">ЭРА</label>
-                                    <span class="filter-count">89</span>
-                                </div>
-                                <div class="filter-option">
-                                    <input type="checkbox" id="prot-spall">
-                                    <label for="prot-spall">Противоосколочные подбои</label>
-                                    <span class="filter-count">156</span>
-                                </div>
-                                <div class="filter-option">
-                                    <input type="checkbox" id="prot-mine">
-                                    <label for="prot-mine">Противоминная защита</label>
-                                    <span class="filter-count">78</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Additional Features -->
-                    <div class="filter-group">
-                        <div class="filter-group-header">
-                            <div class="filter-group-title">Дополнительные системы</div>
-                            <div class="filter-group-icon">▼</div>
-                        </div>
-                        <div class="filter-group-content">
-                            <div class="filter-options">
-                                <div class="filter-option">
-                                    <input type="checkbox" id="feat-thermal">
-                                    <label for="feat-thermal">Тепловизоры</label>
-                                    <span class="filter-count">345</span>
-                                </div>
-                                <div class="filter-option">
-                                    <input type="checkbox" id="feat-laser">
-                                    <label for="feat-laser">Лазерные дальномеры</label>
-                                    <span class="filter-count">278</span>
-                                </div>
-                                <div class="filter-option">
-                                    <input type="checkbox" id="feat-nbc">
-                                    <label for="feat-nbc">НВХ защита</label>
-                                    <span class="filter-count">198</span>
-                                </div>
-                                <div class="filter-option">
-                                    <input type="checkbox" id="feat-amphibious">
-                                    <label for="feat-amphibious">Амфибийность</label>
-                                    <span class="filter-count">134</span>
-                                </div>
-                                <div class="filter-option">
-                                    <input type="checkbox" id="feat-aircon">
-                                    <label for="feat-aircon">Кондиционирование</label>
-                                    <span class="filter-count">89</span>
-                                </div>
-                                <div class="filter-option">
-                                    <input type="checkbox" id="feat-aps">
-                                    <label for="feat-aps">Система активной защиты</label>
-                                    <span class="filter-count">45</span>
-                                </div>
+                    <div class="filter-row">
+                        <div class="filter-item">
+                            <label>Дополнительное вооружение</label>
+                            <div class="checkbox-group">
+                                <label class="checkbox">
+                                    <input type="checkbox" value="pkt"> Пулемет ПКТ
+                                </label>
+                                <label class="checkbox">
+                                    <input type="checkbox" value="nsvt"> Пулемет НСВТ
+                                </label>
+                                <label class="checkbox">
+                                    <input type="checkbox" value="atgm"> ПТУР
+                                </label>
+                                <label class="checkbox">
+                                    <input type="checkbox" value="aagun"> Зенитный пулемет
+                                </label>
+                                <label class="checkbox">
+                                    <input type="checkbox" value="grenade"> Гранатомет
+                                </label>
+                                <label class="checkbox">
+                                    <input type="checkbox" value="missile"> Ракетное вооружение
+                                </label>
                             </div>
                         </div>
                     </div>
                 </div>
-            </aside>
 
-            <!-- Main Content -->
-            <main class="catalog-main">
-                <div class="results-header">
-                    <div class="results-count">Показано 24 из 1,247 единиц техники</div>
-                    <select class="sort-select">
-                        <option value="newest">Сначала новые</option>
-                        <option value="oldest">Сначала старые</option>
-                        <option value="name">По названию</option>
-                        <option value="country">По стране</option>
-                        <option value="weight">По массе</option>
-                        <option value="speed">По скорости</option>
-                    </select>
-                </div>
+                <!-- Protection Filters -->
+                <div class="filter-group" data-category="protection">
+                    <h3>Защита и бронирование</h3>
+                    <div class="filter-row">
+                        <div class="filter-item">
+                            <label>Тип брони</label>
+                            <select class="filter-select" multiple size="3">
+                                <option value="steel">Стальная</option>
+                                <option value="composite">Композитная</option>
+                                <option value="reactive">Динамическая защита</option>
+                                <option value="era">Контактная защита</option>
+                                <option value="spaced">Разнесенная</option>
+                                <option value="aluminum">Алюминиевая</option>
+                            </select>
+                        </div>
 
-                <div class="equipment-grid">
-                    <!-- Equipment Cards (same as before, but shortened for brevity) -->
-                    <div class="equipment-card">
-                        <div class="card-image">
-                            <div class="card-badge">СОВРЕМЕННЫЙ</div>
-                        </div>
-                        <div class="card-content">
-                            <h3 class="card-title">T-14 «Армата»</h3>
-                            <p class="card-description">Российский основной боевой танк третьего поколения с необитаемой башней</p>
-                            <div class="card-meta">
-                                <span class="meta-tag">🇷🇺 Россия</span>
-                                <span class="meta-tag">2015</span>
-                                <span class="meta-tag">ОБТ</span>
-                            </div>
-                            <div class="card-stats">
-                                <div class="stat">
-                                    <span class="stat-value">48 т</span>
-                                    <span class="stat-label">Масса</span>
-                                </div>
-                                <div class="stat">
-                                    <span class="stat-value">125 мм</span>
-                                    <span class="stat-label">Пушка</span>
-                                </div>
-                                <div class="stat">
-                                    <span class="stat-value">80 км/ч</span>
-                                    <span class="stat-label">Скорость</span>
-                                </div>
-                                <div class="stat">
-                                    <span class="stat-value">3 чел</span>
-                                    <span class="stat-label">Экипаж</span>
-                                </div>
+                        <div class="filter-item">
+                            <label>Лобовая броня (мм)</label>
+                            <div class="range-inputs">
+                                <input type="number" class="range-input" placeholder="20" min="20" max="1000">
+                                <span>—</span>
+                                <input type="number" class="range-input" placeholder="1000" min="20" max="1000">
                             </div>
                         </div>
-                    </div>
 
-                    <!-- More equipment cards... -->
-                    <div class="equipment-card">
-                        <div class="card-image">
-                            <div class="card-badge">СОВРЕМЕННЫЙ</div>
-                        </div>
-                        <div class="card-content">
-                            <h3 class="card-title">M1A2 Abrams</h3>
-                            <p class="card-description">Американский основной боевой танк третьего поколения</p>
-                            <div class="card-meta">
-                                <span class="meta-tag">🇺🇸 США</span>
-                                <span class="meta-tag">1992</span>
-                                <span class="meta-tag">ОБТ</span>
-                            </div>
-                            <div class="card-stats">
-                                <div class="stat">
-                                    <span class="stat-value">63.5 т</span>
-                                    <span class="stat-label">Масса</span>
-                                </div>
-                                <div class="stat">
-                                    <span class="stat-value">120 мм</span>
-                                    <span class="stat-label">Пушка</span>
-                                </div>
-                                <div class="stat">
-                                    <span class="stat-value">67 км/ч</span>
-                                    <span class="stat-label">Скорость</span>
-                                </div>
-                                <div class="stat">
-                                    <span class="stat-value">4 чел</span>
-                                    <span class="stat-label">Экипаж</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="equipment-card">
-                        <div class="card-image">
-                            <div class="card-badge">ИСТОРИЧЕСКИЙ</div>
-                        </div>
-                        <div class="card-content">
-                            <h3 class="card-title">Т-34-85</h3>
-                            <p class="card-description">Советский средний танк периода Великой Отечественной войны</p>
-                            <div class="card-meta">
-                                <span class="meta-tag">🇷🇺 СССР</span>
-                                <span class="meta-tag">1944</span>
-                                <span class="meta-tag">Средний танк</span>
-                            </div>
-                            <div class="card-stats">
-                                <div class="stat">
-                                    <span class="stat-value">32 т</span>
-                                    <span class="stat-label">Масса</span>
-                                </div>
-                                <div class="stat">
-                                    <span class="stat-value">85 мм</span>
-                                    <span class="stat-label">Пушка</span>
-                                </div>
-                                <div class="stat">
-                                    <span class="stat-value">55 км/ч</span>
-                                    <span class="stat-label">Скорость</span>
-                                </div>
-                                <div class="stat">
-                                    <span class="stat-value">5 чел</span>
-                                    <span class="stat-label">Экипаж</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="equipment-card">
-                        <div class="card-image">
-                            <div class="card-badge">СОВРЕМЕННЫЙ</div>
-                        </div>
-                        <div class="card-content">
-                            <h3 class="card-title">Leopard 2A7</h3>
-                            <p class="card-description">Немецкий основной боевой танк с улучшенной защитой</p>
-                            <div class="card-meta">
-                                <span class="meta-tag">🇩🇪 Германия</span>
-                                <span class="meta-tag">2014</span>
-                                <span class="meta-tag">ОБТ</span>
-                            </div>
-                            <div class="card-stats">
-                                <div class="stat">
-                                    <span class="stat-value">67.5 т</span>
-                                    <span class="stat-label">Масса</span>
-                                </div>
-                                <div class="stat">
-                                    <span class="stat-value">120 мм</span>
-                                    <span class="stat-label">Пушка</span>
-                                </div>
-                                <div class="stat">
-                                    <span class="stat-value">72 км/ч</span>
-                                    <span class="stat-label">Скорость</span>
-                                </div>
-                                <div class="stat">
-                                    <span class="stat-value">4 чел</span>
-                                    <span class="stat-label">Экипаж</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="equipment-card">
-                        <div class="card-image">
-                            <div class="card-badge">СОВРЕМЕННЫЙ</div>
-                        </div>
-                        <div class="card-content">
-                            <h3 class="card-title">БМП-3</h3>
-                            <p class="card-description">Советская/российская боевая машина пехоты</p>
-                            <div class="card-meta">
-                                <span class="meta-tag">🇷🇺 Россия</span>
-                                <span class="meta-tag">1987</span>
-                                <span class="meta-tag">БМП</span>
-                            </div>
-                            <div class="card-stats">
-                                <div class="stat">
-                                    <span class="stat-value">18.7 т</span>
-                                    <span class="stat-label">Масса</span>
-                                </div>
-                                <div class="stat">
-                                    <span class="stat-value">100 мм</span>
-                                    <span class="stat-label">Пушка</span>
-                                </div>
-                                <div class="stat">
-                                    <span class="stat-value">70 км/ч</span>
-                                    <span class="stat-label">Скорость</span>
-                                </div>
-                                <div class="stat">
-                                    <span class="stat-value">3+7 чел</span>
-                                    <span class="stat-label">Экипаж</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="equipment-card">
-                        <div class="card-image">
-                            <div class="card-badge">СОВРЕМЕННЫЙ</div>
-                        </div>
-                        <div class="card-content">
-                            <h3 class="card-title">2С19 «Мста-С»</h3>
-                            <p class="card-description">Советская/российская 152-мм самоходная гаубица</p>
-                            <div class="card-meta">
-                                <span class="meta-tag">🇷🇺 Россия</span>
-                                <span class="meta-tag">1989</span>
-                                <span class="meta-tag">САУ</span>
-                            </div>
-                            <div class="card-stats">
-                                <div class="stat">
-                                    <span class="stat-value">42 т</span>
-                                    <span class="stat-label">Масса</span>
-                                </div>
-                                <div class="stat">
-                                    <span class="stat-value">152 мм</span>
-                                    <span class="stat-label">Орудие</span>
-                                </div>
-                                <div class="stat">
-                                    <span class="stat-value">60 км/ч</span>
-                                    <span class="stat-label">Скорость</span>
-                                </div>
-                                <div class="stat">
-                                    <span class="stat-value">5 чел</span>
-                                    <span class="stat-label">Экипаж</span>
-                                </div>
+                        <div class="filter-item">
+                            <label>Системы защиты</label>
+                            <div class="checkbox-group">
+                                <label class="checkbox">
+                                    <input type="checkbox" value="aps"> КАЗ
+                                </label>
+                                <label class="checkbox">
+                                    <input type="checkbox" value="era"> ДЗ
+                                </label>
+                                <label class="checkbox">
+                                    <input type="checkbox" value="slat"> Решетчатые экраны
+                                </label>
+                                <label class="checkbox">
+                                    <input type="checkbox" value="smoke"> Дымовые гранатометы
+                                </label>
+                                <label class="checkbox">
+                                    <input type="checkbox" value="laser"> Система оповещения
+                                </label>
+                                <label class="checkbox">
+                                    <input type="checkbox" value="nbc"> Оборудование ОМП
+                                </label>
                             </div>
                         </div>
                     </div>
                 </div>
-            </main>
+            </div>
+
+            <div class="filters-footer">
+                <div class="active-filters">
+                    <span class="active-filters-label">Активные фильтры:</span>
+                    <div class="filter-tags">
+                        <!-- Active filters will appear here -->
+                    </div>
+                </div>
+                <button class="apply-filters">
+                    <i class="fas fa-search"></i>
+                    Применить фильтры (2,847)
+                </button>
+            </div>
         </div>
-    </div>
+    </section>
+
+    <!-- Equipment Grid -->
+    <section class="equipment-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Результаты поиска</h2>
+                <div class="sort-controls">
+                    <select class="sort-select">
+                        <option value="name">По названию</option>
+                        <option value="year">По году</option>
+                        <option value="country">По стране</option>
+                        <option value="mass">По массе</option>
+                        <option value="firepower">По огневой мощи</option>
+                    </select>
+                    <div class="view-controls">
+                        <button class="view-btn active" data-view="grid">
+                            <i class="fas fa-th"></i>
+                        </button>
+                        <button class="view-btn" data-view="list">
+                            <i class="fas fa-list"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="equipment-grid" id="equipment-grid">
+                <!-- Equipment cards will be loaded here -->
+                <div class="equipment-card">
+                    <div class="card-image">
+                        <div class="image-placeholder">T-14 Армата</div>
+                        <div class="card-badges">
+                            <span class="badge country ru">Россия</span>
+                            <span class="badge type mbt">ОБТ</span>
+                            <span class="badge year">2015</span>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">T-14 Армата</h3>
+                        <p class="card-subtitle">Основной боевой танк</p>
+                        
+                        <div class="card-stats">
+                            <div class="stat">
+                                <i class="fas fa-weight-hanging"></i>
+                                <span>55 т</span>
+                            </div>
+                            <div class="stat">
+                                <i class="fas fa-user"></i>
+                                <span>3 чел</span>
+                            </div>
+                            <div class="stat">
+                                <i class="fas fa-crosshairs"></i>
+                                <span>125 мм</span>
+                            </div>
+                            <div class="stat">
+                                <i class="fas fa-tachometer-alt"></i>
+                                <span>80 км/ч</span>
+                            </div>
+                        </div>
+
+                        <div class="card-features">
+                            <span class="feature">ДЗ «Малахит»</span>
+                            <span class="feature">КАЗ «Афганит»</span>
+                            <span class="feature">125 мм 2А82</span>
+                        </div>
+
+                        <div class="card-actions">
+                            <button class="btn-primary">Подробнее</button>
+                            <button class="btn-secondary">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="equipment-card">
+                    <div class="card-image">
+                        <div class="image-placeholder">M1A2 Abrams</div>
+                        <div class="card-badges">
+                            <span class="badge country us">США</span>
+                            <span class="badge type mbt">ОБТ</span>
+                            <span class="badge year">1992</span>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">M1A2 Abrams</h3>
+                        <p class="card-subtitle">Основной боевой танк</p>
+                        
+                        <div class="card-stats">
+                            <div class="stat">
+                                <i class="fas fa-weight-hanging"></i>
+                                <span>63.9 т</span>
+                            </div>
+                            <div class="stat">
+                                <i class="fas fa-user"></i>
+                                <span>4 чел</span>
+                            </div>
+                            <div class="stat">
+                                <i class="fas fa-crosshairs"></i>
+                                <span>120 мм</span>
+                            </div>
+                            <div class="stat">
+                                <i class="fas fa-tachometer-alt"></i>
+                                <span>67 км/ч</span>
+                            </div>
+                        </div>
+
+                        <div class="card-features">
+                            <span class="feature">ГТД 1500 л.с.</span>
+                            <span class="feature">СУО CITV</span>
+                            <span class="feature">ДЗ</span>
+                        </div>
+
+                        <div class="card-actions">
+                            <button class="btn-primary">Подробнее</button>
+                            <button class="btn-secondary">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="equipment-card">
+                    <div class="card-image">
+                        <div class="image-placeholder">Leopard 2A7</div>
+                        <div class="card-badges">
+                            <span class="badge country de">Германия</span>
+                            <span class="badge type mbt">ОБТ</span>
+                            <span class="badge year">2014</span>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">Leopard 2A7</h3>
+                        <p class="card-subtitle">Основной боевой танк</p>
+                        
+                        <div class="card-stats">
+                            <div class="stat">
+                                <i class="fas fa-weight-hanging"></i>
+                                <span>67 т</span>
+                            </div>
+                            <div class="stat">
+                                <i class="fas fa-user"></i>
+                                <span>4 чел</span>
+                            </div>
+                            <div class="stat">
+                                <i class="fas fa-crosshairs"></i>
+                                <span>120 мм</span>
+                            </div>
+                            <div class="stat">
+                                <i class="fas fa-tachometer-alt"></i>
+                                <span>72 км/ч</span>
+                            </div>
+                        </div>
+
+                        <div class="card-features">
+                            <span class="feature">DM63</span>
+                            <span class="feature">PERI-RTWL</span>
+                            <span class="feature">CLARA</span>
+                        </div>
+
+                        <div class="card-actions">
+                            <button class="btn-primary">Подробнее</button>
+                            <button class="btn-secondary">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Add more equipment cards as needed -->
+            </div>
+
+            <div class="pagination">
+                <button class="page-btn active">1</button>
+                <button class="page-btn">2</button>
+                <button class="page-btn">3</button>
+                <button class="page-btn">4</button>
+                <button class="page-btn">5</button>
+                <span class="page-ellipsis">...</span>
+                <button class="page-btn">24</button>
+                <button class="page-next">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </section>
 
     <!-- Footer -->
-    <footer class="main-footer">
+    <footer class="footer">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
                     <h3>MilitaryTech Wiki</h3>
-                    <p>Крупнейшая открытая энциклопедия военной техники. Создано энтузиастами для энтузиастов.</p>
-                    <div class="social-links">
-                        <a href="#" class="social-link">GitHub</a>
-                        <a href="#" class="social-link">Telegram</a>
-                        <a href="#" class="social-link">Discord</a>
-                    </div>
+                    <p>Самая полная энциклопедия военной техники в мире. Документируем историю и современность военных технологий.</p>
                 </div>
                 <div class="footer-section">
-                    <h4>Разделы</h4>
+                    <h4>Категории</h4>
                     <ul>
-                        <li><a href="index.html">Главная</a></li>
                         <li><a href="ground.html">Наземная техника</a></li>
-                        <li><a href="#">Воздушная техника</a></li>
-                        <li><a href="#">Морская техника</a></li>
-                        <li><a href="#">Боеприпасы</a></li>
+                        <li><a href="air.html">Воздушная техника</a></li>
+                        <li><a href="naval.html">Морская техника</a></li>
+                        <li><a href="ammunition.html">Боеприпасы</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
-                    <h4>Ресурсы</h4>
+                    <h4>Технологии</h4>
                     <ul>
-                        <li><a href="#">Документация API</a></li>
-                        <li><a href="#">Для разработчиков</a></li>
-                        <li><a href="#">Блог проекта</a></li>
-                        <li><a href="#">Контрибьюторам</a></li>
+                        <li><a href="#">GitHub</a></li>
+                        <li><a href="#">Vercel</a></li>
+                        <li><a href="#">Supabase</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
-                    <h4>Поддержка</h4>
+                    <h4>Контакты</h4>
                     <ul>
+                        <li><a href="#">О проекте</a></li>
+                        <li><a href="#">Предложить правки</a></li>
                         <li><a href="#">Сообщить об ошибке</a></li>
-                        <li><a href="#">Предложить технику</a></li>
-                        <li><a href="#">Вопросы и ответы</a></li>
-                        <li><a href="#">Контакты</a></li>
                     </ul>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2024 MilitaryTech Wiki. Все права защищены. | Открытая база знаний</p>
-                <p>Все данные представлены в ознакомительных и исследовательских целях</p>
+                <p>&copy; 2024 MilitaryTech Wiki. Все права защищены.</p>
             </div>
         </div>
     </footer>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Filter groups toggle
-            document.querySelectorAll('.filter-group-header').forEach(header => {
-                header.addEventListener('click', function() {
-                    const group = this.parentElement;
-                    group.classList.toggle('active');
-                });
-            });
-
-            // Range sliders synchronization
-            const rangeSliders = document.querySelectorAll('.range-slider');
-            const rangeInputs = document.querySelectorAll('.range-input');
-            
-            rangeSliders.forEach(slider => {
-                const inputs = slider.parentElement.querySelectorAll('.range-input');
-                
-                slider.addEventListener('input', function() {
-                    inputs[1].value = this.value;
-                });
-                
-                inputs[1].addEventListener('input', function() {
-                    slider.value = this.value;
-                });
-            });
-
-            // Equipment card clicks
-            document.querySelectorAll('.equipment-card').forEach(card => {
-                card.addEventListener('click', function() {
-                    const title = this.querySelector('.card-title').textContent;
-                    alert('Открытие карточки: ' + title + '\n\nДетальная страница будет доступна в следующих версиях');
-                });
-            });
-
-            // Filter controls
-            document.querySelector('.filter-btn.reset').addEventListener('click', function() {
-                document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
-                    checkbox.checked = false;
-                });
-                document.querySelectorAll('input[type="range"]').forEach(slider => {
-                    slider.value = slider.max;
-                });
-                document.querySelectorAll('.range-input').forEach(input => {
-                    if (input.placeholder === 'До') {
-                        input.value = input.max;
-                    } else {
-                        input.value = input.min;
-                    }
-                });
-                alert('Все фильтры сброшены');
-            });
-
-            document.querySelector('.filter-btn.apply').addEventListener('click', function() {
-                alert('Фильтры применены! Обновляется список техники...');
-            });
-
-            // Search functionality
-            document.querySelector('.search-btn').addEventListener('click', function() {
-                const query = document.getElementById('searchInput').value.trim();
-                if (query) {
-                    alert('Поиск по наземной технике: ' + query + '\n\nРезультаты будут отображены после применения фильтров');
-                }
-            });
-
-            // Sort functionality
-            document.querySelector('.sort-select').addEventListener('change', function() {
-                alert('Сортировка изменена на: ' + this.options[this.selectedIndex].text);
-            });
-        });
-    </script>
+    <script src="scripts/main.js"></script>
+    <script src="scripts/ground.js"></script>
 </body>
 </html>

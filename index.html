@@ -4,992 +4,140 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MilitaryTech Wiki - Энциклопедия военной техники</title>
-    <style>
-        /* Reset and Base Styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --primary-color: #2a2a2a;
-            --secondary-color: #3a3a3a;
-            --accent-color: #b8860b;
-            --accent-hover: #daa520;
-            --text-primary: #ffffff;
-            --text-secondary: #b0b0b0;
-            --text-muted: #666666;
-            --border-color: #444444;
-            --gradient-metal: linear-gradient(145deg, #2a2a2a, #1a1a1a);
-            --gradient-accent: linear-gradient(145deg, #b8860b, #daa520);
-            --shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-            --shadow-hover: 0 8px 30px rgba(184, 134, 11, 0.3);
-        }
-
-        body {
-            font-family: 'Roboto', Arial, sans-serif;
-            background: var(--gradient-metal);
-            color: var(--text-primary);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* Typography */
-        h1, h2, h3, h4, h5, h6 {
-            font-family: 'Orbitron', 'Arial Black', sans-serif;
-            font-weight: 700;
-            line-height: 1.2;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(45deg, var(--accent-color), #ffffff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .section-subtitle {
-            text-align: center;
-            color: var(--text-secondary);
-            font-size: 1.1rem;
-            margin-bottom: 3rem;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        /* Header Styles */
-        .main-header {
-            background: rgba(42, 42, 42, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border-color);
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-        }
-
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 0;
-        }
-
-        .logo h1 {
-            font-size: 1.8rem;
-            background: var(--gradient-accent);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .logo span {
-            color: var(--text-primary);
-        }
-
-        .nav-menu {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-        }
-
-        .nav-link {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .nav-link:hover,
-        .nav-link.active {
-            color: var(--accent-color);
-        }
-
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--gradient-accent);
-            transition: width 0.3s ease;
-        }
-
-        .nav-link:hover::after,
-        .nav-link.active::after {
-            width: 100%;
-        }
-
-        .search-box {
-            display: flex;
-            align-items: center;
-            background: var(--secondary-color);
-            border-radius: 25px;
-            padding: 0.5rem 1rem;
-            border: 1px solid var(--border-color);
-        }
-
-        .search-box input {
-            background: none;
-            border: none;
-            color: var(--text-primary);
-            outline: none;
-            width: 200px;
-        }
-
-        .search-box input::placeholder {
-            color: var(--text-muted);
-        }
-
-        .search-btn {
-            background: none;
-            border: none;
-            color: var(--accent-color);
-            cursor: pointer;
-            padding: 0;
-        }
-
-        /* Hero Section */
-        .hero {
-            position: relative;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
-            overflow: hidden;
-            margin-top: 80px;
-        }
-
-        .hero-background {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-        }
-
-        .particles {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                radial-gradient(circle at 20% 80%, rgba(184, 134, 11, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(184, 134, 11, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, rgba(184, 134, 11, 0.05) 0%, transparent 50%);
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 2;
-            text-align: center;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .hero-title {
-            margin-bottom: 2rem;
-        }
-
-        .title-main {
-            display: block;
-            font-size: 4rem;
-            font-weight: 900;
-            background: linear-gradient(45deg, var(--accent-color), #ffffff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-transform: uppercase;
-            letter-spacing: 4px;
-        }
-
-        .title-sub {
-            display: block;
-            font-size: 2rem;
-            color: var(--text-secondary);
-            font-weight: 400;
-            letter-spacing: 2px;
-        }
-
-        .hero-description {
-            font-size: 1.2rem;
-            color: var(--text-secondary);
-            margin-bottom: 3rem;
-            line-height: 1.8;
-        }
-
-        .hero-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .stat-item {
-            text-align: center;
-        }
-
-        .stat-number {
-            display: block;
-            font-size: 2.5rem;
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 700;
-            color: var(--accent-color);
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-label {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        /* Categories Section */
-        .categories {
-            padding: 6rem 0;
-            background: var(--primary-color);
-        }
-
-        .categories-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .category-card {
-            background: var(--secondary-color);
-            border: 1px solid var(--border-color);
-            border-radius: 15px;
-            padding: 2.5rem 2rem;
-            text-align: center;
-            color: var(--text-primary);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
-            display: block;
-        }
-
-        .category-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(184, 134, 11, 0.1), transparent);
-            transition: left 0.5s ease;
-        }
-
-        .category-card:hover::before {
-            left: 100%;
-        }
-
-        .category-card:hover {
-            transform: translateY(-10px);
-            box-shadow: var(--shadow-hover);
-            border-color: var(--accent-color);
-        }
-
-        .category-icon {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 1.5rem;
-            background: var(--gradient-metal);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--accent-color);
-            border: 2px solid var(--border-color);
-        }
-
-        .category-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: var(--text-primary);
-            font-family: 'Orbitron', sans-serif;
-        }
-
-        .category-card p {
-            color: var(--text-secondary);
-            margin-bottom: 1.5rem;
-            line-height: 1.6;
-            font-size: 0.95rem;
-        }
-
-        .category-details {
-            margin-top: 1.5rem;
-        }
-
-        .category-count {
-            color: var(--accent-color);
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 500;
-            font-size: 0.9rem;
-            display: block;
-            margin-bottom: 1rem;
-        }
-
-        .subcategories {
-            list-style: none;
-            margin-top: 1rem;
-            text-align: left;
-        }
-
-        .subcategories li {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            padding: 0.3rem 0;
-            position: relative;
-            padding-left: 1rem;
-        }
-
-        .subcategories li::before {
-            content: '•';
-            color: var(--accent-color);
-            position: absolute;
-            left: 0;
-        }
-
-        /* Recent Additions */
-        .recent-additions {
-            padding: 6rem 0;
-            background: var(--secondary-color);
-        }
-
-        .additions-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .addition-card {
-            background: var(--primary-color);
-            border: 1px solid var(--border-color);
-            border-radius: 15px;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .addition-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-hover);
-            border-color: var(--accent-color);
-        }
-
-        .card-image {
-            width: 100%;
-            height: 200px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .image-placeholder {
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #2a2a2a 0%, #3a3a3a 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-
-        .image-placeholder.tank::before {
-            content: '🛡️';
-            font-size: 4rem;
-            opacity: 0.7;
-        }
-
-        .image-placeholder.aircraft::before {
-            content: '✈️';
-            font-size: 4rem;
-            opacity: 0.7;
-        }
-
-        .image-placeholder.ship::before {
-            content: '⛴️';
-            font-size: 4rem;
-            opacity: 0.7;
-        }
-
-        .card-badge {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: var(--gradient-accent);
-            color: var(--primary-color);
-            padding: 0.3rem 0.8rem;
-            border-radius: 15px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            text-transform: uppercase;
-        }
-
-        .card-content {
-            padding: 1.5rem;
-        }
-
-        .card-content h3 {
-            font-size: 1.3rem;
-            margin-bottom: 0.5rem;
-            color: var(--text-primary);
-            font-family: 'Orbitron', sans-serif;
-        }
-
-        .card-content p {
-            color: var(--text-secondary);
-            margin-bottom: 1rem;
-            line-height: 1.6;
-            font-size: 0.9rem;
-        }
-
-        .card-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-
-        .meta-country,
-        .meta-year,
-        .meta-type {
-            background: var(--secondary-color);
-            padding: 0.3rem 0.8rem;
-            border-radius: 15px;
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-            border: 1px solid var(--border-color);
-        }
-
-        .card-stats {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 1rem;
-            padding-top: 1rem;
-            border-top: 1px solid var(--border-color);
-        }
-
-        .stat {
-            text-align: center;
-            flex: 1;
-        }
-
-        .stat-value {
-            display: block;
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 700;
-            color: var(--accent-color);
-            font-size: 0.9rem;
-        }
-
-        .stat-label {
-            display: block;
-            font-size: 0.7rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            margin-top: 0.2rem;
-        }
-
-        /* Technologies Section */
-        .technologies {
-            padding: 6rem 0;
-            background: var(--primary-color);
-        }
-
-        .tech-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .tech-card {
-            background: var(--secondary-color);
-            border: 1px solid var(--border-color);
-            border-radius: 15px;
-            padding: 2rem;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .tech-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent-color);
-            box-shadow: var(--shadow-hover);
-        }
-
-        .tech-icon {
-            width: 70px;
-            height: 70px;
-            background: var(--gradient-metal);
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--accent-color);
-            margin-bottom: 1.5rem;
-            border: 1px solid var(--border-color);
-        }
-
-        .tech-card h3 {
-            font-size: 1.3rem;
-            margin-bottom: 1rem;
-            color: var(--text-primary);
-            font-family: 'Orbitron', sans-serif;
-        }
-
-        .tech-card p {
-            color: var(--text-secondary);
-            margin-bottom: 1.5rem;
-            line-height: 1.6;
-            font-size: 0.95rem;
-        }
-
-        .tech-stack {
-            list-style: none;
-        }
-
-        .tech-stack li {
-            color: var(--text-secondary);
-            padding: 0.5rem 0;
-            border-bottom: 1px solid var(--border-color);
-            position: relative;
-            padding-left: 1.5rem;
-            font-size: 0.9rem;
-        }
-
-        .tech-stack li::before {
-            content: '▸';
-            color: var(--accent-color);
-            position: absolute;
-            left: 0;
-            font-weight: bold;
-        }
-
-        .tech-stack li:last-child {
-            border-bottom: none;
-        }
-
-        /* Footer */
-        .main-footer {
-            background: var(--primary-color);
-            border-top: 1px solid var(--border-color);
-            padding: 3rem 0 1rem;
-        }
-
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 3rem;
-            margin-bottom: 2rem;
-        }
-
-        .footer-section h3,
-        .footer-section h4 {
-            color: var(--accent-color);
-            margin-bottom: 1rem;
-            font-family: 'Orbitron', sans-serif;
-        }
-
-        .footer-section p,
-        .footer-section li {
-            color: var(--text-secondary);
-            line-height: 1.8;
-        }
-
-        .footer-section ul {
-            list-style: none;
-        }
-
-        .footer-section a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .footer-section a:hover {
-            color: var(--accent-color);
-        }
-
-        .social-links {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .social-link {
-            color: var(--accent-color);
-            text-decoration: none;
-            padding: 0.5rem 1rem;
-            border: 1px solid var(--border-color);
-            border-radius: 5px;
-            transition: all 0.3s ease;
-            font-size: 0.9rem;
-        }
-
-        .social-link:hover {
-            background: var(--accent-color);
-            color: var(--primary-color);
-        }
-
-        .footer-bottom {
-            text-align: center;
-            padding-top: 2rem;
-            border-top: 1px solid var(--border-color);
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
-        .footer-bottom p:first-child {
-            margin-bottom: 0.5rem;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .navbar {
-                flex-direction: column;
-                gap: 1rem;
-            }
-
-            .nav-menu {
-                gap: 1rem;
-            }
-
-            .hero-stats {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .title-main {
-                font-size: 2.5rem;
-            }
-
-            .title-sub {
-                font-size: 1.5rem;
-            }
-
-            .section-title {
-                font-size: 2rem;
-            }
-
-            .search-box input {
-                width: 150px;
-            }
-
-            .categories-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .additions-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .tech-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .card-stats {
-                flex-direction: column;
-                gap: 0.5rem;
-            }
-
-            .stat {
-                text-align: left;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .hero-stats {
-                grid-template-columns: 1fr;
-            }
-
-            .nav-menu {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-
-            .footer-content {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="styles/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <!-- Header -->
-    <header class="main-header">
-        <div class="container">
-            <nav class="navbar">
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
                 <div class="logo">
-                    <h1>MilitaryTech<span>Wiki</span></h1>
+                    <h1>MilitaryTech Wiki</h1>
+                    <span>Энциклопедия военной техники</span>
                 </div>
-                <ul class="nav-menu">
-                    <li><a href="#main" class="nav-link active">Главная</a></li>
-                    <li><a href="ground.html" class="nav-link">Наземная</a></li>
-                    <li><a href="#air" class="nav-link">Воздушная</a></li>
-                    <li><a href="#naval" class="nav-link">Морская</a></li>
-                    <li><a href="#ammo" class="nav-link">Боеприпасы</a></li>
-                </ul>
-                <div class="search-box">
-                    <input type="text" placeholder="Поиск техники..." id="searchInput">
-                    <button class="search-btn">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                            <path d="M21 21L16.514 16.506L21 21ZM19 10.5C19 15.194 15.194 19 10.5 19C5.806 19 2 15.194 2 10.5C2 5.806 5.806 2 10.5 2C15.194 2 19 5.806 19 10.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                        </svg>
-                    </button>
+                <div class="nav-links">
+                    <a href="#main" class="nav-link active">Главная</a>
+                    <a href="#categories" class="nav-link">Категории</a>
+                    <a href="#new-equipment" class="nav-link">Новая техника</a>
                 </div>
-            </nav>
-        </div>
+            </div>
+        </nav>
     </header>
 
     <!-- Hero Section -->
     <section class="hero" id="main">
-        <div class="hero-background">
-            <div class="particles"></div>
-        </div>
-        <div class="container">
-            <div class="hero-content">
-                <h1 class="hero-title">
-                    <span class="title-main">ЭНЦИКЛОПЕДИЯ</span>
-                    <span class="title-sub">ВОЕННОЙ ТЕХНИКИ</span>
-                </h1>
-                <p class="hero-description">
-                    Крупнейшая в мире база данных военной техники - от первых образцов оружия до современных 
-                    технологических комплексов. Детальные технические характеристики, исторические справки, 
-                    фотографии и тактико-технические данные.
-                </p>
-                <div class="hero-stats">
-                    <div class="stat-item">
-                        <span class="stat-number">2500+</span>
-                        <span class="stat-label">Единиц техники</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-number">85</span>
-                        <span class="stat-label">Стран производителей</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-number">120+</span>
-                        <span class="stat-label">Лет истории</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-number">15,000+</span>
-                        <span class="stat-label">Фотографий</span>
-                    </div>
-                </div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-text">
+                <h2 class="hero-title">Военная техника мира</h2>
+                <p class="hero-subtitle">Полная энциклопедия вооружений и боевой техники от древности до современных технологий</p>
+                <button class="cta-button">Начать исследование</button>
             </div>
         </div>
     </section>
 
     <!-- Categories Section -->
-    <section class="categories">
+    <section class="categories" id="categories">
         <div class="container">
-            <h2 class="section-title">КАТЕГОРИИ ТЕХНИКИ</h2>
-            <p class="section-subtitle">
-                Исследуйте полную классификацию военной техники по типам и назначению
-            </p>
+            <h2 class="section-title">Категории техники</h2>
             <div class="categories-grid">
-                <div class="category-card" data-category="ground">
+                <a href="ground.html" class="category-card">
                     <div class="category-icon">
-                        <svg width="60" height="60" viewBox="0 0 24 24" fill="none">
-                            <path d="M20 9L12 4L4 9V20H20V9Z" stroke="currentColor" stroke-width="1.5"/>
-                            <path d="M8 12H16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                            <path d="M8 16H16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                        <svg viewBox="0 0 24 24">
+                            <path d="M5,13L6.5,8.5H17.5L19,13M17.5,18C16.67,18 16,17.33 16,16.5C16,15.67 16.67,15 17.5,15C18.33,15 19,15.67 19,16.5C19,17.33 18.33,18 17.5,18M6.5,18C5.67,18 5,17.33 5,16.5C5,15.67 5.67,15 6.5,15C7.33,15 8,15.67 8,16.5C8,17.33 7.33,18 6.5,18M18.92,8C18.72,7.42 18.16,7 17.5,7H6.5C5.84,7 5.28,7.42 5.08,8L3,14V22C3,22.55 3.45,23 4,23H5C5.55,23 6,22.55 6,22V21H18V22C18,22.55 18.45,23 19,23H20C20.55,23 21,22.55 21,22V14L18.92,8Z"/>
                         </svg>
                     </div>
                     <h3>Наземная техника</h3>
-                    <p>Танки, БМП, БТР, САУ, ЗСУ, инженерная техника, автомобили и другие виды наземного вооружения</p>
-                    <div class="category-details">
-                        <span class="category-count">1,247 единиц</span>
-                        <ul class="subcategories">
-                            <li>Основные боевые танки</li>
-                            <li>Боевые машины пехоты</li>
-                            <li>Самоходная артиллерия</li>
-                            <li>Системы ПВО</li>
-                        </ul>
-                    </div>
-                </div>
+                    <p>Танки, БМП, САУ, ПВО и другая наземная техника</p>
+                    <span class="category-count">1,247 единиц</span>
+                </a>
 
-                <div class="category-card" data-category="air">
+                <a href="air.html" class="category-card">
                     <div class="category-icon">
-                        <svg width="60" height="60" viewBox="0 0 24 24" fill="none">
-                            <path d="M2 19H22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                            <path d="M18.5 19V6.5C18.5 5.5 17.8284 4.5 17 4.5H7C6.17157 4.5 5.5 5.5 5.5 6.5V19" stroke="currentColor" stroke-width="1.5"/>
-                            <path d="M12 4.5V2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                            <path d="M9.5 19V14.5H14.5V19" stroke="currentColor" stroke-width="1.5"/>
+                        <svg viewBox="0 0 24 24">
+                            <path d="M21,16V14L13,9V3.5A1.5,1.5 0 0,0 11.5,2A1.5,1.5 0 0,0 10,3.5V9L2,14V16L10,13.5V19L8,20.5V22L11.5,21L15,22V20.5L13,19V13.5L21,16Z"/>
                         </svg>
                     </div>
                     <h3>Воздушная техника</h3>
-                    <p>Истребители, бомбардировщики, штурмовики, вертолеты, БПЛА, транспортные самолеты</p>
-                    <div class="category-details">
-                        <span class="category-count">856 единиц</span>
-                        <ul class="subcategories">
-                            <li>Истребители и перехватчики</li>
-                            <li>Ударные вертолеты</li>
-                            <li>Стратегические бомбардировщики</li>
-                            <li>Беспилотные аппараты</li>
-                        </ul>
-                    </div>
-                </div>
+                    <p>Истребители, бомбардировщики, вертолеты, БПЛА</p>
+                    <span class="category-count">892 единицы</span>
+                </a>
 
-                <div class="category-card" data-category="naval">
+                <a href="naval.html" class="category-card">
                     <div class="category-icon">
-                        <svg width="60" height="60" viewBox="0 0 24 24" fill="none">
-                            <path d="M21 13V5C21 3 20 2 18 2H6C4 2 3 3 3 5V13H21Z" stroke="currentColor" stroke-width="1.5"/>
-                            <path d="M3 13L2 19H22L21 13" stroke="currentColor" stroke-width="1.5"/>
-                            <path d="M8 10H10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                            <path d="M14 10H16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                        <svg viewBox="0 0 24 24">
+                            <path d="M17,19.22C17,19.22 17,19.23 17,19.23C15.85,20.23 14.53,21 13.06,21C9.31,21 6.25,17.93 6.25,14.19C6.25,10.45 9.31,7.38 13.06,7.38C14.53,7.38 15.85,8.15 17,9.15V3.5C17,2.67 16.33,2 15.5,2C14.67,2 14,2.67 14,3.5V9.47C12.83,8.69 11.46,8.27 10,8.27C5.73,8.27 2.25,11.75 2.25,16C2.25,20.25 5.73,23.73 10,23.73C11.46,23.73 12.83,23.31 14,22.53V19.22C14,18.39 14.67,17.72 15.5,17.72C16.33,17.72 17,18.39 17,19.22Z"/>
                         </svg>
                     </div>
                     <h3>Морская техника</h3>
-                    <p>Авианосцы, эсминцы, фрегаты, корветы, подлодки, десантные корабли, катера</p>
-                    <div class="category-details">
-                        <span class="category-count">423 единицы</span>
-                        <ul class="subcategories">
-                            <li>Авианесущие корабли</li>
-                            <li>Подводные лодки</li>
-                            <li>Эскадренные миноносцы</li>
-                            <li>Ракетные катера</li>
-                        </ul>
-                    </div>
-                </div>
+                    <p>Авианосцы, эсминцы, подлодки, фрегаты</p>
+                    <span class="category-count">567 единиц</span>
+                </a>
 
-                <div class="category-card" data-category="ammo">
+                <a href="ammunition.html" class="category-card">
                     <div class="category-icon">
-                        <svg width="60" height="60" viewBox="0 0 24 24" fill="none">
-                            <path d="M12 2V22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                            <path d="M8 6H16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                            <path d="M8 12H16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                            <path d="M8 18H16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                            <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/>
+                        <svg viewBox="0 0 24 24">
+                            <path d="M14.5,11L12,22L10,8L8,17L5.5,6L3,11H14.5M19,11H22V9H19V7C19,5.9 18.1,5 17,5H13.83C13.42,3.83 12.31,3 11,3C9.69,3 8.58,3.83 8.17,5H5C3.9,5 3,5.9 3,7V17C3,18.1 3.9,19 5,19H17C18.1,19 19,18.1 19,17V15H22V13H19V11Z"/>
                         </svg>
                     </div>
                     <h3>Боеприпасы</h3>
-                    <p>Снаряды, ракеты, бомбы, патроны, мины, торпеды и другое вспомогательное вооружение</p>
-                    <div class="category-details">
-                        <span class="category-count">687 видов</span>
-                        <ul class="subcategories">
-                            <li>Управляемые ракеты</li>
-                            <li>Артиллерийские снаряды</li>
-                            <li>Авиационные бомбы</li>
-                            <li>Стрелковое вооружение</li>
-                        </ul>
-                    </div>
-                </div>
+                    <p>Ракеты, бомбы, снаряды, патроны</p>
+                    <span class="category-count">2,134 вида</span>
+                </a>
             </div>
         </div>
     </section>
 
-    <!-- Recent Additions -->
-    <section class="recent-additions">
+    <!-- New Equipment Section -->
+    <section class="new-equipment" id="new-equipment">
         <div class="container">
-            <h2 class="section-title">ПОСЛЕДНИЕ ОБНОВЛЕНИЯ</h2>
-            <p class="section-subtitle">
-                Недавно добавленные образцы военной техники в нашу базу данных
-            </p>
-            <div class="additions-grid">
-                <div class="addition-card">
-                    <div class="card-image">
-                        <div class="image-placeholder tank"></div>
-                        <div class="card-badge">НОВИНКА</div>
+            <h2 class="section-title">Новая техника</h2>
+            <div class="equipment-grid">
+                <div class="equipment-card">
+                    <div class="equipment-image">
+                        <div class="image-placeholder">T-14 Армата</div>
                     </div>
-                    <div class="card-content">
-                        <h3>T-14 «Армата»</h3>
-                        <p>Российский основной боевой танк третьего поколения с необитаемой башней и комплексом активной защиты</p>
-                        <div class="card-meta">
-                            <span class="meta-country">🇷🇺 Россия</span>
-                            <span class="meta-year">2015 г.</span>
-                            <span class="meta-type">ОБТ</span>
-                        </div>
-                        <div class="card-stats">
-                            <div class="stat">
-                                <span class="stat-value">125 мм</span>
-                                <span class="stat-label">Пушка</span>
-                            </div>
-                            <div class="stat">
-                                <span class="stat-value">80 км/ч</span>
-                                <span class="stat-label">Скорость</span>
-                            </div>
-                            <div class="stat">
-                                <span class="stat-value">48 т</span>
-                                <span class="stat-label">Вес</span>
-                            </div>
+                    <div class="equipment-info">
+                        <h3>T-14 Армата</h3>
+                        <p class="equipment-type">Основной боевой танк</p>
+                        <p class="equipment-country">Россия</p>
+                        <div class="equipment-stats">
+                            <span class="stat">2020</span>
+                            <span class="stat">55 т</span>
+                            <span class="stat">125 мм</span>
                         </div>
                     </div>
                 </div>
 
-                <div class="addition-card">
-                    <div class="card-image">
-                        <div class="image-placeholder aircraft"></div>
-                        <div class="card-badge">НОВИНКА</div>
+                <div class="equipment-card">
+                    <div class="equipment-image">
+                        <div class="image-placeholder">F-35 Lightning II</div>
                     </div>
-                    <div class="card-content">
+                    <div class="equipment-info">
                         <h3>F-35 Lightning II</h3>
-                        <p>Американский многоцелевой истребитель пятого поколения с технологией малозаметности</p>
-                        <div class="card-meta">
-                            <span class="meta-country">🇺🇸 США</span>
-                            <span class="meta-year">2006 г.</span>
-                            <span class="meta-type">Истребитель</span>
-                        </div>
-                        <div class="card-stats">
-                            <div class="stat">
-                                <span class="stat-value">1,930 км/ч</span>
-                                <span class="stat-label">Скорость</span>
-                            </div>
-                            <div class="stat">
-                                <span class="stat-value">2,200 км</span>
-                                <span class="stat-label">Дальность</span>
-                            </div>
-                            <div class="stat">
-                                <span class="stat-value">8,160 кг</span>
-                                <span class="stat-label">Вооружение</span>
-                            </div>
+                        <p class="equipment-type">Многоцелевой истребитель</p>
+                        <p class="equipment-country">США</p>
+                        <div class="equipment-stats">
+                            <span class="stat">2015</span>
+                            <span class="stat">13.2 т</span>
+                            <span class="stat">Маха 1.6</span>
                         </div>
                     </div>
                 </div>
 
-                <div class="addition-card">
-                    <div class="card-image">
-                        <div class="image-placeholder ship"></div>
-                        <div class="card-badge">ОБНОВЛЕНО</div>
+                <div class="equipment-card">
+                    <div class="equipment-image">
+                        <div class="image-placeholder">Type 055</div>
                     </div>
-                    <div class="card-content">
-                        <h3>Type 055 (Наньчан)</h3>
-                        <p>Китайский эсминец УРО с многофункциональными РЛС и вертикальными пусковыми установками</p>
-                        <div class="card-meta">
-                            <span class="meta-country">🇨🇳 Китай</span>
-                            <span class="meta-year">2020 г.</span>
-                            <span class="meta-type">Эсминец</span>
-                        </div>
-                        <div class="card-stats">
-                            <div class="stat">
-                                <span class="stat-value">112 ЯЧ</span>
-                                <span class="stat-label">ПУ</span>
-                            </div>
-                            <div class="stat">
-                                <span class="stat-value">30 уз.</span>
-                                <span class="stat-label">Скорость</span>
-                            </div>
-                            <div class="stat">
-                                <span class="stat-value">13,000 т</span>
-                                <span class="stat-label">Водоизм.</span>
-                            </div>
+                    <div class="equipment-info">
+                        <h3>Type 055</h3>
+                        <p class="equipment-type">Ракетный эсминец</p>
+                        <p class="equipment-country">Китай</p>
+                        <div class="equipment-stats">
+                            <span class="stat">2020</span>
+                            <span class="stat">13,000 т</span>
+                            <span class="stat">112 ЯЧ</span>
                         </div>
                     </div>
                 </div>
@@ -997,182 +145,62 @@
         </div>
     </section>
 
-    <!-- Technologies Section -->
-    <section class="technologies">
+    <!-- Stats Section -->
+    <section class="stats">
         <div class="container">
-            <h2 class="section-title">ТЕХНОЛОГИИ ПРОЕКТА</h2>
-            <p class="section-subtitle">
-                Современный технологический стек обеспечивает надежность и производительность проекта
-            </p>
-            <div class="tech-grid">
-                <div class="tech-card">
-                    <div class="tech-icon">
-                        <svg width="50" height="50" viewBox="0 0 24 24" fill="none">
-                            <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2"/>
-                            <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2"/>
-                            <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2"/>
-                        </svg>
-                    </div>
-                    <h3>Frontend</h3>
-                    <p>Современный React с TypeScript, адаптивный дизайн, PWA-функциональность</p>
-                    <ul class="tech-stack">
-                        <li>React 18 + TypeScript</li>
-                        <li>Tailwind CSS</li>
-                        <li>Framer Motion</li>
-                        <li>PWA Optimization</li>
-                    </ul>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">3,840</div>
+                    <div class="stat-label">Единиц техники</div>
                 </div>
-
-                <div class="tech-card">
-                    <div class="tech-icon">
-                        <svg width="50" height="50" viewBox="0 0 24 24" fill="none">
-                            <path d="M4 6H20M4 12H20M4 18H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                        </svg>
-                    </div>
-                    <h3>Backend & База данных</h3>
-                    <p>Масштабируемая облачная архитектура с реальным временем обновления</p>
-                    <ul class="tech-stack">
-                        <li>Supabase PostgreSQL</li>
-                        <li>Real-time Subscriptions</li>
-                        <li>Row Level Security</li>
-                        <li>Automatic Backups</li>
-                    </ul>
+                <div class="stat-item">
+                    <div class="stat-number">156</div>
+                    <div class="stat-label">Стран</div>
                 </div>
-
-                <div class="tech-card">
-                    <div class="tech-icon">
-                        <svg width="50" height="50" viewBox="0 0 24 24" fill="none">
-                            <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="currentColor" stroke-width="2"/>
-                            <path d="M19.4 15C19.2669 15.5256 19.033 16.0204 18.7116 16.4556C18.3902 16.8908 17.988 17.2575 17.5275 17.5345C17.067 17.8115 16.5576 17.9932 16.0284 18.069C15.4992 18.1448 14.9608 18.1132 14.4444 17.9762" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                            <path d="M4.6 15C4.73314 15.5256 4.96705 16.0204 5.28844 16.4556C5.60982 16.8908 6.01204 17.2575 6.47254 17.5345C6.93304 17.8115 7.44244 17.9932 7.97163 18.069C8.50081 18.1448 9.03921 18.1132 9.55557 17.9762" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                        </svg>
-                    </div>
-                    <h3>Хостинг & CI/CD</h3>
-                    <p>Автоматизированное развертывание и глобальная сеть доставки контента</p>
-                    <ul class="tech-stack">
-                        <li>Vercel Edge Network</li>
-                        <li>GitHub Actions</li>
-                        <li>Automated Deployments</li>
-                        <li>Global CDN</li>
-                    </ul>
+                <div class="stat-item">
+                    <div class="stat-number">85</div>
+                    <div class="stat-label">Лет истории</div>
                 </div>
-
-                <div class="tech-card">
-                    <div class="tech-icon">
-                        <svg width="50" height="50" viewBox="0 0 24 24" fill="none">
-                            <path d="M21 16V8.00002C20.9996 7.6493 20.9071 7.30483 20.7315 7.00119C20.556 6.69754 20.3037 6.44539 20 6.27002L13 2.27002C12.696 2.09449 12.3511 2.00208 12 2.00208C11.6489 2.00208 11.304 2.09449 11 2.27002L4 6.27002C3.69626 6.44539 3.44398 6.69754 3.26846 7.00119C3.09294 7.30483 3.00036 7.6493 3 8.00002V16C3.00036 16.3508 3.09294 16.6952 3.26846 16.9989C3.44398 17.3025 3.69626 17.5547 4 17.73L11 21.73C11.304 21.9056 11.6489 21.998 12 21.998C12.3511 21.998 12.696 21.9056 13 21.73L20 17.73C20.3037 17.5547 20.556 17.3025 20.7315 16.9989C20.9071 16.6952 20.9996 16.3508 21 16Z" stroke="currentColor" stroke-width="2"/>
-                            <path d="M3.27002 6.96002L12 12L20.73 6.96002" stroke="currentColor" stroke-width="2"/>
-                            <path d="M12 22.08V12" stroke="currentColor" stroke-width="2"/>
-                        </svg>
-                    </div>
-                    <h3>Дополнительные технологии</h3>
-                    <p>Специализированные инструменты для обработки данных и аналитики</p>
-                    <ul class="tech-stack">
-                        <li>Chart.js для графиков</li>
-                        <li>Jest для тестирования</li>
-                        <li>ESLint + Prettier</li>
-                        <li>Git Version Control</li>
-                    </ul>
+                <div class="stat-item">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Обновление базы</div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="main-footer">
+    <footer class="footer">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
                     <h3>MilitaryTech Wiki</h3>
-                    <p>Крупнейшая открытая энциклопедия военной техники. Создано энтузиастами для энтузиастов.</p>
-                    <div class="social-links">
-                        <a href="#" class="social-link">GitHub</a>
-                        <a href="#" class="social-link">Telegram</a>
-                        <a href="#" class="social-link">Discord</a>
-                    </div>
+                    <p>Самая полная энциклопедия военной техники в мире</p>
                 </div>
                 <div class="footer-section">
-                    <h4>Разделы</h4>
+                    <h4>Категории</h4>
                     <ul>
-                        <li><a href="#ground">Наземная техника</a></li>
-                        <li><a href="#air">Воздушная техника</a></li>
-                        <li><a href="#naval">Морская техника</a></li>
-                        <li><a href="#ammo">Боеприпасы</a></li>
-                        <li><a href="#">Сравнение техники</a></li>
+                        <li><a href="ground.html">Наземная техника</a></li>
+                        <li><a href="air.html">Воздушная техника</a></li>
+                        <li><a href="naval.html">Морская техника</a></li>
+                        <li><a href="ammunition.html">Боеприпасы</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
-                    <h4>Ресурсы</h4>
+                    <h4>Технологии</h4>
                     <ul>
-                        <li><a href="#">Документация API</a></li>
-                        <li><a href="#">Для разработчиков</a></li>
-                        <li><a href="#">Блог проекта</a></li>
-                        <li><a href="#">Контрибьюторам</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Поддержка</h4>
-                    <ul>
-                        <li><a href="#">Сообщить об ошибке</a></li>
-                        <li><a href="#">Предложить технику</a></li>
-                        <li><a href="#">Вопросы и ответы</a></li>
-                        <li><a href="#">Контакты</a></li>
+                        <li><a href="#">GitHub</a></li>
+                        <li><a href="#">Vercel</a></li>
+                        <li><a href="#">Supabase</a></li>
                     </ul>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2024 MilitaryTech Wiki. Все права защищены. | Открытая база знаний</p>
-                <p>Все данные представлены в ознакомительных и исследовательских целях</p>
+                <p>&copy; 2024 MilitaryTech Wiki. Все права защищены.</p>
             </div>
         </div>
     </footer>
 
-    <script>
-        // Basic JavaScript functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            // Search functionality
-            const searchBtn = document.querySelector('.search-btn');
-            const searchInput = document.getElementById('searchInput');
-            
-            searchBtn.addEventListener('click', function() {
-                const query = searchInput.value.trim();
-                if (query) {
-                    alert('Поиск: ' + query + '\n\nФункция поиска будет реализована после подключения базы данных Supabase');
-                } else {
-                    alert('Введите поисковый запрос');
-                }
-            });
-
-            // Category cards click
-            document.querySelectorAll('.category-card').forEach(card => {
-                card.addEventListener('click', function() {
-                    const category = this.getAttribute('data-category');
-                    const categoryNames = {
-                        'ground': 'Наземная техника',
-                        'air': 'Воздушная техника',
-                        'naval': 'Морская техника',
-                        'ammo': 'Боеприпасы'
-                    };
-                    alert('Переход к разделу: ' + categoryNames[category] + '\n\nЭтот функционал будет полностью реализован на следующих этапах разработки');
-                });
-            });
-
-            // Addition cards click
-            document.querySelectorAll('.addition-card').forEach(card => {
-                card.addEventListener('click', function() {
-                    const title = this.querySelector('h3').textContent;
-                    alert('Открытие карточки: ' + title + '\n\nДетальная страница техники будет доступна в следующих версиях');
-                });
-            });
-
-            // Tech cards click
-            document.querySelectorAll('.tech-card').forEach(card => {
-                card.addEventListener('click', function() {
-                    const title = this.querySelector('h3').textContent;
-                    alert('Технология: ' + title + '\n\nПодробная документация будет доступна позже');
-                });
-            });
-        });
-    </script>
+    <script src="scripts/main.js"></script>
 </body>
 </html>

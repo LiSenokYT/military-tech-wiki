@@ -6,6 +6,7 @@ class Navigation {
 
     init() {
         this.setupMobileMenu();
+        this.setupScrollEffects();
     }
 
     setupMobileMenu() {
@@ -26,6 +27,22 @@ class Navigation {
                 });
             });
         }
+    }
+
+    setupScrollEffects() {
+        let lastScrollY = window.scrollY;
+        const header = document.getElementById('header');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(10, 10, 10, 0.95)';
+                header.style.backdropFilter = 'blur(10px)';
+            } else {
+                header.style.background = 'rgba(26, 26, 26, 0.95)';
+            }
+
+            lastScrollY = window.scrollY;
+        });
     }
 }
 

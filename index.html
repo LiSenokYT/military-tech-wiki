@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Военная Энциклопедия | Military Wiki</title>
-    <meta name="description" content="Энциклопедия военной техники: танки, самолеты, корабли, боеприпасы">
+    <meta name="description" content="Полная энциклопедия военной техники: танки, самолеты, корабли, боеприпасы с подробными характеристиками и историей">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="./styles/style.css">
 </head>
 <body>
@@ -17,7 +18,7 @@
         <header class="header" id="header">
             <nav class="nav container">
                 <div class="nav-brand">
-                    <h1 class="logo">Military<span>Wiki</span></h1>
+                    <h1 class="logo"><i class="fas fa-shield-alt"></i> Military<span>Wiki</span></h1>
                 </div>
                 <ul class="nav-menu" id="nav-menu">
                     <li class="nav-item">
@@ -35,10 +36,15 @@
                     <li class="nav-item">
                         <a href="#/ammunition" class="nav-link" data-page="ammunition">Боеприпасы</a>
                     </li>
-                    <li class="nav-item">
-                        <a href="#/admin" class="nav-link admin-link" data-page="admin">Админка</a>
-                    </li>
                 </ul>
+                <div class="nav-actions">
+                    <button id="theme-toggle" class="theme-toggle" title="Сменить тему">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <button id="admin-access" class="admin-access-btn" title="Админ-панель">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                </div>
                 <div class="nav-toggle" id="nav-toggle">
                     <span class="bar"></span>
                     <span class="bar"></span>
@@ -63,24 +69,70 @@
             <div class="container">
                 <div class="footer-content">
                     <div class="footer-section">
-                        <h3>MilitaryWiki</h3>
-                        <p>Энциклопедия военной техники со всего мира</p>
+                        <h3><i class="fas fa-shield-alt"></i> MilitaryWiki</h3>
+                        <p>Самая полная энциклопедия военной техники. От исторических образцов до современных боевых систем.</p>
+                        <div class="social-links">
+                            <a href="#" class="social-link"><i class="fab fa-telegram"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-vk"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                        </div>
                     </div>
                     <div class="footer-section">
                         <h4>Разделы</h4>
                         <ul>
-                            <li><a href="#/ground">Наземная техника</a></li>
-                            <li><a href="#/air">Воздушная техника</a></li>
-                            <li><a href="#/naval">Морская техника</a></li>
-                            <li><a href="#/ammunition">Боеприпасы</a></li>
+                            <li><a href="#/ground"><i class="fas fa-tank"></i> Наземная техника</a></li>
+                            <li><a href="#/air"><i class="fas fa-fighter-jet"></i> Воздушная техника</a></li>
+                            <li><a href="#/naval"><i class="fas fa-ship"></i> Морская техника</a></li>
+                            <li><a href="#/ammunition"><i class="fas fa-missile"></i> Боеприпасы</a></li>
                         </ul>
                     </div>
                     <div class="footer-section">
-                        <p>&copy; 2024 MilitaryWiki. Все права защищены.</p>
+                        <h4>Информация</h4>
+                        <ul>
+                            <li><a href="#/about">О проекте</a></li>
+                            <li><a href="#/contacts">Контакты</a></li>
+                            <li><a href="#/help">Помощь</a></li>
+                            <li><a href="#/privacy">Политика конфиденциальности</a></li>
+                        </ul>
                     </div>
+                    <div class="footer-section">
+                        <h4>Статистика</h4>
+                        <div class="stats-mini">
+                            <div class="stat-mini">
+                                <span class="stat-number" id="stats-vehicles">1000+</span>
+                                <span class="stat-label">Единиц техники</span>
+                            </div>
+                            <div class="stat-mini">
+                                <span class="stat-number" id="stats-countries">50+</span>
+                                <span class="stat-label">Стран</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; 2024 MilitaryWiki. Все права защищены. | Сделано с <i class="fas fa-heart" style="color: var(--accent-red);"></i> для энтузиастов</p>
                 </div>
             </div>
         </footer>
+    </div>
+
+    <!-- Модальное окно админки -->
+    <div id="admin-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Доступ к админ-панели</h3>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="admin-login-form">
+                    <div class="form-group">
+                        <label for="admin-password">Пароль:</label>
+                        <input type="password" id="admin-password" placeholder="Введите пароль администратора" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Войти</button>
+                </form>
+            </div>
+        </div>
     </div>
 
     <!-- Подключаем Supabase -->

@@ -3,12 +3,15 @@ class MilitaryWikiApp {
     constructor() {
         this.currentPage = 'home';
         this.isLoading = false;
+        this.isAdmin = false;
         this.init();
     }
 
     init() {
         console.log('MilitaryWiki App инициализирован');
         this.setupRouter();
+        this.setupAdminModal();
+        this.setupThemeToggle();
         this.loadPage();
         this.setupEventListeners();
     }
@@ -25,10 +28,62 @@ class MilitaryWikiApp {
         }
     }
 
+    setupAdminModal() {
+        const adminBtn = document.getElementById('admin-access');
+        const modal = document.getElementById('admin-modal');
+        const closeBtn = document.querySelector('.close-modal');
+        const loginForm = document.getElementById('admin-login-form');
+
+        adminBtn.addEventListener('click', () => {
+            modal.style.display = 'block';
+        });
+
+        closeBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const password = document.getElementById('admin-password').value;
+            this.handleAdminLogin(password);
+        });
+    }
+
+    setupThemeToggle() {
+        const themeToggle = document.getElementById('theme-toggle');
+        const icon = themeToggle.querySelector('i');
+
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('light-theme');
+            if (document.body.classList.contains('light-theme')) {
+                icon.className = 'fas fa-sun';
+            } else {
+                icon.className = 'fas fa-moon';
+            }
+        });
+    }
+
+    async handleAdminLogin(password) {
+        // Здесь будет проверка пароля
+        // Пока что просто редирект
+        if (password === 'admin123') { // Временный пароль
+            this.isAdmin = true;
+            window.location.hash = '/admin';
+            document.getElementById('admin-modal').style.display = 'none';
+        } else {
+            alert('Неверный пароль!');
+        }
+    }
+
     setupEventListeners() {
         // Глобальные обработчики событий
         document.addEventListener('click', (e) => {
-            // Обработка кликов по карточкам и другим интерактивным элементам
             if (e.target.closest('[data-vehicle-id]')) {
                 const vehicleId = e.target.closest('[data-vehicle-id]').dataset.vehicleId;
                 this.navigateToVehicle(vehicleId);
@@ -83,11 +138,16 @@ class MilitaryWikiApp {
     async loadErrorPage() {
         const contentElement = document.getElementById('content');
         contentElement.innerHTML = `
-            <div class="error-page">
-                <h1>404 - Страница не найдена</h1>
-                <p>Запрошенная страница не существует.</p>
-                <button onclick="window.location.hash = '/'" class="btn">
-                    Вернуться на главную
+            <div class="error-page" style="text-align: center; padding: 4rem;">
+                <div style="font-size: 8rem; color: var(--accent-red); margin-bottom: 2rem;">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <h1 style="font-size: 3rem; margin-bottom: 1rem;">404 - Страница не найдена</h1>
+                <p style="font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 2rem;">
+                    Запрошенная страница не существует или находится в разработке.
+                </p>
+                <button onclick="window.location.hash = '/'" class="btn btn-primary btn-large">
+                    <i class="fas fa-home"></i> Вернуться на главную
                 </button>
             </div>
         `;

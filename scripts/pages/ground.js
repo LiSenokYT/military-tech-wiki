@@ -3,6 +3,7 @@ const GroundPage = {
     vehicles: [],
     filteredVehicles: [],
     filters: {
+        // Основные фильтры
         category: '',
         country: '',
         era: '',
@@ -10,7 +11,17 @@ const GroundPage = {
         weight_max: '',
         crew_min: '',
         crew_max: '',
-        search: ''
+        search: '',
+        // Расширенные фильтры
+        main_gun: '',
+        engine_power: '',
+        armor: '',
+        speed: '',
+        // Новые расширенные фильтры
+        road_range: '',
+        trench_width: '',
+        ammunition: '',
+        production_years: ''
     },
 
     async render() {
@@ -162,6 +173,7 @@ const GroundPage = {
 
                         <div class="advanced-filters" id="advanced-filters">
                             <div class="filters-grid">
+                                <!-- Существующие расширенные фильтры -->
                                 <div class="filter-group">
                                     <label for="main-gun-filter" class="filter-label">
                                         <i class="fas fa-crosshairs"></i>
@@ -223,6 +235,65 @@ const GroundPage = {
                                         <option value="90+">90+ км/ч</option>
                                     </select>
                                 </div>
+
+                                <!-- Новые расширенные фильтры -->
+                                <div class="filter-group">
+                                    <label for="road-range-filter" class="filter-label">
+                                        <i class="fas fa-road"></i>
+                                        Запас хода (км)
+                                    </label>
+                                    <select id="road-range-filter" class="filter-select">
+                                        <option value="">Любой запас хода</option>
+                                        <option value="0-200">до 200 км</option>
+                                        <option value="201-400">201-400 км</option>
+                                        <option value="401-600">401-600 км</option>
+                                        <option value="601-800">601-800 км</option>
+                                        <option value="800+">800+ км</option>
+                                    </select>
+                                </div>
+
+                                <div class="filter-group">
+                                    <label for="trench-filter" class="filter-label">
+                                        <i class="fas fa-ditch"></i>
+                                        Ширина рва (м)
+                                    </label>
+                                    <select id="trench-filter" class="filter-select">
+                                        <option value="">Любая ширина</option>
+                                        <option value="0-2">до 2 м</option>
+                                        <option value="2.1-2.5">2.1-2.5 м</option>
+                                        <option value="2.6-3.0">2.6-3.0 м</option>
+                                        <option value="3.0+">3.0+ м</option>
+                                    </select>
+                                </div>
+
+                                <div class="filter-group">
+                                    <label for="ammo-filter" class="filter-label">
+                                        <i class="fas fa-bullseye"></i>
+                                        Боекомплект
+                                    </label>
+                                    <select id="ammo-filter" class="filter-select">
+                                        <option value="">Любой боекомплект</option>
+                                        <option value="0-20">до 20 выстрелов</option>
+                                        <option value="21-40">21-40 выстрелов</option>
+                                        <option value="41-60">41-60 выстрелов</option>
+                                        <option value="60+">60+ выстрелов</option>
+                                    </select>
+                                </div>
+
+                                <div class="filter-group">
+                                    <label for="production-filter" class="filter-label">
+                                        <i class="fas fa-calendar-alt"></i>
+                                        Годы производства
+                                    </label>
+                                    <select id="production-filter" class="filter-select">
+                                        <option value="">Любые годы</option>
+                                        <option value="1910-1940">1910-1940</option>
+                                        <option value="1941-1960">1941-1960</option>
+                                        <option value="1961-1980">1961-1980</option>
+                                        <option value="1981-2000">1981-2000</option>
+                                        <option value="2001+">2001-н.в.</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -245,6 +316,8 @@ const GroundPage = {
                                     <option value="year_desc">По году (новые)</option>
                                     <option value="weight_asc">По массе (легкие)</option>
                                     <option value="weight_desc">По массе (тяжелые)</option>
+                                    <option value="speed_asc">По скорости (медленные)</option>
+                                    <option value="speed_desc">По скорости (быстрые)</option>
                                 </select>
                             </div>
                         </div>
@@ -278,569 +351,8 @@ const GroundPage = {
         this.applyFilters();
     },
 
-    addCatalogStyles() {
-        const style = document.createElement('style');
-        style.textContent = `
-            /* Страница каталога */
-            .catalog-page {
-                min-height: 100vh;
-            }
-
-            /* Хедер каталога */
-            .catalog-header {
-                padding: 3rem 0 2rem;
-                background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-accent) 100%);
-                border-bottom: 1px solid var(--border-color);
-            }
-
-            .breadcrumbs {
-                display: flex;
-                align-items: center;
-                gap: 0.5rem;
-                margin-bottom: 1rem;
-                font-size: 0.9rem;
-                color: var(--text-secondary);
-            }
-
-            .breadcrumbs a {
-                color: var(--text-secondary);
-                text-decoration: none;
-                transition: var(--transition);
-            }
-
-            .breadcrumbs a:hover {
-                color: var(--accent-red);
-            }
-
-            .breadcrumb-separator {
-                color: var(--text-muted);
-            }
-
-            .breadcrumb-current {
-                color: var(--text-primary);
-                font-weight: 500;
-            }
-
-            .catalog-header h1 {
-                font-size: 3rem;
-                margin-bottom: 1rem;
-                background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-red) 100%);
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-                background-clip: text;
-            }
-
-            .catalog-description {
-                font-size: 1.2rem;
-                color: var(--text-secondary);
-                line-height: 1.6;
-                max-width: 800px;
-                margin-bottom: 2rem;
-            }
-
-            .catalog-stats {
-                display: flex;
-                gap: 3rem;
-            }
-
-            .catalog-stat {
-                text-align: center;
-            }
-
-            .catalog-stat .stat-number {
-                font-size: 2rem;
-                font-weight: 900;
-                color: var(--accent-red);
-                display: block;
-                font-family: 'Orbitron', sans-serif;
-            }
-
-            .catalog-stat .stat-label {
-                font-size: 0.9rem;
-                color: var(--text-secondary);
-                text-transform: uppercase;
-                letter-spacing: 1px;
-            }
-
-            /* Секция фильтров */
-            .filters-section {
-                padding: 2rem 0;
-                background: var(--bg-secondary);
-                border-bottom: 1px solid var(--border-color);
-                position: sticky;
-                top: 70px;
-                z-index: 900;
-            }
-
-            .filters-header {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-bottom: 1.5rem;
-            }
-
-            .filters-header h2 {
-                font-size: 1.5rem;
-                color: var(--text-primary);
-            }
-
-            .btn-small {
-                padding: 0.5rem 1rem;
-                font-size: 0.8rem;
-            }
-
-            .filters-grid {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-                gap: 1rem;
-                margin-bottom: 1rem;
-            }
-
-            .filter-group {
-                display: flex;
-                flex-direction: column;
-                gap: 0.5rem;
-            }
-
-            .filter-group.double {
-                grid-column: span 2;
-            }
-
-            .filter-label {
-                display: flex;
-                align-items: center;
-                gap: 0.5rem;
-                font-size: 0.9rem;
-                font-weight: 500;
-                color: var(--text-primary);
-            }
-
-            .filter-label i {
-                color: var(--accent-red);
-                width: 16px;
-            }
-
-            .filter-input,
-            .filter-select {
-                padding: 0.75rem;
-                background: var(--bg-primary);
-                border: 1px solid var(--border-color);
-                border-radius: var(--radius);
-                color: var(--text-primary);
-                font-size: 0.9rem;
-                transition: var(--transition);
-            }
-
-            .filter-input:focus,
-            .filter-select:focus {
-                outline: none;
-                border-color: var(--accent-red);
-                box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.2);
-            }
-
-            .range-inputs {
-                display: flex;
-                align-items: center;
-                gap: 0.5rem;
-            }
-
-            .range-input {
-                flex: 1;
-            }
-
-            .range-separator {
-                color: var(--text-muted);
-                font-weight: 500;
-            }
-
-            /* Расширенные фильтры */
-            .advanced-filters-toggle {
-                text-align: center;
-                margin: 1rem 0;
-            }
-
-            .advanced-filters {
-                display: none;
-                padding-top: 1rem;
-                border-top: 1px solid var(--border-light);
-            }
-
-            .advanced-filters.show {
-                display: block;
-                animation: slideDown 0.3s ease;
-            }
-
-            @keyframes slideDown {
-                from {
-                    opacity: 0;
-                    transform: translateY(-10px);
-                }
-                to {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
-            }
-
-            /* Секция результатов */
-            .results-section {
-                padding: 2rem 0 4rem;
-            }
-
-            .results-header {
-                display: flex;
-                justify-content: space-between;
-                align-items: flex-start;
-                margin-bottom: 2rem;
-                gap: 2rem;
-            }
-
-            .results-info h3 {
-                font-size: 1.3rem;
-                color: var(--text-primary);
-                margin-bottom: 1rem;
-            }
-
-            #results-count {
-                color: var(--accent-red);
-                font-weight: 700;
-            }
-
-            .active-filters {
-                display: flex;
-                flex-wrap: wrap;
-                gap: 0.5rem;
-            }
-
-            .active-filter {
-                display: inline-flex;
-                align-items: center;
-                gap: 0.5rem;
-                background: var(--bg-card);
-                border: 1px solid var(--border-color);
-                padding: 0.25rem 0.75rem;
-                border-radius: 50px;
-                font-size: 0.8rem;
-                color: var(--text-secondary);
-            }
-
-            .active-filter .remove-filter {
-                background: none;
-                border: none;
-                color: var(--text-muted);
-                cursor: pointer;
-                padding: 0;
-                width: 16px;
-                height: 16px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                border-radius: 50%;
-                transition: var(--transition);
-            }
-
-            .active-filter .remove-filter:hover {
-                background: var(--accent-red);
-                color: white;
-            }
-
-            .results-sort {
-                display: flex;
-                align-items: center;
-                gap: 0.5rem;
-                flex-shrink: 0;
-            }
-
-            .sort-label {
-                font-size: 0.9rem;
-                color: var(--text-secondary);
-                white-space: nowrap;
-            }
-
-            .sort-select {
-                padding: 0.5rem;
-                background: var(--bg-primary);
-                border: 1px solid var(--border-color);
-                border-radius: var(--radius);
-                color: var(--text-primary);
-                font-size: 0.9rem;
-                min-width: 200px;
-            }
-
-            /* Сетка карточек */
-            .vehicles-grid {
-                display: grid;
-                grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-                gap: 1.5rem;
-                margin-bottom: 3rem;
-            }
-
-            .vehicle-card {
-                background: var(--bg-card);
-                border: 1px solid var(--border-color);
-                border-radius: var(--radius-lg);
-                overflow: hidden;
-                transition: var(--transition);
-                cursor: pointer;
-            }
-
-            .vehicle-card:hover {
-                transform: translateY(-5px);
-                border-color: var(--accent-red);
-                box-shadow: var(--shadow-lg);
-            }
-
-            .vehicle-image {
-                height: 200px;
-                background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-accent) 100%);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                position: relative;
-                overflow: hidden;
-            }
-
-            .vehicle-image img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-                transition: var(--transition);
-            }
-
-            .vehicle-card:hover .vehicle-image img {
-                transform: scale(1.05);
-            }
-
-            .image-placeholder {
-                font-size: 3rem;
-                color: var(--accent-red);
-                opacity: 0.5;
-            }
-
-            .vehicle-badge {
-                position: absolute;
-                top: 1rem;
-                right: 1rem;
-                background: var(--accent-red);
-                color: white;
-                padding: 0.25rem 0.75rem;
-                border-radius: 50px;
-                font-size: 0.7rem;
-                font-weight: 500;
-                text-transform: uppercase;
-                letter-spacing: 0.5px;
-            }
-
-            .vehicle-content {
-                padding: 1.5rem;
-            }
-
-            .vehicle-header {
-                display: flex;
-                justify-content: space-between;
-                align-items: flex-start;
-                margin-bottom: 1rem;
-            }
-
-            .vehicle-name {
-                font-size: 1.3rem;
-                font-weight: 700;
-                color: var(--text-primary);
-                margin: 0;
-            }
-
-            .vehicle-year {
-                font-size: 0.9rem;
-                color: var(--text-muted);
-                background: var(--bg-primary);
-                padding: 0.25rem 0.5rem;
-                border-radius: var(--radius);
-                white-space: nowrap;
-            }
-
-            .vehicle-description {
-                color: var(--text-secondary);
-                line-height: 1.5;
-                margin-bottom: 1.5rem;
-                display: -webkit-box;
-                -webkit-line-clamp: 3;
-                -webkit-box-orient: vertical;
-                overflow: hidden;
-            }
-
-            .vehicle-specs {
-                display: grid;
-                grid-template-columns: repeat(2, 1fr);
-                gap: 0.75rem;
-                margin-bottom: 1.5rem;
-            }
-
-            .vehicle-spec {
-                display: flex;
-                flex-direction: column;
-                gap: 0.25rem;
-            }
-
-            .spec-label {
-                font-size: 0.7rem;
-                color: var(--text-muted);
-                text-transform: uppercase;
-                letter-spacing: 0.5px;
-            }
-
-            .spec-value {
-                font-size: 0.9rem;
-                color: var(--text-primary);
-                font-weight: 500;
-            }
-
-            .vehicle-actions {
-                display: flex;
-                gap: 0.5rem;
-            }
-
-            .btn-full {
-                flex: 1;
-                text-align: center;
-                justify-content: center;
-            }
-
-            /* Карточки загрузки */
-            .loading-cards {
-                display: grid;
-                grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-                gap: 1.5rem;
-            }
-
-            .loading-card {
-                background: var(--bg-card);
-                border: 1px solid var(--border-color);
-                border-radius: var(--radius-lg);
-                height: 400px;
-                position: relative;
-                overflow: hidden;
-            }
-
-            .loading-card::before {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: -100%;
-                width: 100%;
-                height: 100%;
-                background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
-                animation: loading 1.5s infinite;
-            }
-
-            @keyframes loading {
-                0% { left: -100%; }
-                100% { left: 100%; }
-            }
-
-            /* Пагинация */
-            .pagination {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                gap: 0.5rem;
-                margin-top: 2rem;
-            }
-
-            .pagination-btn {
-                padding: 0.5rem 1rem;
-                background: var(--bg-card);
-                border: 1px solid var(--border-color);
-                color: var(--text-primary);
-                border-radius: var(--radius);
-                cursor: pointer;
-                transition: var(--transition);
-                font-size: 0.9rem;
-            }
-
-            .pagination-btn:hover:not(.disabled) {
-                border-color: var(--accent-red);
-                color: var(--accent-red);
-            }
-
-            .pagination-btn.active {
-                background: var(--accent-red);
-                border-color: var(--accent-red);
-                color: white;
-            }
-
-            .pagination-btn.disabled {
-                opacity: 0.5;
-                cursor: not-allowed;
-            }
-
-            .pagination-info {
-                color: var(--text-secondary);
-                font-size: 0.9rem;
-                margin: 0 1rem;
-            }
-
-            /* Адаптивность */
-            @media (max-width: 968px) {
-                .filters-grid {
-                    grid-template-columns: 1fr;
-                }
-
-                .filter-group.double {
-                    grid-column: span 1;
-                }
-
-                .results-header {
-                    flex-direction: column;
-                    align-items: stretch;
-                }
-
-                .results-sort {
-                    align-self: flex-end;
-                }
-            }
-
-            @media (max-width: 768px) {
-                .catalog-header h1 {
-                    font-size: 2.5rem;
-                }
-
-                .catalog-stats {
-                    flex-direction: column;
-                    gap: 1rem;
-                }
-
-                .vehicles-grid {
-                    grid-template-columns: 1fr;
-                }
-
-                .loading-cards {
-                    grid-template-columns: 1fr;
-                }
-
-                .vehicle-specs {
-                    grid-template-columns: 1fr;
-                }
-            }
-
-            @media (max-width: 480px) {
-                .catalog-header h1 {
-                    font-size: 2rem;
-                }
-
-                .vehicle-header {
-                    flex-direction: column;
-                    gap: 0.5rem;
-                }
-
-                .pagination {
-                    flex-wrap: wrap;
-                }
-            }
-        `;
-        document.head.appendChild(style);
-    },
-
     async loadVehicles() {
-        // Временные данные для демонстрации
+        // Временные данные для демонстрации с дополнительными полями для расширенных фильтров
         this.vehicles = [
             {
                 id: 't-72b3',
@@ -856,6 +368,11 @@ const GroundPage = {
                 engine_power: 1130,
                 armor: 'composite',
                 speed: 60,
+                road_range: 500,
+                trench_width: 2.8,
+                ammunition: 45,
+                production_start: 2013,
+                production_end: null,
                 image: null
             },
             {
@@ -872,6 +389,11 @@ const GroundPage = {
                 engine_power: 1500,
                 armor: 'composite',
                 speed: 80,
+                road_range: 500,
+                trench_width: 3.2,
+                ammunition: 40,
+                production_start: 2015,
+                production_end: null,
                 image: null
             },
             {
@@ -888,6 +410,11 @@ const GroundPage = {
                 engine_power: 1130,
                 armor: 'composite',
                 speed: 65,
+                road_range: 550,
+                trench_width: 2.9,
+                ammunition: 43,
+                production_start: 2017,
+                production_end: null,
                 image: null
             },
             {
@@ -904,6 +431,11 @@ const GroundPage = {
                 engine_power: 500,
                 armor: 'light',
                 speed: 70,
+                road_range: 600,
+                trench_width: 2.5,
+                ammunition: 40,
+                production_start: 1987,
+                production_end: null,
                 image: null
             },
             {
@@ -920,6 +452,11 @@ const GroundPage = {
                 engine_power: 300,
                 armor: 'light',
                 speed: 80,
+                road_range: 600,
+                trench_width: 2.0,
+                ammunition: 500,
+                production_start: 2013,
+                production_end: null,
                 image: null
             },
             {
@@ -936,6 +473,11 @@ const GroundPage = {
                 engine_power: 1500,
                 armor: 'composite',
                 speed: 67,
+                road_range: 425,
+                trench_width: 2.7,
+                ammunition: 42,
+                production_start: 1992,
+                production_end: null,
                 image: null
             },
             {
@@ -952,6 +494,11 @@ const GroundPage = {
                 engine_power: 1500,
                 armor: 'composite',
                 speed: 72,
+                road_range: 450,
+                trench_width: 3.0,
+                ammunition: 42,
+                production_start: 2014,
+                production_end: null,
                 image: null
             },
             {
@@ -968,6 +515,11 @@ const GroundPage = {
                 engine_power: 1200,
                 armor: 'composite',
                 speed: 59,
+                road_range: 450,
+                trench_width: 2.8,
+                ammunition: 52,
+                production_start: 1998,
+                production_end: null,
                 image: null
             },
             {
@@ -984,6 +536,11 @@ const GroundPage = {
                 engine_power: 1500,
                 armor: 'composite',
                 speed: 64,
+                road_range: 500,
+                trench_width: 3.0,
+                ammunition: 48,
+                production_start: 2004,
+                production_end: null,
                 image: null
             },
             {
@@ -1000,6 +557,53 @@ const GroundPage = {
                 engine_power: 1200,
                 armor: 'composite',
                 speed: 70,
+                road_range: 500,
+                trench_width: 2.7,
+                ammunition: 40,
+                production_start: 2012,
+                production_end: null,
+                image: null
+            },
+            {
+                id: 't-34-85',
+                name: 'Т-34-85',
+                year: '1944',
+                country: 'russia',
+                category: 'medium_tank',
+                era: 'ww2',
+                description: 'Советский средний танк периода Второй мировой войны, самый массовый танк в истории.',
+                weight: 32,
+                crew: 5,
+                main_gun: 85,
+                engine_power: 500,
+                armor: 'medium',
+                speed: 55,
+                road_range: 300,
+                trench_width: 2.5,
+                ammunition: 60,
+                production_start: 1944,
+                production_end: 1958,
+                image: null
+            },
+            {
+                id: 'tiger-i',
+                name: 'Tiger I',
+                year: '1942',
+                country: 'germany',
+                category: 'heavy_tank',
+                era: 'ww2',
+                description: 'Немецкий тяжелый танк времен Второй мировой войны, известный своей мощной броней и вооружением.',
+                weight: 57,
+                crew: 5,
+                main_gun: 88,
+                engine_power: 700,
+                armor: 'heavy',
+                speed: 45,
+                road_range: 195,
+                trench_width: 2.3,
+                ammunition: 92,
+                production_start: 1942,
+                production_end: 1944,
                 image: null
             }
         ];
@@ -1009,7 +613,7 @@ const GroundPage = {
     },
 
     setupEventListeners() {
-        // Слушатели для фильтров
+        // Основные фильтры
         document.getElementById('search-filter').addEventListener('input', (e) => {
             this.filters.search = e.target.value;
             this.applyFilters();
@@ -1047,6 +651,48 @@ const GroundPage = {
 
         document.getElementById('crew-max').addEventListener('input', (e) => {
             this.filters.crew_max = e.target.value;
+            this.applyFilters();
+        });
+
+        // Расширенные фильтры
+        document.getElementById('main-gun-filter').addEventListener('change', (e) => {
+            this.filters.main_gun = e.target.value;
+            this.applyFilters();
+        });
+
+        document.getElementById('engine-filter').addEventListener('change', (e) => {
+            this.filters.engine_power = e.target.value;
+            this.applyFilters();
+        });
+
+        document.getElementById('armor-filter').addEventListener('change', (e) => {
+            this.filters.armor = e.target.value;
+            this.applyFilters();
+        });
+
+        document.getElementById('speed-filter').addEventListener('change', (e) => {
+            this.filters.speed = e.target.value;
+            this.applyFilters();
+        });
+
+        // Новые расширенные фильтры
+        document.getElementById('road-range-filter').addEventListener('change', (e) => {
+            this.filters.road_range = e.target.value;
+            this.applyFilters();
+        });
+
+        document.getElementById('trench-filter').addEventListener('change', (e) => {
+            this.filters.trench_width = e.target.value;
+            this.applyFilters();
+        });
+
+        document.getElementById('ammo-filter').addEventListener('change', (e) => {
+            this.filters.ammunition = e.target.value;
+            this.applyFilters();
+        });
+
+        document.getElementById('production-filter').addEventListener('change', (e) => {
+            this.filters.production_years = e.target.value;
             this.applyFilters();
         });
 
@@ -1104,11 +750,103 @@ const GroundPage = {
                 return false;
             }
 
+            // Расширенные фильтры
+            if (this.filters.main_gun && !this.checkRangeFilter(vehicle.main_gun, this.filters.main_gun)) {
+                return false;
+            }
+
+            if (this.filters.engine_power && !this.checkRangeFilter(vehicle.engine_power, this.filters.engine_power)) {
+                return false;
+            }
+
+            if (this.filters.armor && vehicle.armor !== this.filters.armor) {
+                return false;
+            }
+
+            if (this.filters.speed && !this.checkRangeFilter(vehicle.speed, this.filters.speed)) {
+                return false;
+            }
+
+            // Новые расширенные фильтры
+            if (this.filters.road_range && !this.checkRangeFilter(vehicle.road_range, this.filters.road_range)) {
+                return false;
+            }
+
+            if (this.filters.trench_width && !this.checkRangeFilter(vehicle.trench_width, this.filters.trench_width)) {
+                return false;
+            }
+
+            if (this.filters.ammunition && !this.checkRangeFilter(vehicle.ammunition, this.filters.ammunition)) {
+                return false;
+            }
+
+            if (this.filters.production_years && !this.checkProductionYears(vehicle, this.filters.production_years)) {
+                return false;
+            }
+
             return true;
         });
 
         this.updateDisplay();
         this.updateActiveFilters();
+    },
+
+    checkRangeFilter(value, range) {
+        if (!value) return false;
+        
+        switch (range) {
+            case '0-300': return value <= 300;
+            case '301-600': return value >= 301 && value <= 600;
+            case '601-900': return value >= 601 && value <= 900;
+            case '901-1200': return value >= 901 && value <= 1200;
+            case '1200+': return value > 1200;
+            
+            case '0-30': return value <= 30;
+            case '31-50': return value >= 31 && value <= 50;
+            case '51-70': return value >= 51 && value <= 70;
+            case '71-90': return value >= 71 && value <= 90;
+            case '90+': return value > 90;
+            
+            case '20-50': return value >= 20 && value <= 50;
+            case '51-75': return value >= 51 && value <= 75;
+            case '76-100': return value >= 76 && value <= 100;
+            case '101-120': return value >= 101 && value <= 120;
+            case '121-125': return value >= 121 && value <= 125;
+            case '126-150': return value >= 126 && value <= 150;
+            case '150+': return value > 150;
+            
+            case '0-200': return value <= 200;
+            case '201-400': return value >= 201 && value <= 400;
+            case '401-600': return value >= 401 && value <= 600;
+            case '601-800': return value >= 601 && value <= 800;
+            case '800+': return value > 800;
+            
+            case '0-2': return value <= 2;
+            case '2.1-2.5': return value >= 2.1 && value <= 2.5;
+            case '2.6-3.0': return value >= 2.6 && value <= 3.0;
+            case '3.0+': return value > 3.0;
+            
+            case '0-20': return value <= 20;
+            case '21-40': return value >= 21 && value <= 40;
+            case '41-60': return value >= 41 && value <= 60;
+            case '60+': return value > 60;
+            
+            default: return true;
+        }
+    },
+
+    checkProductionYears(vehicle, range) {
+        const startYear = vehicle.production_start;
+        if (!startYear) return false;
+        
+        switch (range) {
+            case '1910-1940': return startYear >= 1910 && startYear <= 1940;
+            case '1941-1960': return startYear >= 1941 && startYear <= 1960;
+            case '1961-1980': return startYear >= 1961 && startYear <= 1980;
+            case '1981-2000': return startYear >= 1981 && startYear <= 2000;
+            case '2001+': return startYear >= 2001;
+            default: return true;
+        }
     },
 
     resetFilters() {
@@ -1120,18 +858,29 @@ const GroundPage = {
             weight_max: '',
             crew_min: '',
             crew_max: '',
-            search: ''
+            search: '',
+            main_gun: '',
+            engine_power: '',
+            armor: '',
+            speed: '',
+            road_range: '',
+            trench_width: '',
+            ammunition: '',
+            production_years: ''
         };
 
         // Сброс значений в DOM
-        document.getElementById('search-filter').value = '';
-        document.getElementById('category-filter').value = '';
-        document.getElementById('country-filter').value = '';
-        document.getElementById('era-filter').value = '';
-        document.getElementById('weight-min').value = '';
-        document.getElementById('weight-max').value = '';
-        document.getElementById('crew-min').value = '';
-        document.getElementById('crew-max').value = '';
+        const filterIds = [
+            'search-filter', 'category-filter', 'country-filter', 'era-filter',
+            'weight-min', 'weight-max', 'crew-min', 'crew-max',
+            'main-gun-filter', 'engine-filter', 'armor-filter', 'speed-filter',
+            'road-range-filter', 'trench-filter', 'ammo-filter', 'production-filter'
+        ];
+
+        filterIds.forEach(id => {
+            const element = document.getElementById(id);
+            if (element) element.value = '';
+        });
 
         this.applyFilters();
     },
@@ -1164,6 +913,12 @@ const GroundPage = {
                 break;
             case 'weight_desc':
                 this.filteredVehicles.sort((a, b) => b.weight - a.weight);
+                break;
+            case 'speed_asc':
+                this.filteredVehicles.sort((a, b) => a.speed - b.speed);
+                break;
+            case 'speed_desc':
+                this.filteredVehicles.sort((a, b) => b.speed - a.speed);
                 break;
         }
         this.updateDisplay();
@@ -1226,6 +981,14 @@ const GroundPage = {
             'engineering': 'Инженерная'
         };
 
+        const eraNames = {
+            'ww1': 'WWI',
+            'interwar': 'Межвоенный',
+            'ww2': 'WWII',
+            'cold_war': 'Холодная война',
+            'modern': 'Современный'
+        };
+
         return `
             <div class="vehicle-card" data-vehicle-id="${vehicle.id}">
                 <div class="vehicle-image">
@@ -1233,6 +996,7 @@ const GroundPage = {
                         <i class="fas fa-tank"></i>
                     </div>
                     <div class="vehicle-badge">${categoryNames[vehicle.category]}</div>
+                    <div class="vehicle-era">${eraNames[vehicle.era]}</div>
                 </div>
                 <div class="vehicle-content">
                     <div class="vehicle-header">
@@ -1256,6 +1020,14 @@ const GroundPage = {
                         <div class="vehicle-spec">
                             <span class="spec-label">Орудие</span>
                             <span class="spec-value">${vehicle.main_gun} мм</span>
+                        </div>
+                        <div class="vehicle-spec">
+                            <span class="spec-label">Скорость</span>
+                            <span class="spec-value">${vehicle.speed} км/ч</span>
+                        </div>
+                        <div class="vehicle-spec">
+                            <span class="spec-label">Двигатель</span>
+                            <span class="spec-value">${vehicle.engine_power} л.с.</span>
                         </div>
                     </div>
                     <div class="vehicle-actions">
@@ -1289,85 +1061,74 @@ const GroundPage = {
         const activeFiltersContainer = document.getElementById('active-filters');
         const activeFilters = [];
 
-        if (this.filters.search) {
-            activeFilters.push({
-                key: 'search',
-                label: `Поиск: "${this.filters.search}"`,
-                value: this.filters.search
-            });
-        }
+        // Функция для добавления фильтра
+        const addFilter = (key, label, value) => {
+            if (value) {
+                activeFilters.push({ key, label, value });
+            }
+        };
 
-        if (this.filters.category) {
-            const categoryLabels = {
-                'mbt': 'ОБТ',
-                'light_tank': 'Легкий танк',
-                'medium_tank': 'Средний танк',
-                'heavy_tank': 'Тяжелый танк',
-                'ifv': 'БМП',
-                'apc': 'БТР',
-                'spg': 'САУ',
-                'spaa': 'ЗСУ',
-                'mrap': 'Бронеавтомобиль',
-                'engineering': 'Инженерная'
-            };
-            activeFilters.push({
-                key: 'category',
-                label: `Класс: ${categoryLabels[this.filters.category]}`,
-                value: this.filters.category
-            });
-        }
+        // Основные фильтры
+        addFilter('search', `Поиск: "${this.filters.search}"`, this.filters.search);
 
-        if (this.filters.country) {
-            const countryLabels = {
-                'russia': 'Россия / СССР',
-                'usa': 'США',
-                'germany': 'Германия',
-                'uk': 'Великобритания',
-                'france': 'Франция',
-                'china': 'Китай',
-                'japan': 'Япония',
-                'israel': 'Израиль'
-            };
-            activeFilters.push({
-                key: 'country',
-                label: `Страна: ${countryLabels[this.filters.country]}`,
-                value: this.filters.country
-            });
-        }
+        const categoryLabels = {
+            'mbt': 'ОБТ', 'light_tank': 'Легкий танк', 'medium_tank': 'Средний танк',
+            'heavy_tank': 'Тяжелый танк', 'ifv': 'БМП', 'apc': 'БТР',
+            'spg': 'САУ', 'spaa': 'ЗСУ', 'mrap': 'Бронеавтомобиль', 'engineering': 'Инженерная'
+        };
+        addFilter('category', `Класс: ${categoryLabels[this.filters.category]}`, this.filters.category);
 
-        if (this.filters.era) {
-            const eraLabels = {
-                'ww1': 'Первая мировая',
-                'interwar': 'Межвоенный период',
-                'ww2': 'Вторая мировая',
-                'cold_war': 'Холодная война',
-                'modern': 'Современность'
-            };
-            activeFilters.push({
-                key: 'era',
-                label: `Период: ${eraLabels[this.filters.era]}`,
-                value: this.filters.era
-            });
-        }
+        const countryLabels = {
+            'russia': 'Россия / СССР', 'usa': 'США', 'germany': 'Германия',
+            'uk': 'Великобритания', 'france': 'Франция', 'china': 'Китай',
+            'japan': 'Япония', 'israel': 'Израиль'
+        };
+        addFilter('country', `Страна: ${countryLabels[this.filters.country]}`, this.filters.country);
+
+        const eraLabels = {
+            'ww1': 'Первая мировая', 'interwar': 'Межвоенный период',
+            'ww2': 'Вторая мировая', 'cold_war': 'Холодная война', 'modern': 'Современность'
+        };
+        addFilter('era', `Период: ${eraLabels[this.filters.era]}`, this.filters.era);
 
         if (this.filters.weight_min || this.filters.weight_max) {
             const min = this.filters.weight_min || '0';
             const max = this.filters.weight_max || '∞';
-            activeFilters.push({
-                key: 'weight',
-                label: `Масса: ${min}-${max} т`,
-                value: 'weight'
-            });
+            addFilter('weight', `Масса: ${min}-${max} т`, 'weight');
         }
 
         if (this.filters.crew_min || this.filters.crew_max) {
             const min = this.filters.crew_min || '1';
             const max = this.filters.crew_max || '∞';
-            activeFilters.push({
-                key: 'crew',
-                label: `Экипаж: ${min}-${max} чел.`,
-                value: 'crew'
-            });
+            addFilter('crew', `Экипаж: ${min}-${max} чел.`, 'crew');
+        }
+
+        // Расширенные фильтры
+        const rangeLabels = {
+            'main_gun': 'Калибр орудия',
+            'engine_power': 'Мощность двигателя',
+            'speed': 'Макс. скорость',
+            'road_range': 'Запас хода',
+            'trench_width': 'Ширина рва',
+            'ammunition': 'Боекомплект'
+        };
+
+        Object.keys(rangeLabels).forEach(key => {
+            if (this.filters[key]) {
+                addFilter(key, `${rangeLabels[key]}: ${this.filters[key]}`, this.filters[key]);
+            }
+        });
+
+        if (this.filters.armor) {
+            const armorLabels = {
+                'light': 'Легкое', 'medium': 'Среднее', 'heavy': 'Тяжелое',
+                'composite': 'Композитное', 'reactive': 'Динамическая защита'
+            };
+            addFilter('armor', `Броня: ${armorLabels[this.filters.armor]}`, this.filters.armor);
+        }
+
+        if (this.filters.production_years) {
+            addFilter('production_years', `Годы: ${this.filters.production_years}`, this.filters.production_years);
         }
 
         if (activeFilters.length === 0) {
@@ -1394,37 +1155,77 @@ const GroundPage = {
     },
 
     removeFilter(key, value) {
-        switch (key) {
-            case 'search':
-                this.filters.search = '';
-                document.getElementById('search-filter').value = '';
-                break;
-            case 'category':
-                this.filters.category = '';
-                document.getElementById('category-filter').value = '';
-                break;
-            case 'country':
-                this.filters.country = '';
-                document.getElementById('country-filter').value = '';
-                break;
-            case 'era':
-                this.filters.era = '';
-                document.getElementById('era-filter').value = '';
-                break;
-            case 'weight':
-                this.filters.weight_min = '';
-                this.filters.weight_max = '';
-                document.getElementById('weight-min').value = '';
-                document.getElementById('weight-max').value = '';
-                break;
-            case 'crew':
-                this.filters.crew_min = '';
-                this.filters.crew_max = '';
-                document.getElementById('crew-min').value = '';
-                document.getElementById('crew-max').value = '';
-                break;
+        // Сбрасываем фильтр
+        this.filters[key] = '';
+        
+        // Сбрасываем соответствующий элемент DOM
+        const elementIds = {
+            'search': 'search-filter',
+            'category': 'category-filter',
+            'country': 'country-filter',
+            'era': 'era-filter',
+            'weight': ['weight-min', 'weight-max'],
+            'crew': ['crew-min', 'crew-max'],
+            'main_gun': 'main-gun-filter',
+            'engine_power': 'engine-filter',
+            'armor': 'armor-filter',
+            'speed': 'speed-filter',
+            'road_range': 'road-range-filter',
+            'trench_width': 'trench-filter',
+            'ammunition': 'ammo-filter',
+            'production_years': 'production-filter'
+        };
+
+        const elementId = elementIds[key];
+        if (Array.isArray(elementId)) {
+            elementId.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) element.value = '';
+            });
+        } else if (elementId) {
+            const element = document.getElementById(elementId);
+            if (element) element.value = '';
         }
+
         this.applyFilters();
+    },
+
+    addCatalogStyles() {
+        const style = document.createElement('style');
+        style.textContent = `
+            /* Стиль для эры на карточке */
+            .vehicle-era {
+                position: absolute;
+                top: 1rem;
+                left: 1rem;
+                background: var(--accent-blue);
+                color: white;
+                padding: 0.25rem 0.75rem;
+                border-radius: 50px;
+                font-size: 0.7rem;
+                font-weight: 500;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+
+            /* Улучшенная сетка спецификаций */
+            .vehicle-specs {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            @media (max-width: 768px) {
+                .vehicle-specs {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+            }
+
+            @media (max-width: 480px) {
+                .vehicle-specs {
+                    grid-template-columns: 1fr;
+                }
+            }
+        `;
+        document.head.appendChild(style);
     }
 };
 

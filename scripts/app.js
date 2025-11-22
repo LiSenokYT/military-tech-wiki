@@ -117,6 +117,13 @@ class MilitaryWikiApp {
 
     async loadPage() {
         const hash = window.location.hash.slice(1) || '/';
+        
+        // Специальная обработка для страницы техники
+        if (hash.startsWith('/vehicle/')) {
+            await this.loadVehiclePage();
+            return;
+        }
+        
         const path = hash.split('/')[1] || 'home';
         
         console.log('Загрузка страницы:', path);
@@ -143,6 +150,28 @@ class MilitaryWikiApp {
             
         } catch (error) {
             console.error('Ошибка загрузки страницы:', error);
+            await this.loadErrorPage();
+        } finally {
+            this.hideLoading();
+        }
+    }
+
+    async loadVehiclePage() {
+        console.log('Загрузка страницы техники');
+        this.showLoading();
+
+        try {
+            // Динамически импортируем модуль страницы техники
+            const VehiclePage = await import('./pages/vehicle.js');
+            
+            // Загружаем содержимое страницы
+            await this.renderPage(VehiclePage.default);
+            
+            this.currentPage = 'vehicle';
+            this.updateNavigation();
+            
+        } catch (error) {
+            console.error('Ошибка загрузки страницы техники:', error);
             await this.loadErrorPage();
         } finally {
             this.hideLoading();
@@ -429,6 +458,255 @@ class MilitaryWikiApp {
             this.navigateToPage('home');
         }
     }
+
+    // Метод для получения ID техники из URL
+    getVehicleIdFromUrl() {
+        const hash = window.location.hash;
+        const match = hash.match(/\/vehicle\/([^\/]+)/);
+        return match ? match[1] : null;
+    }
+
+    // Метод для проверки, находимся ли мы на странице техники
+    isVehiclePage() {
+        return window.location.hash.startsWith('#/vehicle/');
+    }
+
+    // Метод для получения текущего ID техники
+    getCurrentVehicleId() {
+        return this.getVehicleIdFromUrl();
+    }
+
+    // Глобальные методы для работы с данными
+    async fetchVehicleData(vehicleId) {
+        // Здесь будет запрос к Supabase
+        // Пока возвращаем заглушку
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                resolve({
+                    id: vehicleId,
+                    name: 'Техника ' + vehicleId,
+                    year: '2023',
+                    country: 'russia',
+                    category: 'mbt',
+                    description: 'Описание техники...'
+                });
+            }, 100);
+        });
+    }
+
+    // Метод для плавного скролла к элементу
+    scrollToElement(elementId, offset = 100) {
+        const element = document.getElementById(elementId);
+        if (element) {
+            const elementPosition = element.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - offset;
+
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+            });
+        }
+    }
+
+    // Метод для проверки мобильного устройства
+    isMobileDevice() {
+        return window.innerWidth <= 768;
+    }
+
+    // Метод для форматирования даты
+    formatDate(dateString) {
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        return new Date(dateString).toLocaleDateString('ru-RU', options);
+    }
+
+    // Метод для копирования текста в буфер обмена
+    async copyToClipboard(text) {
+        try {
+            await navigator.clipboard.writeText(text);
+            this.showNotification('Текст скопирован в буфер обмена', 'success');
+            return true;
+        } catch (err) {
+            console.error('Ошибка копирования в буфер обмена:', err);
+            this.showNotification('Не удалось скопировать текст', 'error');
+            return false;
+        }
+    }
+
+    // Метод для загрузки скрипта динамически
+    loadScript(src) {
+        return new Promise((resolve, reject) => {
+            const script = document.createElement('script');
+            script.src = src;
+            script.onload = resolve;
+            script.onerror = reject;
+            document.head.appendChild(script);
+        });
+    }
+
+    // Метод для загрузки CSS динамически
+    loadCSS(href) {
+        return new Promise((resolve, reject) => {
+            const link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = href;
+            link.onload = resolve;
+            link.onerror = reject;
+            document.head.appendChild(link);
+        });
+    }
+
+    // Метод для предзагрузки изображений
+    preloadImages(urls) {
+        return Promise.all(
+            urls.map(url => {
+                return new Promise((resolve, reject) => {
+                    const img = new Image();
+                    img.src = url;
+                    img.onload = resolve;
+                    img.onerror = reject;
+                });
+            })
+        );
+    }
+
+    // Метод для создания уникального ID
+    generateId() {
+        return 'id_' + Math.random().toString(36).substr(2, 9);
+    }
+
+    // Метод для валидации email
+    validateEmail(email) {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(email);
+    }
+
+    // Метод для валидации URL
+    validateURL(url) {
+        try {
+            new URL(url);
+            return true;
+        } catch (_) {
+            return false;
+        }
+    }
+
+    // Метод для ограничения частоты вызовов функции (throttle)
+    throttle(func, limit) {
+        let inThrottle;
+        return function() {
+            const args = arguments;
+            const context = this;
+            if (!inThrottle) {
+                func.apply(context, args);
+                inThrottle = true;
+                setTimeout(() => inThrottle = false, limit);
+            }
+        };
+    }
+
+    // Метод для глубокого клонирования объектов
+    deepClone(obj) {
+        return JSON.parse(JSON.stringify(obj));
+    }
+
+    // Метод для измерения производительности
+    measurePerformance(fn, name = 'Function') {
+        const start = performance.now();
+        const result = fn();
+        const end = performance.now();
+        console.log(`${name} выполнилась за ${(end - start).toFixed(2)} мс`);
+        return result;
+    }
+
+    // Метод для обработки ошибок с повторными попытками
+    async retry(fn, retries = 3, delay = 1000) {
+        try {
+            return await fn();
+        } catch (error) {
+            if (retries === 0) throw error;
+            await new Promise(resolve => setTimeout(resolve, delay));
+            return this.retry(fn, retries - 1, delay * 2);
+        }
+    }
+
+    // Метод для создания пагинации
+    createPagination(totalItems, itemsPerPage, currentPage, maxPages = 10) {
+        const totalPages = Math.ceil(totalItems / itemsPerPage);
+        let startPage, endPage;
+
+        if (totalPages <= maxPages) {
+            startPage = 1;
+            endPage = totalPages;
+        } else {
+            const maxPagesBeforeCurrent = Math.floor(maxPages / 2);
+            const maxPagesAfterCurrent = Math.ceil(maxPages / 2) - 1;
+            
+            if (currentPage <= maxPagesBeforeCurrent) {
+                startPage = 1;
+                endPage = maxPages;
+            } else if (currentPage + maxPagesAfterCurrent >= totalPages) {
+                startPage = totalPages - maxPages + 1;
+                endPage = totalPages;
+            } else {
+                startPage = currentPage - maxPagesBeforeCurrent;
+                endPage = currentPage + maxPagesAfterCurrent;
+            }
+        }
+
+        const pages = Array.from(Array((endPage + 1) - startPage).keys()).map(i => startPage + i);
+        
+        return {
+            currentPage,
+            totalPages,
+            startPage,
+            endPage,
+            pages,
+            hasPrev: currentPage > 1,
+            hasNext: currentPage < totalPages
+        };
+    }
+
+    // Метод для форматирования размера файла
+    formatFileSize(bytes) {
+        if (bytes === 0) return '0 Bytes';
+        const k = 1024;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    }
+
+    // Метод для получения параметров из URL
+    getUrlParams() {
+        const params = {};
+        const hash = window.location.hash.slice(1);
+        const queryString = hash.split('?')[1];
+        
+        if (queryString) {
+            const pairs = queryString.split('&');
+            for (const pair of pairs) {
+                const [key, value] = pair.split('=');
+                params[decodeURIComponent(key)] = decodeURIComponent(value || '');
+            }
+        }
+        
+        return params;
+    }
+
+    // Метод для установки параметров в URL
+    setUrlParams(params) {
+        const currentHash = window.location.hash.split('?')[0];
+        const queryString = Object.keys(params)
+            .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
+            .join('&');
+        
+        window.location.hash = queryString ? `${currentHash}?${queryString}` : currentHash;
+    }
+
+    // Деструктор для очистки
+    destroy() {
+        // Очищаем все созданные event listeners если нужно
+        window.removeEventListener('hashchange', this.boundHashChange);
+    }
 }
 
 // Инициализация приложения когда DOM загружен
@@ -445,6 +723,22 @@ window.escapeHtml = (unsafe) => {
     return window.app ? window.app.escapeHtml(unsafe) : unsafe;
 };
 
+window.navigateToVehicle = (vehicleId) => {
+    if (window.app) {
+        window.app.navigateToVehicle(vehicleId);
+    } else {
+        window.location.hash = `/vehicle/${vehicleId}`;
+    }
+};
+
+window.navigateToPage = (page) => {
+    if (window.app) {
+        window.app.navigateToPage(page);
+    } else {
+        window.location.hash = `/${page}`;
+    }
+};
+
 // Обработка ошибок
 window.addEventListener('error', (e) => {
     console.error('Global error:', e.error);
@@ -457,6 +751,19 @@ window.addEventListener('error', (e) => {
 window.addEventListener('unhandledrejection', (e) => {
     console.error('Unhandled promise rejection:', e.reason);
     e.preventDefault();
+});
+
+// Обработка онлайн/офлайн статуса
+window.addEventListener('online', () => {
+    if (window.app) {
+        window.app.showNotification('Соединение восстановлено', 'success');
+    }
+});
+
+window.addEventListener('offline', () => {
+    if (window.app) {
+        window.app.showNotification('Отсутствует подключение к интернету', 'error');
+    }
 });
 
 // Экспортируем для использования в других модулях

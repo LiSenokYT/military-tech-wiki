@@ -95,7 +95,7 @@ const VehiclePage = {
                 <section class="content-navigation">
                     <div class="container">
                         <nav class="content-nav">
-                            <a href="#specifications" class="nav-link" data-section="specifications">
+                            <a href="#specifications" class="nav-link active" data-section="specifications">
                                 <i class="fas fa-list-alt"></i>
                                 Характеристики
                             </a>
@@ -119,7 +119,7 @@ const VehiclePage = {
                 <div class="vehicle-content">
                     <div class="container">
                         <!-- Характеристики -->
-                        <section id="specifications" class="content-section">
+                        <section id="specifications" class="content-section active">
                             <div class="section-header">
                                 <h2>Тактико-технические характеристики</h2>
                                 <p>Полные технические specifications техники</p>
@@ -172,7 +172,7 @@ const VehiclePage = {
                             </div>
                         </section>
 
-                        <!-- Модификации -->
+                        <!-- Модиifications -->
                         <section id="modifications" class="content-section">
                             <div class="section-header">
                                 <h2>Модификации и варианты</h2>
@@ -225,6 +225,9 @@ const VehiclePage = {
         this.setupEventListeners();
         this.loadAllContent();
         this.addVehicleStyles();
+        
+        // Активируем первую секцию при загрузке
+        this.switchSection('specifications');
         
         // Прокручиваем к верху страницы
         window.scrollTo(0, 0);
@@ -372,7 +375,7 @@ const VehiclePage = {
                             <p>С 2017 года начался выпуск усовершенствованной версии Т-72Б3 с дополнительными улучшениями. Параллельно ведется разработка дальнейших модернизационных решений.</p>
 
                             <h3>Боевое применение</h3>
-                            <p>Т-72Б3 активно применяется в ходе специальной военной операции на Украине. По отзывам экипажей, танк показал себя надежной и эффективной машиной. Отмечаются:</p>
+                            <p>Т-72Б3 активно применяется в ходе специальной военной операции на Украине. По отзывам экипалов, танк показал себя надежной и эффективной машиной. Отмечаются:</p>
                             <ul>
                                 <li>Высокая точность стрельбы из основного орудия</li>
                                 <li>Хорошая защищенность от большинства противотанковых средств</li>
@@ -382,7 +385,7 @@ const VehiclePage = {
 
                             <h3>Экспортные перспективы</h3>
                             <p>На базе Т-72Б3 создана экспортная модификация Т-72Б3М, предлагаемая на международном рынке вооружений. Основные отличия экспортной версии:</p>
-                                <ul>
+                            <ul>
                                 <li>Адаптация под стандарты НАТО</li>
                                 <li>Дополнительные системы связи</li>
                                 <li>Улучшенный климат-контроль</li>

@@ -1606,7 +1606,7 @@ const GroundPage = {
                         </div>
                     </div>
                     <div class="vehicle-actions">
-                        <button class="btn btn-primary btn-full" onclick="app.navigateToVehicle('${vehicle.id}')">
+                        <button class="btn btn-primary btn-full" onclick="window.location.hash = '/vehicle/${vehicle.id}'">
                             <i class="fas fa-info-circle"></i>
                             Подробнее
                         </button>

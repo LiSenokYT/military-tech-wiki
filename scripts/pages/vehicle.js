@@ -1,81 +1,155 @@
-// Страница отдельной техники
+// Страница отдельной техники - ПРЕМИУМ ВЕРСИЯ
 const VehiclePage = {
     currentVehicle: null,
+    activeSpecCategory: 'general',
     
     async render() {
         return `
-            <div class="vehicle-page">
-                <!-- Хлебные крошки -->
-                <section class="breadcrumbs-section">
+            <div class="vehicle-page premium">
+                <!-- Верхняя панель с навигацией -->
+                <section class="vehicle-top-panel">
                     <div class="container">
-                        <div class="breadcrumbs" id="breadcrumbs">
-                            <a href="#/">Главная</a>
-                            <span class="breadcrumb-separator">/</span>
-                            <a href="#/ground">Наземная техника</a>
-                            <span class="breadcrumb-separator">/</span>
-                            <span class="breadcrumb-current">Загрузка...</span>
+                        <div class="vehicle-breadcrumbs">
+                            <a href="#/" class="breadcrumb-link">
+                                <i class="fas fa-home"></i>
+                                Главная
+                            </a>
+                            <span class="breadcrumb-separator"><i class="fas fa-chevron-right"></i></span>
+                            <a href="#/ground" class="breadcrumb-link">
+                                <i class="fas fa-tank"></i>
+                                Наземная техника
+                            </a>
+                            <span class="breadcrumb-separator"><i class="fas fa-chevron-right"></i></span>
+                            <span class="breadcrumb-current" id="breadcrumb-current">
+                                <i class="fas fa-cog fa-spin"></i>
+                                Загрузка...
+                            </span>
+                        </div>
+                        
+                        <div class="vehicle-quick-nav">
+                            <button class="quick-nav-btn active" data-section="overview">
+                                <i class="fas fa-eye"></i>
+                                Обзор
+                            </button>
+                            <button class="quick-nav-btn" data-section="specs">
+                                <i class="fas fa-list-alt"></i>
+                                Характеристики
+                            </button>
+                            <button class="quick-nav-btn" data-section="history">
+                                <i class="fas fa-history"></i>
+                                История
+                            </button>
+                            <button class="quick-nav-btn" data-section="gallery">
+                                <i class="fas fa-images"></i>
+                                Галерея
+                            </button>
                         </div>
                     </div>
                 </section>
 
-                <!-- Основная информация -->
-                <section class="vehicle-hero">
+                <!-- Герой секция с основной информацией -->
+                <section class="vehicle-hero-section">
                     <div class="container">
-                        <div class="vehicle-hero-content">
+                        <div class="vehicle-hero-grid">
+                            <!-- Основная информация -->
                             <div class="vehicle-main-info">
-                                <h1 class="vehicle-title" id="vehicle-title">Загрузка...</h1>
-                                <div class="vehicle-meta">
-                                    <span class="vehicle-year" id="vehicle-year"></span>
-                                    <span class="vehicle-country" id="vehicle-country"></span>
-                                    <span class="vehicle-category" id="vehicle-category"></span>
+                                <div class="vehicle-header">
+                                    <div class="vehicle-badges">
+                                        <span class="vehicle-badge era-modern" id="vehicle-era">Современный</span>
+                                        <span class="vehicle-badge category-mbt" id="vehicle-category">ОБТ</span>
+                                        <span class="vehicle-badge country-russia" id="vehicle-country">Россия</span>
+                                    </div>
+                                    <h1 class="vehicle-title" id="vehicle-title">
+                                        <span class="title-glow">Загрузка...</span>
+                                    </h1>
+                                    <div class="vehicle-subtitle">
+                                        <span class="vehicle-year" id="vehicle-year">2023</span>
+                                        <span class="vehicle-manufacturer" id="vehicle-manufacturer">Уралвагонзавод</span>
+                                    </div>
                                 </div>
-                                <p class="vehicle-short-description" id="vehicle-short-description"></p>
-                                
-                                <div class="vehicle-quick-specs">
-                                    <div class="quick-spec">
-                                        <div class="quick-spec-icon">
+
+                                <div class="vehicle-description-card">
+                                    <div class="description-header">
+                                        <i class="fas fa-file-alt"></i>
+                                        <h3>Описание</h3>
+                                    </div>
+                                    <p class="vehicle-description" id="vehicle-description">
+                                        Загрузка описания техники...
+                                    </p>
+                                </div>
+
+                                <!-- Быстрые характеристики -->
+                                <div class="quick-specs-grid">
+                                    <div class="quick-spec-card">
+                                        <div class="spec-icon">
                                             <i class="fas fa-weight-hanging"></i>
                                         </div>
-                                        <div class="quick-spec-info">
-                                            <span class="quick-spec-label">Масса</span>
-                                            <span class="quick-spec-value" id="quick-weight"></span>
+                                        <div class="spec-info">
+                                            <span class="spec-value" id="quick-weight">0 т</span>
+                                            <span class="spec-label">Боевая масса</span>
                                         </div>
                                     </div>
-                                    <div class="quick-spec">
-                                        <div class="quick-spec-icon">
+                                    <div class="quick-spec-card">
+                                        <div class="spec-icon">
                                             <i class="fas fa-users"></i>
                                         </div>
-                                        <div class="quick-spec-info">
-                                            <span class="quick-spec-label">Экипаж</span>
-                                            <span class="quick-spec-value" id="quick-crew"></span>
+                                        <div class="spec-info">
+                                            <span class="spec-value" id="quick-crew">0 чел</span>
+                                            <span class="spec-label">Экипаж</span>
                                         </div>
                                     </div>
-                                    <div class="quick-spec">
-                                        <div class="quick-spec-icon">
+                                    <div class="quick-spec-card">
+                                        <div class="spec-icon">
                                             <i class="fas fa-crosshairs"></i>
                                         </div>
-                                        <div class="quick-spec-info">
-                                            <span class="quick-spec-label">Орудие</span>
-                                            <span class="quick-spec-value" id="quick-gun"></span>
+                                        <div class="spec-info">
+                                            <span class="spec-value" id="quick-gun">0 мм</span>
+                                            <span class="spec-label">Калибр орудия</span>
                                         </div>
                                     </div>
-                                    <div class="quick-spec">
-                                        <div class="quick-spec-icon">
+                                    <div class="quick-spec-card">
+                                        <div class="spec-icon">
                                             <i class="fas fa-tachometer-alt"></i>
                                         </div>
-                                        <div class="quick-spec-info">
-                                            <span class="quick-spec-label">Скорость</span>
-                                            <span class="quick-spec-value" id="quick-speed"></span>
+                                        <div class="spec-info">
+                                            <span class="spec-value" id="quick-speed">0 км/ч</span>
+                                            <span class="spec-label">Макс. скорость</span>
+                                        </div>
+                                    </div>
+                                    <div class="quick-spec-card">
+                                        <div class="spec-icon">
+                                            <i class="fas fa-horse-head"></i>
+                                        </div>
+                                        <div class="spec-info">
+                                            <span class="spec-value" id="quick-power">0 л.с.</span>
+                                            <span class="spec-label">Мощность двигателя</span>
+                                        </div>
+                                    </div>
+                                    <div class="quick-spec-card">
+                                        <div class="spec-icon">
+                                            <i class="fas fa-road"></i>
+                                        </div>
+                                        <div class="spec-info">
+                                            <span class="spec-value" id="quick-range">0 км</span>
+                                            <span class="spec-label">Запас хода</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            
-                            <div class="vehicle-gallery">
-                                <div class="main-gallery-image" id="main-gallery-image">
-                                    <div class="image-placeholder">
-                                        <i class="fas fa-tank"></i>
-                                        <span>Изображение загружается...</span>
+
+                            <!-- Галерея -->
+                            <div class="vehicle-gallery-sidebar">
+                                <div class="gallery-main">
+                                    <div class="main-image" id="main-gallery-image">
+                                        <div class="image-placeholder">
+                                            <i class="fas fa-tank"></i>
+                                            <span>Основное изображение</span>
+                                        </div>
+                                        <div class="image-overlay">
+                                            <button class="zoom-btn">
+                                                <i class="fas fa-expand-arrows-alt"></i>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="gallery-thumbnails" id="gallery-thumbnails">
@@ -86,106 +160,219 @@ const VehiclePage = {
                     </div>
                 </section>
 
-                <!-- Навигация по разделам -->
-                <section class="vehicle-navigation">
-                    <div class="container">
-                        <nav class="vehicle-nav">
-                            <a href="#history" class="vehicle-nav-link active" data-section="history">
-                                <i class="fas fa-history"></i>
-                                История
-                            </a>
-                            <a href="#specifications" class="vehicle-nav-link" data-section="specifications">
-                                <i class="fas fa-list-alt"></i>
-                                Характеристики
-                            </a>
-                            <a href="#modifications" class="vehicle-nav-link" data-section="modifications">
-                                <i class="fas fa-code-branch"></i>
-                                Модификации
-                            </a>
-                            <a href="#evolution" class="vehicle-nav-link" data-section="evolution">
-                                <i class="fas fa-project-diagram"></i>
-                                Эволюция
-                            </a>
-                            <a href="#gallery" class="vehicle-nav-link" data-section="gallery">
-                                <i class="fas fa-images"></i>
-                                Галерея
-                            </a>
-                        </nav>
-                    </div>
-                </section>
-
                 <!-- Контент страницы -->
                 <div class="vehicle-content-sections">
                     <div class="container">
-                        <!-- История -->
-                        <section id="history" class="content-section active">
-                            <div class="section-header">
-                                <h2>История создания</h2>
-                                <p>История разработки и боевого применения</p>
+                        <!-- Обзор -->
+                        <section id="overview" class="content-section active">
+                            <div class="section-header premium">
+                                <div class="section-icon">
+                                    <i class="fas fa-eye"></i>
+                                </div>
+                                <div class="section-title">
+                                    <h2>Обзор техники</h2>
+                                    <p>Ключевые особенности и возможности</p>
+                                </div>
                             </div>
-                            <div class="history-content" id="history-content">
-                                <div class="loading-content">
-                                    <div class="loading-spinner"></div>
-                                    <p>Загрузка исторической информации...</p>
+
+                            <div class="overview-content">
+                                <div class="features-grid">
+                                    <div class="feature-card">
+                                        <div class="feature-icon">
+                                            <i class="fas fa-shield-alt"></i>
+                                        </div>
+                                        <h4>Защита</h4>
+                                        <p>Многослойное комбинированное бронирование с динамической защитой</p>
+                                        <ul class="feature-list">
+                                            <li>Композитная броня</li>
+                                            <li>Динамическая защита "Контакт-5"</li>
+                                            <li>Система активной защиты "Арена"</li>
+                                        </ul>
+                                    </div>
+                                    <div class="feature-card">
+                                        <div class="feature-icon">
+                                            <i class="fas fa-bullseye"></i>
+                                        </div>
+                                        <h4>Вооружение</h4>
+                                        <p>Мощное основное и вспомогательное вооружение</p>
+                                        <ul class="feature-list">
+                                            <li>125-мм гладкоствольная пушка</li>
+                                            <li>Современная СУО</li>
+                                            <li>Пулемётное вооружение</li>
+                                        </ul>
+                                    </div>
+                                    <div class="feature-card">
+                                        <div class="feature-icon">
+                                            <i class="fas fa-cogs"></i>
+                                        </div>
+                                        <h4>Подвижность</h4>
+                                        <p>Высокая мобильность и проходимость</p>
+                                        <ul class="feature-list">
+                                            <li>Мощный дизельный двигатель</li>
+                                            <li>Гусеничная платформа</li>
+                                            <li>Система подрессоривания</li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                         </section>
 
                         <!-- Характеристики -->
-                        <section id="specifications" class="content-section">
-                            <div class="section-header">
-                                <h2>Тактико-технические характеристики</h2>
-                                <p>Полные технические specifications</p>
+                        <section id="specs" class="content-section">
+                            <div class="section-header premium">
+                                <div class="section-icon">
+                                    <i class="fas fa-list-alt"></i>
+                                </div>
+                                <div class="section-title">
+                                    <h2>Тактико-технические характеристики</h2>
+                                    <p>Полные технические specifications</p>
+                                </div>
                             </div>
-                            <div class="specifications-content" id="specifications-content">
-                                <div class="loading-content">
-                                    <div class="loading-spinner"></div>
-                                    <p>Загрузка характеристик...</p>
+
+                            <div class="specs-container">
+                                <!-- Боковая навигация по категориям -->
+                                <div class="specs-sidebar">
+                                    <div class="specs-categories" id="specs-categories">
+                                        <!-- Категории будут добавлены динамически -->
+                                    </div>
+                                </div>
+
+                                <!-- Основной контент характеристик -->
+                                <div class="specs-content">
+                                    <div class="specs-category-content active" id="specs-general">
+                                        <div class="loading-specs">
+                                            <div class="loading-spinner"></div>
+                                            <p>Загрузка характеристик...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- История -->
+                        <section id="history" class="content-section">
+                            <div class="section-header premium">
+                                <div class="section-icon">
+                                    <i class="fas fa-history"></i>
+                                </div>
+                                <div class="section-title">
+                                    <h2>История создания и службы</h2>
+                                    <p>Полная историческая справка</p>
+                                </div>
+                            </div>
+
+                            <div class="history-container">
+                                <!-- Боковая навигация по периодам -->
+                                <div class="history-sidebar">
+                                    <div class="history-periods" id="history-periods">
+                                        <!-- Периоды будут добавлены динамически -->
+                                    </div>
+                                </div>
+
+                                <!-- Основной контент истории -->
+                                <div class="history-content">
+                                    <div class="history-period-content active" id="history-development">
+                                        <div class="loading-history">
+                                            <div class="loading-spinner"></div>
+                                            <p>Загрузка исторической информации...</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </section>
 
                         <!-- Модификации -->
                         <section id="modifications" class="content-section">
-                            <div class="section-header">
-                                <h2>Модификации</h2>
-                                <p>Варианты и модификации базовой модели</p>
-                            </div>
-                            <div class="modifications-content" id="modifications-content">
-                                <div class="loading-content">
-                                    <div class="loading-spinner"></div>
-                                    <p>Загрузка информации о модификациях...</p>
+                            <div class="section-header premium">
+                                <div class="section-icon">
+                                    <i class="fas fa-code-branch"></i>
+                                </div>
+                                <div class="section-title">
+                                    <h2>Модификации и варианты</h2>
+                                    <p>Развитие базовой модели</p>
                                 </div>
                             </div>
-                        </section>
 
-                        <!-- Эволюция -->
-                        <section id="evolution" class="content-section">
-                            <div class="section-header">
-                                <h2>Эволюция</h2>
-                                <p>Развитие модели и преемственность</p>
-                            </div>
-                            <div class="evolution-content" id="evolution-content">
-                                <div class="loading-content">
-                                    <div class="loading-spinner"></div>
-                                    <p>Загрузка информации об эволюции...</p>
+                            <div class="modifications-container">
+                                <div class="modifications-grid" id="modifications-content">
+                                    <div class="loading-mods">
+                                        <div class="loading-spinner"></div>
+                                        <p>Загрузка информации о модификациях...</p>
+                                    </div>
                                 </div>
                             </div>
                         </section>
 
                         <!-- Галерея -->
                         <section id="gallery" class="content-section">
-                            <div class="section-header">
-                                <h2>Галерея</h2>
-                                <p>Фотографии и изображения</p>
+                            <div class="section-header premium">
+                                <div class="section-icon">
+                                    <i class="fas fa-images"></i>
+                                </div>
+                                <div class="section-title">
+                                    <h2>Галерея изображений</h2>
+                                    <p>Фотографии, схемы и чертежи</p>
+                                </div>
                             </div>
-                            <div class="gallery-content" id="gallery-content">
-                                <div class="loading-content">
-                                    <div class="loading-spinner"></div>
-                                    <p>Загрузка галереи...</p>
+
+                            <div class="gallery-container">
+                                <div class="gallery-filter">
+                                    <button class="filter-btn active" data-filter="all">Все</button>
+                                    <button class="filter-btn" data-filter="photo">Фото</button>
+                                    <button class="filter-btn" data-filter="schema">Схемы</button>
+                                    <button class="filter-btn" data-filter="blueprint">Чертежи</button>
+                                </div>
+                                <div class="gallery-grid" id="gallery-content">
+                                    <div class="loading-gallery">
+                                        <div class="loading-spinner"></div>
+                                        <p>Загрузка галереи...</p>
+                                    </div>
                                 </div>
                             </div>
                         </section>
+                    </div>
+                </div>
+
+                <!-- Футер страницы -->
+                <section class="vehicle-footer">
+                    <div class="container">
+                        <div class="footer-content">
+                            <div class="footer-navigation">
+                                <h4>Быстрая навигация</h4>
+                                <div class="footer-nav-links">
+                                    <a href="#overview" class="footer-nav-link">Обзор</a>
+                                    <a href="#specs" class="footer-nav-link">Характеристики</a>
+                                    <a href="#history" class="footer-nav-link">История</a>
+                                    <a href="#gallery" class="footer-nav-link">Галерея</a>
+                                </div>
+                            </div>
+                            <div class="footer-actions">
+                                <button class="btn btn-primary" onclick="window.print()">
+                                    <i class="fas fa-print"></i>
+                                    Распечатать
+                                </button>
+                                <button class="btn btn-secondary" onclick="window.app.shareVehicle()">
+                                    <i class="fas fa-share-alt"></i>
+                                    Поделиться
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Модальное окно для изображений -->
+            <div id="image-modal" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 id="modal-title">Просмотр изображения</h3>
+                        <span class="close-modal">&times;</span>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-image" id="modal-image">
+                            <!-- Изображение будет добавлено динамически -->
+                        </div>
+                        <div class="modal-caption" id="modal-caption"></div>
                     </div>
                 </div>
             </div>
@@ -194,7 +381,7 @@ const VehiclePage = {
 
     async init() {
         await this.loadVehicleData();
-        this.addVehicleStyles();
+        this.addPremiumStyles();
         this.setupEventListeners();
         this.loadAllSections();
     },
@@ -202,16 +389,18 @@ const VehiclePage = {
     async loadVehicleData() {
         const vehicleId = this.getVehicleIdFromUrl();
         
-        // Временные данные для демонстрации
+        // Расширенные данные для демонстрации
         const vehiclesData = {
             't-72b3': {
                 id: 't-72b3',
                 name: 'Т-72Б3',
+                full_name: 'Основной боевой танк Т-72Б3',
                 year: '2016',
                 country: 'russia',
                 category: 'mbt',
                 era: 'modern',
-                short_description: 'Глубоко модернизированная версия танка Т-72 с улучшенной системой управления огнем, динамической защитой и двигателем.',
+                manufacturer: 'Уралвагонзавод',
+                short_description: 'Глубоко модернизированная версия танка Т-72 с улучшенной системой управления огнем, динамической защитой и двигателем. Представляет собой оптимальное сочетание проверенной конструкции и современных технологий.',
                 weight: 46,
                 crew: 3,
                 main_gun: 125,
@@ -222,127 +411,149 @@ const VehiclePage = {
                 trench_width: 2.8,
                 ammunition: 45,
                 details: {
-                    history: [
-                        { year: "1975", event: "Начало разработки танка Т-72" },
-                        { year: "1985", event: "Появление модификации Т-72Б с динамической защитой" },
-                        { year: "2010", event: "Начало программы глубокой модернизации до уровня Т-72Б3" },
-                        { year: "2016", event: "Принятие на вооружение Т-72Б3 с СУО 'Сосна-У'" }
-                    ],
                     specifications: {
                         "Общие характеристики": {
                             "Длина с пушкой вперёд": "9.53 м",
                             "Длина корпуса": "6.86 м",
                             "Ширина": "3.46 м",
                             "Высота": "2.23 м",
+                            "Клиренс": "0.49 м",
                             "Масса": "46 т",
-                            "Экипаж": "3 человека"
+                            "Экипаж": "3 человека",
+                            "Ширина гусеницы": "0.58 м",
+                            "Удельное давление": "0.94 кг/см²"
                         },
                         "Бронирование": {
                             "Тип брони": "Комбинированная противоснарядная",
+                            "Лоб корпуса": "Эквивалент 550-600 мм против БПС",
+                            "Борт корпуса": "80-100 мм",
+                            "Лоб башни": "Эквивалент 800-1000 мм против БПС",
                             "Динамическая защита": "Контакт-5",
-                            "Активная защита": "Опционально Арена-М"
+                            "Активная защита": "Опционально Арена-М",
+                            "Система ПО": "Опционально ТШУ-1-7"
                         },
                         "Вооружение": {
                             "Калибр и марка пушки": "125-мм 2А46М-5",
                             "Тип пушки": "Гладкоствольная",
+                            "Длина ствола": "48 калибров",
                             "Боекомплект пушки": "45 выстрелов",
-                            "Пулемёты": "1 × 12,7-мм НСВТ, 1 × 7,62-мм ПКТ"
+                            "СУО": "1А40-4 или Сосна-У",
+                            "Стабилизатор": "2Э42-4",
+                            "Прицелы": "ТПД-К1, ТПН-3-49",
+                            "Пулемёты": "1 × 12,7-мм НСВТ, 1 × 7,62-мм ПКТ",
+                            "Боекомплект пулемётов": "300 × 12,7-мм, 2000 × 7,62-мм"
                         },
                         "Подвижность": {
-                            "Двигатель": "В-84-1, 1130 л.с.",
-                            "Мощность двигателя": "23,7 л.с./т",
+                            "Двигатель": "В-84-1, дизельный",
+                            "Мощность двигателя": "1130 л.с. (840 кВт)",
+                            "Мощность двигателя (удельная)": "23,7 л.с./т",
                             "Скорость по шоссе": "60 км/ч",
                             "Скорость по пересечённой местности": "35-45 км/ч",
                             "Запас хода по шоссе": "500 км",
-                            "Удельное давление на грунт": "0.94 кг/см²"
+                            "Запас хода по пересечённой местности": "350 км",
+                            "Ёмкость топливных баков": "1200 л + 400 л ПТБ",
+                            "Преодолеваемый подъём": "30°",
+                            "Преодолеваемая стенка": "0.85 м",
+                            "Преодолеваемый ров": "2.8 м",
+                            "Преодолеваемый брод": "1.2 м (1.8 м с ОПВТ)"
+                        },
+                        "Дополнительное оборудование": {
+                            "Навигационная система": "ТНА-4",
+                            "Средства связи": "Р-173, Р-173П",
+                            "Система ОВПУ": "Есть",
+                            "Система ПАЗ": "Есть",
+                            "Система ППО": "Есть",
+                            "Оборудование для самоокапывания": "Есть",
+                            "Оборудование для подводного вождения": "ОПВТ"
+                        }
+                    },
+                    history: {
+                        "Разработка (1970-1980)": {
+                            title: "Разработка и создание Т-72",
+                            content: `
+                                <h3>Предпосылки создания</h3>
+                                <p>Разработка танка Т-72 началась в начале 1970-х годов как дальнейшее развитие успешной конструкции Т-64. Основной задачей было создание более надежного и технологичного танка при сохранении высоких боевых характеристик.</p>
+                                
+                                <h3>Конструкторские решения</h3>
+                                <p>Была применена автоматизированная система заряжания, позволившая сократить экипаж до 3 человек. Комбинированная броня обеспечивала защиту от современных кумулятивных и бронебойных снарядов.</p>
+                                
+                                <h3>Принятие на вооружение</h3>
+                                <p>Танк Т-72 был официально принят на вооружение Советской Армии в 1973 году и быстро стал одним из самых массовых танков в мире.</p>
+                            `,
+                            images: []
+                        },
+                        "Модернизация (1980-2000)": {
+                            title: "Постоянное совершенствование",
+                            content: `
+                                <h3>Т-72Б - качественный скачок</h3>
+                                <p>В 1985 году появилась модификация Т-72Б с динамической защитой "Контакт", значительно повысившей защиту от кумулятивных средств поражения.</p>
+                                
+                                <h3>Улучшение вооружения</h3>
+                                <p>Была установлена новая система управления огнем 1А40-1, позволяющая эффективно поражать цели на больших дистанциях.</p>
+                                
+                                <h3>Экспортные версии</h3>
+                                <p>Разработаны многочисленные экспортные модификации, поставлявшиеся в страны Варшавского договора и другие государства.</p>
+                            `,
+                            images: []
+                        },
+                        "Т-72Б3 (2010-н.в.)": {
+                            title: "Глубокая модернизация",
+                            content: `
+                                <h3>Программа модернизации</h3>
+                                <p>В 2010 году началась программа глубокой модернизации танков Т-72 до уровня Т-72Б3. Основной целью было приведение парка к современным требованиям при ограниченном бюджете.</p>
+                                
+                                <h3>Ключевые улучшения</h3>
+                                <ul>
+                                    <li>Новая система управления огнем "Сосна-У"</li>
+                                    <li>Тепловизионный прицел наводчика</li>
+                                    <li>Усиленная динамическая защита</li>
+                                    <li>Модернизированный двигатель В-84-1</li>
+                                    <li>Современные средства связи</li>
+                                </ul>
+                                
+                                <h3>Боевое применение</h3>
+                                <p>Т-72Б3 активно применяется в современных конфликтах, демонстрируя высокую надежность и боевую эффективность.</p>
+                            `,
+                            images: []
                         }
                     },
                     modifications: [
-                        { name: "Т-72Б3 обр. 2011 г.", description: "Первая версия с СУО 1А40-4", year: "2011" },
-                        { name: "Т-72Б3 обр. 2014 г.", description: "Установлена СУО 'Сосна-У'", year: "2014" },
-                        { name: "Т-72Б3 обр. 2016 г.", description: "Улучшенная динамическая защита", year: "2016" },
-                        { name: "Т-72Б3М", description: "Экспортная версия с дополнительными улучшениями", year: "2018" }
-                    ],
-                    evolution: [
-                        { name: "Т-72", relation: "predecessor", years: "1973-1992" },
-                        { name: "Т-72А", relation: "predecessor", years: "1979-1985" },
-                        { name: "Т-72Б", relation: "predecessor", years: "1985-2000" },
-                        { name: "Т-72Б3", relation: "current", years: "2011-н.в." },
-                        { name: "Т-90М", relation: "successor", years: "2017-н.в." }
-                    ],
-                    gallery: [
-                        { type: "photo", url: null, description: "Т-72Б3 на учениях" },
-                        { type: "photo", url: null, description: "Вид сбоку" },
-                        { type: "photo", url: null, description: "Интерьер боевого отделения" },
-                        { type: "schema", url: null, description: "Схема бронирования" }
-                    ]
-                }
-            },
-            't-14-armata': {
-                id: 't-14-armata',
-                name: 'Т-14 Армата',
-                year: '2015',
-                country: 'russia',
-                category: 'mbt',
-                era: 'modern',
-                short_description: 'Российский основной боевой танк нового поколения с необитаемой башней и активной защитой.',
-                weight: 55,
-                crew: 3,
-                main_gun: 125,
-                engine_power: 1500,
-                armor: 'composite',
-                speed: 80,
-                road_range: 500,
-                trench_width: 3.2,
-                ammunition: 40,
-                details: {
-                    history: [
-                        { year: "2009", event: "Начало разработки платформы 'Армата'" },
-                        { year: "2013", event: "Первый показ макета танка" },
-                        { year: "2015", event: "Премьера на параде Победы" },
-                        { year: "2018", event: "Начало государственных испытаний" }
-                    ],
-                    specifications: {
-                        "Общие характеристики": {
-                            "Длина с пушкой вперёд": "10.8 м",
-                            "Длина корпуса": "8.7 м",
-                            "Ширина": "3.5 м",
-                            "Высота": "3.3 м",
-                            "Масса": "55 т",
-                            "Экипаж": "3 человека"
+                        {
+                            name: "Т-72Б3 обр. 2011 г.",
+                            year: "2011",
+                            description: "Первая версия модернизации с СУО 1А40-4",
+                            features: ["СУО 1А40-4", "Двигатель В-84-1", "Динамическая защита Контакт-5"],
+                            image: null
                         },
-                        "Бронирование": {
-                            "Тип брони": "Модульная многослойная",
-                            "Динамическая защита": "Малахит",
-                            "Активная защита": "Афганит"
+                        {
+                            name: "Т-72Б3 обр. 2014 г.",
+                            year: "2014",
+                            description: "Установлена современная СУО 'Сосна-У' с тепловизионным каналом",
+                            features: ["СУО Сосна-У", "Тепловизионный прицел", "Улучшенная защита"],
+                            image: null
                         },
-                        "Вооружение": {
-                            "Калибр и марка пушки": "125-мм 2А82-1М",
-                            "Тип пушки": "Гладкоствольная",
-                            "Боекомплект пушки": "40 выстрелов",
-                            "Дистанционно управляемый модуль": "12,7-мм пулемёт"
+                        {
+                            name: "Т-72Б3 обр. 2016 г.",
+                            year: "2016",
+                            description: "Модернизированная версия с дополнительными улучшениями защиты",
+                            features: ["Усиленная ДЗ", "Новые средства связи", "Обновленная ходовая часть"],
+                            image: null
                         },
-                        "Подвижность": {
-                            "Двигатель": "А-85-3А, 1500 л.с.",
-                            "Мощность двигателя": "27,3 л.с./т",
-                            "Скорость по шоссе": "80 км/ч",
-                            "Скорость по пересечённой местности": "50 км/ч",
-                            "Запас хода по шоссе": "500 км"
+                        {
+                            name: "Т-72Б3М",
+                            year: "2018",
+                            description: "Экспортная версия с дополнительными улучшениями",
+                            features: ["Дополнительная защита", "Улучшенная эргономика", "Экспортная комплектация"],
+                            image: null
                         }
-                    },
-                    modifications: [
-                        { name: "Т-14", description: "Базовая версия", year: "2015" },
-                        { name: "Т-14 с УР 'Гермес'", description: "С ракетным вооружением", year: "2018" },
-                        { name: "Т-14М", description: "Модернизированная версия", year: "2022" }
-                    ],
-                    evolution: [
-                        { name: "Т-95", relation: "predecessor", years: "1988-2010" },
-                        { name: "Т-14", relation: "current", years: "2015-н.в." }
                     ],
                     gallery: [
-                        { type: "photo", url: null, description: "Т-14 на параде" },
-                        { type: "photo", url: null, description: "Необитаемая башня" },
-                        { type: "schema", url: null, description: "Компоновка" }
+                        { type: "photo", url: null, description: "Т-72Б3 на учениях 'Запад-2021'", category: "photo" },
+                        { type: "photo", url: null, description: "Вид сбоку, демонстрирующий динамическую защиту", category: "photo" },
+                        { type: "schema", url: null, description: "Схема бронирования Т-72Б3", category: "schema" },
+                        { type: "blueprint", url: null, description: "Чертеж компоновки танка", category: "blueprint" },
+                        { type: "photo", url: null, description: "Интерьер боевого отделения", category: "photo" },
+                        { type: "schema", url: null, description: "Схема системы управления огнем", category: "schema" }
                     ]
                 }
             }
@@ -363,57 +574,64 @@ const VehiclePage = {
 
         const vehicle = this.currentVehicle;
         
-        // Обновляем заголовок
-        document.getElementById('vehicle-title').textContent = vehicle.name;
+        // Обновляем основную информацию
+        document.getElementById('vehicle-title').innerHTML = `<span class="title-glow">${vehicle.name}</span>`;
+        document.getElementById('breadcrumb-current').innerHTML = `<i class="fas fa-tank"></i>${vehicle.name}`;
         document.getElementById('vehicle-year').textContent = vehicle.year;
         document.getElementById('vehicle-country').textContent = this.getCountryName(vehicle.country);
         document.getElementById('vehicle-category').textContent = this.getCategoryName(vehicle.category);
-        document.getElementById('vehicle-short-description').textContent = vehicle.short_description;
+        document.getElementById('vehicle-era').textContent = this.getEraName(vehicle.era);
+        document.getElementById('vehicle-manufacturer').textContent = vehicle.manufacturer;
+        document.getElementById('vehicle-description').textContent = vehicle.short_description;
 
         // Быстрые характеристики
         document.getElementById('quick-weight').textContent = `${vehicle.weight} т`;
-        document.getElementById('quick-crew').textContent = `${vehicle.crew} чел.`;
+        document.getElementById('quick-crew').textContent = `${vehicle.crew} чел`;
         document.getElementById('quick-gun').textContent = `${vehicle.main_gun} мм`;
         document.getElementById('quick-speed').textContent = `${vehicle.speed} км/ч`;
-
-        // Обновляем хлебные крошки
-        document.querySelector('.breadcrumb-current').textContent = vehicle.name;
+        document.getElementById('quick-power').textContent = `${vehicle.engine_power} л.с.`;
+        document.getElementById('quick-range').textContent = `${vehicle.road_range} км`;
     },
 
     getCountryName(countryCode) {
         const countries = {
-            'russia': 'Россия / СССР',
+            'russia': 'Россия',
             'usa': 'США',
             'germany': 'Германия',
             'uk': 'Великобритания',
             'france': 'Франция',
-            'china': 'Китай',
-            'japan': 'Япония',
-            'israel': 'Израиль'
+            'china': 'Китай'
         };
         return countries[countryCode] || countryCode;
     },
 
     getCategoryName(categoryCode) {
         const categories = {
-            'mbt': 'Основной боевой танк',
-            'light_tank': 'Легкий танк',
+            'mbt': 'ОБТ',
+            'light_tank': 'Лёгкий танк',
             'medium_tank': 'Средний танк',
-            'heavy_tank': 'Тяжелый танк',
-            'ifv': 'Боевая машина пехоты',
-            'apc': 'Бронетранспортер',
-            'spg': 'САУ',
-            'spaa': 'ЗСУ'
+            'heavy_tank': 'Тяжёлый танк',
+            'ifv': 'БМП',
+            'apc': 'БТР'
         };
         return categories[categoryCode] || categoryCode;
     },
 
+    getEraName(eraCode) {
+        const eras = {
+            'ww1': 'Первая мировая',
+            'ww2': 'Вторая мировая',
+            'cold_war': 'Холодная война',
+            'modern': 'Современный'
+        };
+        return eras[eraCode] || eraCode;
+    },
+
     setupEventListeners() {
-        // Навигация по разделам
-        document.querySelectorAll('.vehicle-nav-link').forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.switchSection(link.dataset.section);
+        // Быстрая навигация
+        document.querySelectorAll('.quick-nav-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                this.switchMainSection(btn.dataset.section);
             });
         });
 
@@ -421,19 +639,18 @@ const VehiclePage = {
         document.querySelectorAll('a[href^="#"]').forEach(link => {
             link.addEventListener('click', (e) => {
                 const targetId = link.getAttribute('href').substring(1);
-                const targetSection = document.getElementById(targetId);
-                if (targetSection) {
+                if (targetId) {
                     e.preventDefault();
-                    this.switchSection(targetId);
+                    this.switchMainSection(targetId);
                 }
             });
         });
     },
 
-    switchSection(sectionId) {
-        // Обновляем активную навигацию
-        document.querySelectorAll('.vehicle-nav-link').forEach(link => {
-            link.classList.remove('active');
+    switchMainSection(sectionId) {
+        // Обновляем активную кнопку навигации
+        document.querySelectorAll('.quick-nav-btn').forEach(btn => {
+            btn.classList.remove('active');
         });
         document.querySelector(`[data-section="${sectionId}"]`).classList.add('active');
 
@@ -443,237 +660,293 @@ const VehiclePage = {
         });
         document.getElementById(sectionId).classList.add('active');
 
-        // Плавная прокрутка
-        document.getElementById(sectionId).scrollIntoView({ 
-            behavior: 'smooth',
-            block: 'start'
-        });
+        // Плавная прокрутка к началу раздела
+        setTimeout(() => {
+            document.getElementById(sectionId).scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }, 100);
     },
 
     async loadAllSections() {
-        await this.loadHistory();
         await this.loadSpecifications();
+        await this.loadHistory();
         await this.loadModifications();
-        await this.loadEvolution();
         await this.loadGallery();
     },
 
-    async loadHistory() {
-        const container = document.getElementById('history-content');
-        const history = this.currentVehicle.details.history;
-
-        if (history && history.length > 0) {
-            container.innerHTML = `
-                <div class="history-timeline">
-                    ${history.map(item => `
-                        <div class="timeline-item">
-                            <div class="timeline-year">${item.year}</div>
-                            <div class="timeline-content">
-                                <div class="timeline-event">${item.event}</div>
-                            </div>
-                        </div>
-                    `).join('')}
-                </div>
-                <div class="history-description">
-                    <h3>Историческая справка</h3>
-                    <p>${this.currentVehicle.short_description}</p>
-                    <p>Разработка ${this.currentVehicle.name} велась с учетом опыта предыдущих конфликтов и современных требований к бронетанковой технике.</p>
-                </div>
-            `;
-        } else {
-            container.innerHTML = `
-                <div class="no-data">
-                    <i class="fas fa-history"></i>
-                    <h3>Историческая информация отсутствует</h3>
-                    <p>Информация об истории создания этой техники пока не добавлена в базу данных.</p>
-                </div>
-            `;
-        }
-    },
-
     async loadSpecifications() {
-        const container = document.getElementById('specifications-content');
         const specs = this.currentVehicle.details.specifications;
+        const categoriesContainer = document.getElementById('specs-categories');
+        const contentContainer = document.querySelector('.specs-content');
 
         if (specs) {
-            container.innerHTML = Object.keys(specs).map(category => `
-                <div class="specs-category">
+            // Создаем навигацию по категориям
+            categoriesContainer.innerHTML = Object.keys(specs).map((category, index) => `
+                <button class="spec-category-btn ${index === 0 ? 'active' : ''}" 
+                        data-category="${this.slugify(category)}">
+                    <span class="category-icon">
+                        <i class="fas fa-${this.getCategoryIcon(category)}"></i>
+                    </span>
+                    <span class="category-name">${category}</span>
+                    <span class="category-arrow">
+                        <i class="fas fa-chevron-right"></i>
+                    </span>
+                </button>
+            `).join('');
+
+            // Создаем контент для каждой категории
+            contentContainer.innerHTML = Object.keys(specs).map((category, index) => `
+                <div class="specs-category-content ${index === 0 ? 'active' : ''}" 
+                     id="specs-${this.slugify(category)}">
                     <h3 class="specs-category-title">${category}</h3>
-                    <div class="specs-list">
+                    <div class="specs-table">
                         ${Object.keys(specs[category]).map(key => `
-                            <div class="spec-item">
-                                <span class="spec-name">${key}</span>
-                                <span class="spec-value">${specs[category][key]}</span>
+                            <div class="spec-row">
+                                <div class="spec-name">${key}</div>
+                                <div class="spec-value">${specs[category][key]}</div>
                             </div>
                         `).join('')}
                     </div>
                 </div>
             `).join('');
-        } else {
-            container.innerHTML = `
-                <div class="no-data">
-                    <i class="fas fa-list-alt"></i>
-                    <h3>Характеристики отсутствуют</h3>
-                    <p>Тактико-технические характеристики этой техники пока не добавлены в базу данных.</p>
+
+            // Добавляем обработчики для переключения категорий
+            document.querySelectorAll('.spec-category-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const category = btn.dataset.category;
+                    this.switchSpecCategory(category);
+                });
+            });
+        }
+    },
+
+    async loadHistory() {
+        const history = this.currentVehicle.details.history;
+        const periodsContainer = document.getElementById('history-periods');
+        const contentContainer = document.querySelector('.history-content');
+
+        if (history) {
+            // Создаем навигацию по периодам
+            periodsContainer.innerHTML = Object.keys(history).map((period, index) => `
+                <button class="history-period-btn ${index === 0 ? 'active' : ''}" 
+                        data-period="${this.slugify(period)}">
+                    <span class="period-year">${period.split(' ')[0]}</span>
+                    <span class="period-name">${period.split(' ').slice(1).join(' ')}</span>
+                    <span class="period-arrow">
+                        <i class="fas fa-chevron-right"></i>
+                    </span>
+                </button>
+            `).join('');
+
+            // Создаем контент для каждого периода
+            contentContainer.innerHTML = Object.keys(history).map((period, index) => `
+                <div class="history-period-content ${index === 0 ? 'active' : ''}" 
+                     id="history-${this.slugify(period)}">
+                    <div class="history-period-header">
+                        <h3 class="period-title">${history[period].title}</h3>
+                        <span class="period-range">${period}</span>
+                    </div>
+                    <div class="history-period-body">
+                        ${history[period].content}
+                    </div>
                 </div>
-            `;
+            `).join('');
+
+            // Добавляем обработчики для переключения периодов
+            document.querySelectorAll('.history-period-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const period = btn.dataset.period;
+                    this.switchHistoryPeriod(period);
+                });
+            });
         }
     },
 
     async loadModifications() {
-        const container = document.getElementById('modifications-content');
         const modifications = this.currentVehicle.details.modifications;
+        const container = document.getElementById('modifications-content');
 
         if (modifications && modifications.length > 0) {
-            container.innerHTML = `
-                <div class="modifications-grid">
-                    ${modifications.map(mod => `
-                        <div class="modification-card">
-                            <div class="modification-header">
-                                <h4 class="modification-name">${mod.name}</h4>
-                                <span class="modification-year">${mod.year}</span>
-                            </div>
-                            <p class="modification-description">${mod.description}</p>
-                            <div class="modification-specs">
-                                <div class="mod-spec">
-                                    <span class="spec-label">Особенности</span>
-                                    <span class="spec-value">${mod.description}</span>
-                                </div>
-                            </div>
+            container.innerHTML = modifications.map(mod => `
+                <div class="modification-card premium">
+                    <div class="mod-header">
+                        <div class="mod-basic-info">
+                            <h4 class="mod-name">${mod.name}</h4>
+                            <span class="mod-year">${mod.year}</span>
                         </div>
-                    `).join('')}
-                </div>
-            `;
-        } else {
-            container.innerHTML = `
-                <div class="no-data">
-                    <i class="fas fa-code-branch"></i>
-                    <h3>Модификации отсутствуют</h3>
-                    <p>Информация о модификациях этой техники пока не добавлена в базу данных.</p>
-                </div>
-            `;
-        }
-    },
-
-    async loadEvolution() {
-        const container = document.getElementById('evolution-content');
-        const evolution = this.currentVehicle.details.evolution;
-
-        if (evolution && evolution.length > 0) {
-            container.innerHTML = `
-                <div class="evolution-timeline">
-                    ${evolution.map(item => `
-                        <div class="evolution-item ${item.relation}">
-                            <div class="evolution-arrow"></div>
-                            <div class="evolution-card">
-                                <h4 class="evolution-name">${item.name}</h4>
-                                <span class="evolution-years">${item.years}</span>
-                                <span class="evolution-relation">${this.getRelationName(item.relation)}</span>
-                            </div>
+                        <div class="mod-badge">Модификация</div>
+                    </div>
+                    <p class="mod-description">${mod.description}</p>
+                    <div class="mod-features">
+                        <h5>Основные особенности:</h5>
+                        <ul class="features-list">
+                            ${mod.features.map(feature => `<li>${feature}</li>`).join('')}
+                        </ul>
+                    </div>
+                    <div class="mod-image">
+                        <div class="image-placeholder">
+                            <i class="fas fa-tank"></i>
+                            <span>Изображение модификации</span>
                         </div>
-                    `).join('')}
+                    </div>
                 </div>
-                <div class="evolution-description">
-                    <h3>Эволюция развития</h3>
-                    <p>${this.currentVehicle.name} представляет собой ${this.getEvolutionDescription()}</p>
-                </div>
-            `;
-        } else {
-            container.innerHTML = `
-                <div class="no-data">
-                    <i class="fas fa-project-diagram"></i>
-                    <h3>Информация об эволюции отсутствует</h3>
-                    <p>Информация о развитии и преемственности этой техники пока не добавлена в базу данных.</p>
-                </div>
-            `;
+            `).join('');
         }
-    },
-
-    getRelationName(relation) {
-        const relations = {
-            'predecessor': 'Предшественник',
-            'current': 'Текущая модель',
-            'successor': 'Преемник'
-        };
-        return relations[relation] || relation;
-    },
-
-    getEvolutionDescription() {
-        const vehicle = this.currentVehicle;
-        if (vehicle.id === 't-72b3') {
-            return 'глубоко модернизированную версию танка Т-72, которая сочетает в себе проверенную конструкцию с современными системами вооружения и защиты.';
-        } else if (vehicle.id === 't-14-armata') {
-            return 'принципиально новую разработку, не имеющую прямых аналогов в мире, с необитаемой башней и цифровой архитектурой.';
-        }
-        return 'важный этап в развитии бронетанковой техники.';
     },
 
     async loadGallery() {
-        const container = document.getElementById('gallery-content');
         const gallery = this.currentVehicle.details.gallery;
+        const container = document.getElementById('gallery-content');
 
         if (gallery && gallery.length > 0) {
-            container.innerHTML = `
-                <div class="gallery-grid">
-                    ${gallery.map((item, index) => `
-                        <div class="gallery-item">
-                            <div class="gallery-image">
-                                <div class="image-placeholder">
-                                    <i class="fas fa-${item.type === 'schema' ? 'draw-polygon' : 'image'}"></i>
-                                </div>
-                                <div class="gallery-overlay">
-                                    <button class="gallery-view-btn" data-index="${index}">
-                                        <i class="fas fa-expand"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="gallery-caption">${item.description}</div>
+            container.innerHTML = gallery.map((item, index) => `
+                <div class="gallery-item premium" data-type="${item.category}">
+                    <div class="gallery-image">
+                        <div class="image-placeholder">
+                            <i class="fas fa-${item.type === 'schema' ? 'draw-polygon' : item.type === 'blueprint' ? 'ruler-combined' : 'image'}"></i>
                         </div>
-                    `).join('')}
+                        <div class="gallery-overlay">
+                            <button class="gallery-view-btn" data-index="${index}">
+                                <i class="fas fa-expand"></i>
+                                Просмотр
+                            </button>
+                            <button class="gallery-download-btn">
+                                <i class="fas fa-download"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="gallery-info">
+                        <span class="gallery-type">${this.getGalleryTypeName(item.type)}</span>
+                        <p class="gallery-caption">${item.description}</p>
+                    </div>
                 </div>
-            `;
-        } else {
-            container.innerHTML = `
-                <div class="no-data">
-                    <i class="fas fa-images"></i>
-                    <h3>Галерея отсутствует</h3>
-                    <p>Изображения этой техники пока не добавлены в базу данных.</p>
-                </div>
-            `;
+            `).join('');
+
+            // Добавляем фильтрацию галереи
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const filter = btn.dataset.filter;
+                    this.filterGallery(filter);
+                });
+            });
         }
     },
 
-    addVehicleStyles() {
+    // Вспомогательные методы
+    slugify(text) {
+        return text.toString().toLowerCase()
+            .replace(/\s+/g, '-')
+            .replace(/[^\w\-]+/g, '')
+            .replace(/\-\-+/g, '-')
+            .replace(/^-+/, '')
+            .replace(/-+$/, '');
+    },
+
+    getCategoryIcon(category) {
+        const icons = {
+            'Общие характеристики': 'ruler-combined',
+            'Бронирование': 'shield-alt',
+            'Вооружение': 'crosshairs',
+            'Подвижность': 'tachometer-alt',
+            'Дополнительное оборудование': 'cogs'
+        };
+        return icons[category] || 'circle';
+    },
+
+    getGalleryTypeName(type) {
+        const names = {
+            'photo': 'Фотография',
+            'schema': 'Схема',
+            'blueprint': 'Чертеж'
+        };
+        return names[type] || type;
+    },
+
+    switchSpecCategory(category) {
+        document.querySelectorAll('.spec-category-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        document.querySelectorAll('.specs-category-content').forEach(content => {
+            content.classList.remove('active');
+        });
+
+        document.querySelector(`[data-category="${category}"]`).classList.add('active');
+        document.getElementById(`specs-${category}`).classList.add('active');
+    },
+
+    switchHistoryPeriod(period) {
+        document.querySelectorAll('.history-period-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        document.querySelectorAll('.history-period-content').forEach(content => {
+            content.classList.remove('active');
+        });
+
+        document.querySelector(`[data-period="${period}"]`).classList.add('active');
+        document.getElementById(`history-${period}`).classList.add('active');
+    },
+
+    filterGallery(filter) {
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        document.querySelector(`[data-filter="${filter}"]`).classList.add('active');
+
+        document.querySelectorAll('.gallery-item').forEach(item => {
+            if (filter === 'all' || item.dataset.type === filter) {
+                item.style.display = 'block';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    },
+
+    addPremiumStyles() {
         const style = document.createElement('style');
         style.textContent = `
-            /* Страница техники */
-            .vehicle-page {
-                min-height: 100vh;
+            /* Премиум стили для страницы техники */
+            .vehicle-page.premium {
+                background: linear-gradient(135deg, var(--bg-primary) 0%, #0a0a0a 100%);
             }
 
-            /* Хлебные крошки */
-            .breadcrumbs-section {
-                padding: 1.5rem 0;
+            /* Верхняя панель */
+            .vehicle-top-panel {
                 background: var(--bg-secondary);
                 border-bottom: 1px solid var(--border-color);
+                padding: 1rem 0;
+                position: sticky;
+                top: 70px;
+                z-index: 1000;
+                backdrop-filter: blur(10px);
             }
 
-            .breadcrumbs {
+            .vehicle-breadcrumbs {
                 display: flex;
                 align-items: center;
                 gap: 0.5rem;
+                margin-bottom: 1rem;
                 font-size: 0.9rem;
-                color: var(--text-secondary);
             }
 
-            .breadcrumbs a {
+            .breadcrumb-link {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
                 color: var(--text-secondary);
                 text-decoration: none;
+                padding: 0.5rem 1rem;
+                border-radius: var(--radius);
                 transition: var(--transition);
+                background: var(--bg-primary);
+                border: 1px solid var(--border-color);
             }
 
-            .breadcrumbs a:hover {
+            .breadcrumb-link:hover {
                 color: var(--accent-red);
+                border-color: var(--accent-red);
+                transform: translateY(-1px);
             }
 
             .breadcrumb-separator {
@@ -681,85 +954,199 @@ const VehiclePage = {
             }
 
             .breadcrumb-current {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
                 color: var(--text-primary);
-                font-weight: 500;
+                font-weight: 600;
+                padding: 0.5rem 1rem;
+                background: var(--bg-card);
+                border-radius: var(--radius);
+                border: 1px solid var(--accent-red);
+            }
+
+            .vehicle-quick-nav {
+                display: flex;
+                gap: 0.5rem;
+                overflow-x: auto;
+            }
+
+            .quick-nav-btn {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                padding: 0.75rem 1.5rem;
+                background: var(--bg-primary);
+                border: 1px solid var(--border-color);
+                border-radius: var(--radius);
+                color: var(--text-secondary);
+                text-decoration: none;
+                white-space: nowrap;
+                transition: var(--transition);
+                cursor: pointer;
+            }
+
+            .quick-nav-btn:hover,
+            .quick-nav-btn.active {
+                background: var(--accent-red);
+                color: white;
+                border-color: var(--accent-red);
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
             }
 
             /* Герой секция */
-            .vehicle-hero {
+            .vehicle-hero-section {
                 padding: 3rem 0;
-                background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-accent) 100%);
+                background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-accent) 50%, var(--bg-secondary) 100%);
+                position: relative;
+                overflow: hidden;
             }
 
-            .vehicle-hero-content {
+            .vehicle-hero-section::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: radial-gradient(circle at 20% 80%, rgba(220, 38, 38, 0.1) 0%, transparent 50%);
+                pointer-events: none;
+            }
+
+            .vehicle-hero-grid {
                 display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 4rem;
-                align-items: start;
+                grid-template-columns: 1fr 400px;
+                gap: 3rem;
+                position: relative;
+                z-index: 2;
             }
 
-            .vehicle-title {
-                font-size: 3rem;
-                font-weight: 900;
-                margin-bottom: 1rem;
-                background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-red) 100%);
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-                background-clip: text;
-            }
-
-            .vehicle-meta {
-                display: flex;
-                gap: 1.5rem;
-                margin-bottom: 1.5rem;
-                flex-wrap: wrap;
-            }
-
-            .vehicle-year,
-            .vehicle-country,
-            .vehicle-category {
-                background: var(--bg-card);
-                padding: 0.5rem 1rem;
-                border-radius: 50px;
-                font-size: 0.9rem;
-                font-weight: 500;
-                border: 1px solid var(--border-color);
-            }
-
-            .vehicle-short-description {
-                font-size: 1.2rem;
-                color: var(--text-secondary);
-                line-height: 1.6;
+            .vehicle-header {
                 margin-bottom: 2rem;
             }
 
-            .vehicle-quick-specs {
-                display: grid;
-                grid-template-columns: repeat(2, 1fr);
-                gap: 1rem;
+            .vehicle-badges {
+                display: flex;
+                gap: 0.5rem;
+                margin-bottom: 1rem;
+                flex-wrap: wrap;
             }
 
-            .quick-spec {
+            .vehicle-badge {
+                padding: 0.5rem 1rem;
+                border-radius: 50px;
+                font-size: 0.8rem;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+
+            .era-modern { background: linear-gradient(135deg, var(--accent-red), #b91c1c); color: white; }
+            .category-mbt { background: linear-gradient(135deg, var(--accent-blue), #1d4ed8); color: white; }
+            .country-russia { background: linear-gradient(135deg, #dc2626, #b91c1c); color: white; }
+
+            .vehicle-title {
+                font-size: 3.5rem;
+                font-weight: 900;
+                margin-bottom: 0.5rem;
+                line-height: 1.1;
+            }
+
+            .title-glow {
+                background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-red) 50%, var(--accent-gold) 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                text-shadow: 0 0 30px rgba(220, 38, 38, 0.3);
+            }
+
+            .vehicle-subtitle {
+                display: flex;
+                gap: 2rem;
+                color: var(--text-secondary);
+                font-size: 1.1rem;
+            }
+
+            .vehicle-description-card {
+                background: var(--bg-card);
+                border: 1px solid var(--border-color);
+                border-radius: var(--radius-lg);
+                padding: 2rem;
+                margin-bottom: 2rem;
+                box-shadow: var(--shadow-lg);
+            }
+
+            .description-header {
                 display: flex;
                 align-items: center;
                 gap: 1rem;
-                padding: 1rem;
+                margin-bottom: 1rem;
+            }
+
+            .description-header i {
+                font-size: 1.5rem;
+                color: var(--accent-red);
+            }
+
+            .description-header h3 {
+                margin: 0;
+                color: var(--text-primary);
+            }
+
+            .vehicle-description {
+                font-size: 1.1rem;
+                line-height: 1.6;
+                color: var(--text-secondary);
+                margin: 0;
+            }
+
+            /* Быстрые характеристики */
+            .quick-specs-grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 1rem;
+            }
+
+            .quick-spec-card {
                 background: var(--bg-card);
                 border: 1px solid var(--border-color);
                 border-radius: var(--radius);
+                padding: 1.5rem;
+                display: flex;
+                align-items: center;
+                gap: 1rem;
                 transition: var(--transition);
+                position: relative;
+                overflow: hidden;
             }
 
-            .quick-spec:hover {
+            .quick-spec-card::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(220, 38, 38, 0.1), transparent);
+                transition: left 0.5s ease;
+            }
+
+            .quick-spec-card:hover::before {
+                left: 100%;
+            }
+
+            .quick-spec-card:hover {
                 border-color: var(--accent-red);
                 transform: translateY(-2px);
+                box-shadow: var(--shadow);
             }
 
-            .quick-spec-icon {
-                width: 40px;
-                height: 40px;
-                background: var(--accent-red);
-                border-radius: 50%;
+            .spec-icon {
+                width: 50px;
+                height: 50px;
+                background: linear-gradient(135deg, var(--accent-red), var(--accent-red-hover));
+                border-radius: 12px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -767,390 +1154,55 @@ const VehiclePage = {
                 font-size: 1.2rem;
             }
 
-            .quick-spec-label {
+            .spec-value {
+                display: block;
+                font-size: 1.3rem;
+                font-weight: 700;
+                color: var(--text-primary);
+                margin-bottom: 0.25rem;
+            }
+
+            .spec-label {
                 font-size: 0.8rem;
                 color: var(--text-muted);
                 text-transform: uppercase;
                 letter-spacing: 0.5px;
             }
 
-            .quick-spec-value {
-                font-size: 1.1rem;
-                font-weight: 700;
-                color: var(--text-primary);
-            }
-
-            /* Галерея */
-            .vehicle-gallery {
+            /* Галерея в сайдбаре */
+            .vehicle-gallery-sidebar {
                 position: sticky;
-                top: 100px;
+                top: 150px;
             }
 
-            .main-gallery-image {
-                height: 400px;
-                background: var(--bg-card);
-                border: 1px solid var(--border-color);
+            .gallery-main {
+                margin-bottom: 1rem;
+            }
+
+            .main-image {
+                height: 300px;
+                background: var(--bg-primary);
+                border: 2px solid var(--border-color);
                 border-radius: var(--radius-lg);
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                margin-bottom: 1rem;
+                position: relative;
                 overflow: hidden;
             }
 
-            .main-gallery-image .image-placeholder {
+            .main-image .image-placeholder {
                 text-align: center;
                 color: var(--text-muted);
             }
 
-            .main-gallery-image .image-placeholder i {
+            .main-image .image-placeholder i {
                 font-size: 4rem;
                 margin-bottom: 1rem;
                 display: block;
             }
 
-            .gallery-thumbnails {
-                display: grid;
-                grid-template-columns: repeat(4, 1fr);
-                gap: 0.5rem;
-            }
-
-            /* Навигация по разделам */
-            .vehicle-navigation {
-                background: var(--bg-secondary);
-                border-bottom: 1px solid var(--border-color);
-                position: sticky;
-                top: 70px;
-                z-index: 800;
-            }
-
-            .vehicle-nav {
-                display: flex;
-                gap: 0;
-                overflow-x: auto;
-            }
-
-            .vehicle-nav-link {
-                display: flex;
-                align-items: center;
-                gap: 0.5rem;
-                padding: 1rem 1.5rem;
-                color: var(--text-secondary);
-                text-decoration: none;
-                white-space: nowrap;
-                border-bottom: 3px solid transparent;
-                transition: var(--transition);
-            }
-
-            .vehicle-nav-link:hover,
-            .vehicle-nav-link.active {
-                color: var(--accent-red);
-                border-bottom-color: var(--accent-red);
-                background: var(--bg-primary);
-            }
-
-            /* Секции контента */
-            .content-section {
-                display: none;
-                padding: 3rem 0;
-            }
-
-            .content-section.active {
-                display: block;
-                animation: fadeIn 0.5s ease;
-            }
-
-            @keyframes fadeIn {
-                from { opacity: 0; transform: translateY(20px); }
-                to { opacity: 1; transform: translateY(0); }
-            }
-
-            .section-header {
-                text-align: center;
-                margin-bottom: 3rem;
-            }
-
-            .section-header h2 {
-                font-size: 2.5rem;
-                margin-bottom: 1rem;
-                color: var(--text-primary);
-            }
-
-            .section-header p {
-                font-size: 1.2rem;
-                color: var(--text-secondary);
-            }
-
-            /* История - Таймлайн */
-            .history-timeline {
-                position: relative;
-                max-width: 800px;
-                margin: 0 auto 3rem;
-            }
-
-            .history-timeline::before {
-                content: '';
-                position: absolute;
-                left: 30px;
-                top: 0;
-                bottom: 0;
-                width: 2px;
-                background: var(--accent-red);
-            }
-
-            .timeline-item {
-                display: flex;
-                margin-bottom: 2rem;
-                position: relative;
-            }
-
-            .timeline-year {
-                width: 60px;
-                text-align: center;
-                background: var(--accent-red);
-                color: white;
-                padding: 0.5rem;
-                border-radius: var(--radius);
-                font-weight: 700;
-                margin-right: 2rem;
-                position: relative;
-                z-index: 2;
-            }
-
-            .timeline-content {
-                flex: 1;
-                background: var(--bg-card);
-                padding: 1.5rem;
-                border-radius: var(--radius);
-                border: 1px solid var(--border-color);
-            }
-
-            .timeline-event {
-                font-size: 1.1rem;
-                color: var(--text-primary);
-                line-height: 1.5;
-            }
-
-            .history-description {
-                max-width: 800px;
-                margin: 0 auto;
-                background: var(--bg-card);
-                padding: 2rem;
-                border-radius: var(--radius-lg);
-                border: 1px solid var(--border-color);
-            }
-
-            .history-description h3 {
-                margin-bottom: 1rem;
-                color: var(--text-primary);
-            }
-
-            .history-description p {
-                color: var(--text-secondary);
-                line-height: 1.6;
-                margin-bottom: 1rem;
-            }
-
-            /* Характеристики */
-            .specs-category {
-                margin-bottom: 2rem;
-            }
-
-            .specs-category-title {
-                font-size: 1.5rem;
-                color: var(--text-primary);
-                margin-bottom: 1rem;
-                padding-bottom: 0.5rem;
-                border-bottom: 2px solid var(--accent-red);
-            }
-
-            .specs-list {
-                display: grid;
-                gap: 0.5rem;
-            }
-
-            .spec-item {
-                display: flex;
-                justify-content: space-between;
-                padding: 1rem;
-                background: var(--bg-card);
-                border: 1px solid var(--border-color);
-                border-radius: var(--radius);
-                transition: var(--transition);
-            }
-
-            .spec-item:hover {
-                border-color: var(--accent-red);
-                transform: translateX(5px);
-            }
-
-            .spec-name {
-                color: var(--text-secondary);
-                font-weight: 500;
-            }
-
-            .spec-value {
-                color: var(--text-primary);
-                font-weight: 700;
-            }
-
-            /* Модификации */
-            .modifications-grid {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-                gap: 1.5rem;
-            }
-
-            .modification-card {
-                background: var(--bg-card);
-                border: 1px solid var(--border-color);
-                border-radius: var(--radius-lg);
-                padding: 1.5rem;
-                transition: var(--transition);
-            }
-
-            .modification-card:hover {
-                border-color: var(--accent-red);
-                transform: translateY(-5px);
-            }
-
-            .modification-header {
-                display: flex;
-                justify-content: space-between;
-                align-items: flex-start;
-                margin-bottom: 1rem;
-            }
-
-            .modification-name {
-                font-size: 1.2rem;
-                color: var(--text-primary);
-                margin: 0;
-            }
-
-            .modification-year {
-                background: var(--accent-red);
-                color: white;
-                padding: 0.25rem 0.75rem;
-                border-radius: 50px;
-                font-size: 0.8rem;
-                font-weight: 500;
-            }
-
-            .modification-description {
-                color: var(--text-secondary);
-                line-height: 1.5;
-                margin-bottom: 1rem;
-            }
-
-            /* Эволюция */
-            .evolution-timeline {
-                max-width: 600px;
-                margin: 0 auto 3rem;
-            }
-
-            .evolution-item {
-                display: flex;
-                align-items: center;
-                margin-bottom: 2rem;
-            }
-
-            .evolution-arrow {
-                width: 40px;
-                height: 2px;
-                background: var(--accent-red);
-                margin: 0 1rem;
-            }
-
-            .evolution-item.predecessor .evolution-arrow {
-                order: 1;
-            }
-
-            .evolution-item.current .evolution-arrow {
-                background: var(--accent-gold);
-            }
-
-            .evolution-item.successor .evolution-arrow {
-                order: -1;
-            }
-
-            .evolution-card {
-                flex: 1;
-                background: var(--bg-card);
-                border: 2px solid var(--border-color);
-                border-radius: var(--radius);
-                padding: 1.5rem;
-                text-align: center;
-                transition: var(--transition);
-            }
-
-            .evolution-item.current .evolution-card {
-                border-color: var(--accent-gold);
-                transform: scale(1.05);
-            }
-
-            .evolution-name {
-                font-size: 1.2rem;
-                color: var(--text-primary);
-                margin-bottom: 0.5rem;
-            }
-
-            .evolution-years {
-                display: block;
-                color: var(--text-muted);
-                font-size: 0.9rem;
-                margin-bottom: 0.5rem;
-            }
-
-            .evolution-relation {
-                display: inline-block;
-                background: var(--bg-primary);
-                color: var(--text-secondary);
-                padding: 0.25rem 0.75rem;
-                border-radius: 50px;
-                font-size: 0.8rem;
-            }
-
-            .evolution-item.current .evolution-relation {
-                background: var(--accent-gold);
-                color: var(--bg-primary);
-            }
-
-            /* Галерея */
-            .gallery-grid {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-                gap: 1.5rem;
-            }
-
-            .gallery-item {
-                background: var(--bg-card);
-                border: 1px solid var(--border-color);
-                border-radius: var(--radius);
-                overflow: hidden;
-                transition: var(--transition);
-            }
-
-            .gallery-item:hover {
-                transform: translateY(-5px);
-                border-color: var(--accent-red);
-            }
-
-            .gallery-image {
-                height: 200px;
-                background: var(--bg-primary);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                position: relative;
-                overflow: hidden;
-            }
-
-            .gallery-image .image-placeholder {
-                font-size: 3rem;
-                color: var(--text-muted);
-            }
-
-            .gallery-overlay {
+            .image-overlay {
                 position: absolute;
                 top: 0;
                 left: 0;
@@ -1164,6 +1216,510 @@ const VehiclePage = {
                 transition: var(--transition);
             }
 
+            .main-image:hover .image-overlay {
+                opacity: 1;
+            }
+
+            .zoom-btn {
+                background: var(--accent-red);
+                color: white;
+                border: none;
+                width: 60px;
+                height: 60px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 1.5rem;
+                cursor: pointer;
+                transition: var(--transition);
+            }
+
+            .zoom-btn:hover {
+                transform: scale(1.1);
+                box-shadow: 0 4px 15px rgba(220, 38, 38, 0.4);
+            }
+
+            /* Премиум секции */
+            .section-header.premium {
+                display: flex;
+                align-items: center;
+                gap: 2rem;
+                margin-bottom: 3rem;
+                padding: 2rem;
+                background: var(--bg-card);
+                border: 1px solid var(--border-color);
+                border-radius: var(--radius-lg);
+                position: relative;
+                overflow: hidden;
+            }
+
+            .section-header.premium::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 4px;
+                height: 100%;
+                background: linear-gradient(135deg, var(--accent-red), var(--accent-gold));
+            }
+
+            .section-icon {
+                width: 80px;
+                height: 80px;
+                background: linear-gradient(135deg, var(--accent-red), var(--accent-red-hover));
+                border-radius: 20px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                font-size: 2rem;
+            }
+
+            .section-title h2 {
+                font-size: 2.5rem;
+                margin-bottom: 0.5rem;
+                background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-red) 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }
+
+            .section-title p {
+                font-size: 1.2rem;
+                color: var(--text-secondary);
+                margin: 0;
+            }
+
+            /* Спецификации с боковой навигацией */
+            .specs-container {
+                display: grid;
+                grid-template-columns: 300px 1fr;
+                gap: 2rem;
+            }
+
+            .specs-sidebar {
+                position: sticky;
+                top: 150px;
+                height: fit-content;
+            }
+
+            .specs-categories {
+                background: var(--bg-card);
+                border: 1px solid var(--border-color);
+                border-radius: var(--radius-lg);
+                overflow: hidden;
+            }
+
+            .spec-category-btn {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                width: 100%;
+                padding: 1.5rem;
+                background: none;
+                border: none;
+                border-bottom: 1px solid var(--border-color);
+                color: var(--text-secondary);
+                text-align: left;
+                cursor: pointer;
+                transition: var(--transition);
+            }
+
+            .spec-category-btn:last-child {
+                border-bottom: none;
+            }
+
+            .spec-category-btn:hover {
+                background: var(--bg-primary);
+                color: var(--text-primary);
+            }
+
+            .spec-category-btn.active {
+                background: var(--accent-red);
+                color: white;
+            }
+
+            .category-icon {
+                width: 40px;
+                height: 40px;
+                background: var(--bg-primary);
+                border-radius: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .spec-category-btn.active .category-icon {
+                background: rgba(255, 255, 255, 0.2);
+            }
+
+            .category-name {
+                flex: 1;
+                font-weight: 600;
+            }
+
+            .specs-category-content {
+                display: none;
+            }
+
+            .specs-category-content.active {
+                display: block;
+                animation: fadeInUp 0.5s ease;
+            }
+
+            .specs-category-title {
+                font-size: 2rem;
+                margin-bottom: 2rem;
+                color: var(--text-primary);
+                border-bottom: 2px solid var(--accent-red);
+                padding-bottom: 0.5rem;
+            }
+
+            .specs-table {
+                background: var(--bg-card);
+                border: 1px solid var(--border-color);
+                border-radius: var(--radius-lg);
+                overflow: hidden;
+            }
+
+            .spec-row {
+                display: flex;
+                justify-content: space-between;
+                padding: 1.5rem;
+                border-bottom: 1px solid var(--border-color);
+                transition: var(--transition);
+            }
+
+            .spec-row:last-child {
+                border-bottom: none;
+            }
+
+            .spec-row:hover {
+                background: var(--bg-primary);
+            }
+
+            .spec-name {
+                color: var(--text-secondary);
+                font-weight: 500;
+                flex: 1;
+            }
+
+            .spec-value {
+                color: var(--text-primary);
+                font-weight: 600;
+                text-align: right;
+                flex: 1;
+            }
+
+            /* История с боковой навигацией */
+            .history-container {
+                display: grid;
+                grid-template-columns: 300px 1fr;
+                gap: 2rem;
+            }
+
+            .history-sidebar {
+                position: sticky;
+                top: 150px;
+                height: fit-content;
+            }
+
+            .history-periods {
+                background: var(--bg-card);
+                border: 1px solid var(--border-color);
+                border-radius: var(--radius-lg);
+                overflow: hidden;
+            }
+
+            .history-period-btn {
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+                width: 100%;
+                padding: 1.5rem;
+                background: none;
+                border: none;
+                border-bottom: 1px solid var(--border-color);
+                color: var(--text-secondary);
+                text-align: left;
+                cursor: pointer;
+                transition: var(--transition);
+            }
+
+            .history-period-btn:last-child {
+                border-bottom: none;
+            }
+
+            .history-period-btn:hover {
+                background: var(--bg-primary);
+                color: var(--text-primary);
+            }
+
+            .history-period-btn.active {
+                background: var(--accent-red);
+                color: white;
+            }
+
+            .period-year {
+                font-size: 1.2rem;
+                font-weight: 700;
+            }
+
+            .period-name {
+                font-size: 0.9rem;
+                opacity: 0.8;
+            }
+
+            .history-period-content {
+                display: none;
+            }
+
+            .history-period-content.active {
+                display: block;
+                animation: fadeInUp 0.5s ease;
+            }
+
+            .history-period-header {
+                margin-bottom: 2rem;
+                padding-bottom: 1rem;
+                border-bottom: 2px solid var(--accent-red);
+            }
+
+            .period-title {
+                font-size: 2rem;
+                color: var(--text-primary);
+                margin-bottom: 0.5rem;
+            }
+
+            .period-range {
+                color: var(--accent-red);
+                font-weight: 600;
+                font-size: 1.1rem;
+            }
+
+            .history-period-body {
+                background: var(--bg-card);
+                border: 1px solid var(--border-color);
+                border-radius: var(--radius-lg);
+                padding: 2rem;
+            }
+
+            .history-period-body h3 {
+                color: var(--text-primary);
+                margin: 2rem 0 1rem;
+                font-size: 1.5rem;
+            }
+
+            .history-period-body h3:first-child {
+                margin-top: 0;
+            }
+
+            .history-period-body p {
+                line-height: 1.7;
+                color: var(--text-secondary);
+                margin-bottom: 1rem;
+            }
+
+            .history-period-body ul {
+                color: var(--text-secondary);
+                line-height: 1.6;
+                padding-left: 1.5rem;
+            }
+
+            .history-period-body li {
+                margin-bottom: 0.5rem;
+            }
+
+            /* Модификации */
+            .modifications-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+                gap: 2rem;
+            }
+
+            .modification-card.premium {
+                background: var(--bg-card);
+                border: 1px solid var(--border-color);
+                border-radius: var(--radius-lg);
+                padding: 2rem;
+                transition: var(--transition);
+                position: relative;
+                overflow: hidden;
+            }
+
+            .modification-card.premium::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 4px;
+                height: 100%;
+                background: linear-gradient(135deg, var(--accent-red), var(--accent-gold));
+            }
+
+            .modification-card.premium:hover {
+                transform: translateY(-5px);
+                border-color: var(--accent-red);
+                box-shadow: var(--shadow-lg);
+            }
+
+            .mod-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+                margin-bottom: 1rem;
+            }
+
+            .mod-basic-info {
+                flex: 1;
+            }
+
+            .mod-name {
+                font-size: 1.5rem;
+                color: var(--text-primary);
+                margin: 0 0 0.5rem 0;
+            }
+
+            .mod-year {
+                color: var(--accent-red);
+                font-weight: 600;
+                font-size: 1.1rem;
+            }
+
+            .mod-badge {
+                background: var(--accent-red);
+                color: white;
+                padding: 0.5rem 1rem;
+                border-radius: 50px;
+                font-size: 0.8rem;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+
+            .mod-description {
+                color: var(--text-secondary);
+                line-height: 1.6;
+                margin-bottom: 1.5rem;
+            }
+
+            .mod-features h5 {
+                color: var(--text-primary);
+                margin-bottom: 1rem;
+                font-size: 1.1rem;
+            }
+
+            .features-list {
+                color: var(--text-secondary);
+                line-height: 1.6;
+                padding-left: 1rem;
+            }
+
+            .features-list li {
+                margin-bottom: 0.5rem;
+                position: relative;
+            }
+
+            .features-list li::before {
+                content: '▶';
+                color: var(--accent-red);
+                position: absolute;
+                left: -1rem;
+            }
+
+            .mod-image {
+                height: 200px;
+                background: var(--bg-primary);
+                border-radius: var(--radius);
+                margin-top: 1.5rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: var(--text-muted);
+            }
+
+            /* Галерея */
+            .gallery-filter {
+                display: flex;
+                gap: 0.5rem;
+                margin-bottom: 2rem;
+                flex-wrap: wrap;
+            }
+
+            .filter-btn {
+                padding: 0.75rem 1.5rem;
+                background: var(--bg-primary);
+                border: 1px solid var(--border-color);
+                border-radius: var(--radius);
+                color: var(--text-secondary);
+                cursor: pointer;
+                transition: var(--transition);
+            }
+
+            .filter-btn:hover,
+            .filter-btn.active {
+                background: var(--accent-red);
+                color: white;
+                border-color: var(--accent-red);
+            }
+
+            .gallery-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                gap: 1.5rem;
+            }
+
+            .gallery-item.premium {
+                background: var(--bg-card);
+                border: 1px solid var(--border-color);
+                border-radius: var(--radius-lg);
+                overflow: hidden;
+                transition: var(--transition);
+            }
+
+            .gallery-item.premium:hover {
+                transform: translateY(-5px);
+                border-color: var(--accent-red);
+                box-shadow: var(--shadow-lg);
+            }
+
+            .gallery-image {
+                height: 200px;
+                background: var(--bg-primary);
+                position: relative;
+                overflow: hidden;
+            }
+
+            .gallery-image .image-placeholder {
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                color: var(--text-muted);
+            }
+
+            .gallery-image .image-placeholder i {
+                font-size: 3rem;
+                margin-bottom: 1rem;
+            }
+
+            .gallery-overlay {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.8);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 1rem;
+                opacity: 0;
+                transition: var(--transition);
+            }
+
             .gallery-item:hover .gallery-overlay {
                 opacity: 1;
             }
@@ -1172,8 +1728,26 @@ const VehiclePage = {
                 background: var(--accent-red);
                 color: white;
                 border: none;
-                width: 50px;
-                height: 50px;
+                padding: 0.75rem 1.5rem;
+                border-radius: var(--radius);
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                transition: var(--transition);
+            }
+
+            .gallery-view-btn:hover {
+                background: var(--accent-red-hover);
+                transform: scale(1.05);
+            }
+
+            .gallery-download-btn {
+                background: var(--bg-primary);
+                color: var(--text-primary);
+                border: none;
+                width: 40px;
+                height: 40px;
                 border-radius: 50%;
                 display: flex;
                 align-items: center;
@@ -1182,59 +1756,103 @@ const VehiclePage = {
                 transition: var(--transition);
             }
 
-            .gallery-view-btn:hover {
-                transform: scale(1.1);
+            .gallery-download-btn:hover {
+                background: var(--accent-blue);
+                color: white;
+            }
+
+            .gallery-info {
+                padding: 1.5rem;
+            }
+
+            .gallery-type {
+                display: inline-block;
+                background: var(--accent-blue);
+                color: white;
+                padding: 0.25rem 0.75rem;
+                border-radius: 50px;
+                font-size: 0.8rem;
+                font-weight: 600;
+                margin-bottom: 0.5rem;
             }
 
             .gallery-caption {
-                padding: 1rem;
-                text-align: center;
-                color: var(--text-secondary);
-                font-size: 0.9rem;
-            }
-
-            /* Состояния загрузки и отсутствия данных */
-            .loading-content {
-                text-align: center;
-                padding: 3rem;
-                color: var(--text-secondary);
-            }
-
-            .no-data {
-                text-align: center;
-                padding: 4rem 2rem;
-                color: var(--text-muted);
-            }
-
-            .no-data i {
-                font-size: 4rem;
-                margin-bottom: 1rem;
-                opacity: 0.5;
-            }
-
-            .no-data h3 {
-                margin-bottom: 1rem;
                 color: var(--text-primary);
+                font-weight: 500;
+                margin: 0;
+                line-height: 1.4;
+            }
+
+            /* Футер страницы */
+            .vehicle-footer {
+                background: var(--bg-secondary);
+                border-top: 1px solid var(--border-color);
+                padding: 3rem 0;
+                margin-top: 4rem;
+            }
+
+            .footer-content {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .footer-navigation h4 {
+                color: var(--text-primary);
+                margin-bottom: 1rem;
+            }
+
+            .footer-nav-links {
+                display: flex;
+                gap: 1.5rem;
+            }
+
+            .footer-nav-link {
+                color: var(--text-secondary);
+                text-decoration: none;
+                transition: var(--transition);
+            }
+
+            .footer-nav-link:hover {
+                color: var(--accent-red);
+            }
+
+            .footer-actions {
+                display: flex;
+                gap: 1rem;
+            }
+
+            /* Анимации */
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
             }
 
             /* Адаптивность */
-            @media (max-width: 968px) {
-                .vehicle-hero-content {
+            @media (max-width: 1200px) {
+                .vehicle-hero-grid {
                     grid-template-columns: 1fr;
-                    gap: 2rem;
                 }
 
-                .vehicle-gallery {
+                .vehicle-gallery-sidebar {
                     position: static;
+                    order: -1;
                 }
 
-                .vehicle-nav {
-                    flex-wrap: wrap;
-                    justify-content: center;
-                }
-
-                .quick-specs {
+                .specs-container,
+                .history-container {
                     grid-template-columns: 1fr;
+                }
+
+                .specs-sidebar,
+                .history-sidebar {
+                    position: static;
                 }
             }
 
@@ -1243,19 +1861,30 @@ const VehiclePage = {
                     font-size: 2.5rem;
                 }
 
-                .vehicle-meta {
+                .quick-specs-grid {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+
+                .section-header.premium {
                     flex-direction: column;
-                    gap: 0.5rem;
+                    text-align: center;
+                    gap: 1rem;
                 }
 
-                .history-timeline::before {
-                    left: 20px;
+                .section-icon {
+                    width: 60px;
+                    height: 60px;
+                    font-size: 1.5rem;
                 }
 
-                .timeline-year {
-                    width: 40px;
-                    margin-right: 1rem;
-                    font-size: 0.8rem;
+                .footer-content {
+                    flex-direction: column;
+                    gap: 2rem;
+                    text-align: center;
+                }
+
+                .footer-nav-links {
+                    justify-content: center;
                 }
 
                 .modifications-grid {
@@ -1272,16 +1901,21 @@ const VehiclePage = {
                     font-size: 2rem;
                 }
 
-                .section-header h2 {
-                    font-size: 2rem;
+                .quick-specs-grid {
+                    grid-template-columns: 1fr;
+                }
+
+                .vehicle-subtitle {
+                    flex-direction: column;
+                    gap: 0.5rem;
                 }
 
                 .gallery-grid {
                     grid-template-columns: 1fr;
                 }
 
-                .vehicle-nav-link {
-                    padding: 0.75rem 1rem;
+                .quick-nav-btn {
+                    padding: 0.5rem 1rem;
                     font-size: 0.9rem;
                 }
             }

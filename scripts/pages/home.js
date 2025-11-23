@@ -38,7 +38,7 @@ const HomePage = {
                                 </div>
                             </div>
                             <div class="hero-actions">
-                                <a href="#/catalog" class="btn btn-primary btn-large">
+                                <a href="#/ground" class="btn btn-primary btn-large">
                                     <i class="fas fa-search"></i>
                                     Начать исследование
                                 </a>
@@ -209,7 +209,7 @@ const HomePage = {
                                         <span class="spec-value">46 т</span>
                                     </div>
                                 </div>
-                                <button class="btn btn-secondary" onclick="window.location.hash = '/vehicle/t-72b3'">
+                                <button class="btn btn-secondary" onclick="window.navigateToVehicle('t-72b3')">
                                     Подробнее
                                 </button>
                             </div>
@@ -239,7 +239,7 @@ const HomePage = {
                                         <span class="spec-value">14 точек</span>
                                     </div>
                                 </div>
-                                <button class="btn btn-secondary" onclick="window.location.hash = '/vehicle/su-57'">
+                                <button class="btn btn-secondary" onclick="window.navigateToVehicle('su-57')">
                                     Подробнее
                                 </button>
                             </div>
@@ -269,7 +269,7 @@ const HomePage = {
                                         <span class="spec-value">50 летательных аппаратов</span>
                                     </div>
                                 </div>
-                                <button class="btn btn-secondary" onclick="window.location.hash = '/vehicle/kuznetsov'">
+                                <button class="btn btn-secondary" onclick="window.navigateToVehicle('kuznetsov')">
                                     Подробнее
                                 </button>
                             </div>
@@ -333,7 +333,7 @@ const HomePage = {
                         <h2>Готовы начать исследование?</h2>
                         <p>Присоединяйтесь к тысячам энтузиастов, изучающих военную технику</p>
                         <div class="cta-actions">
-                            <a href="#/catalog" class="btn btn-primary btn-large">
+                            <a href="#/ground" class="btn btn-primary btn-large">
                                 <i class="fas fa-search"></i>
                                 Исследовать каталог
                             </a>
@@ -929,7 +929,6 @@ const HomePage = {
     },
 
     setupTechAnimations() {
-        // Анимации для плавающих элементов техники
         const techItems = document.querySelectorAll('.tech-item');
         techItems.forEach((item, index) => {
             item.style.animationDelay = `${index * 1.5}s`;
@@ -937,7 +936,6 @@ const HomePage = {
     },
 
     setupCounters() {
-        // Анимация счетчиков
         const counters = document.querySelectorAll('.stat-number, .stat-value');
         counters.forEach(counter => {
             const target = parseInt(counter.textContent);

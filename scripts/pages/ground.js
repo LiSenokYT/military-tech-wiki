@@ -3,7 +3,6 @@ const GroundPage = {
     vehicles: [],
     filteredVehicles: [],
     filters: {
-        // Основные фильтры
         category: '',
         country: '',
         era: '',
@@ -12,12 +11,10 @@ const GroundPage = {
         crew_min: '',
         crew_max: '',
         search: '',
-        // Расширенные фильтры
         main_gun: '',
         engine_power: '',
         armor: '',
         speed: '',
-        // Новые расширенные фильтры
         road_range: '',
         trench_width: '',
         ammunition: '',
@@ -113,11 +110,6 @@ const GroundPage = {
                                     <option value="china">Китай</option>
                                     <option value="japan">Япония</option>
                                     <option value="israel">Израиль</option>
-                                    <option value="italy">Италия</option>
-                                    <option value="sweden">Швеция</option>
-                                    <option value="ukraine">Украина</option>
-                                    <option value="poland">Польша</option>
-                                    <option value="czech">Чехия</option>
                                 </select>
                             </div>
 
@@ -234,64 +226,6 @@ const GroundPage = {
                                         <option value="90+">90+ км/ч</option>
                                     </select>
                                 </div>
-
-                                <div class="filter-group">
-                                    <label for="road-range-filter" class="filter-label">
-                                        <i class="fas fa-road"></i>
-                                        Запас хода (км)
-                                    </label>
-                                    <select id="road-range-filter" class="filter-select">
-                                        <option value="">Любой запас хода</option>
-                                        <option value="0-200">до 200 км</option>
-                                        <option value="201-400">201-400 км</option>
-                                        <option value="401-600">401-600 км</option>
-                                        <option value="601-800">601-800 км</option>
-                                        <option value="800+">800+ км</option>
-                                    </select>
-                                </div>
-
-                                <div class="filter-group">
-                                    <label for="trench-filter" class="filter-label">
-                                        <i class="fas fa-ditch"></i>
-                                        Ширина рва (м)
-                                    </label>
-                                    <select id="trench-filter" class="filter-select">
-                                        <option value="">Любая ширина</option>
-                                        <option value="0-2">до 2 м</option>
-                                        <option value="2.1-2.5">2.1-2.5 м</option>
-                                        <option value="2.6-3.0">2.6-3.0 м</option>
-                                        <option value="3.0+">3.0+ м</option>
-                                    </select>
-                                </div>
-
-                                <div class="filter-group">
-                                    <label for="ammo-filter" class="filter-label">
-                                        <i class="fas fa-bullseye"></i>
-                                        Боекомплект
-                                    </label>
-                                    <select id="ammo-filter" class="filter-select">
-                                        <option value="">Любой боекомплект</option>
-                                        <option value="0-20">до 20 выстрелов</option>
-                                        <option value="21-40">21-40 выстрелов</option>
-                                        <option value="41-60">41-60 выстрелов</option>
-                                        <option value="60+">60+ выстрелов</option>
-                                    </select>
-                                </div>
-
-                                <div class="filter-group">
-                                    <label for="production-filter" class="filter-label">
-                                        <i class="fas fa-calendar-alt"></i>
-                                        Годы производства
-                                    </label>
-                                    <select id="production-filter" class="filter-select">
-                                        <option value="">Любые годы</option>
-                                        <option value="1910-1940">1910-1940</option>
-                                        <option value="1941-1960">1941-1960</option>
-                                        <option value="1961-1980">1961-1980</option>
-                                        <option value="1981-2000">1981-2000</option>
-                                        <option value="2001+">2001-н.в.</option>
-                                    </select>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -314,8 +248,6 @@ const GroundPage = {
                                     <option value="year_desc">По году (новые)</option>
                                     <option value="weight_asc">По массе (легкие)</option>
                                     <option value="weight_desc">По массе (тяжелые)</option>
-                                    <option value="speed_asc">По скорости (медленные)</option>
-                                    <option value="speed_desc">По скорости (быстрые)</option>
                                 </select>
                             </div>
                         </div>
@@ -331,9 +263,6 @@ const GroundPage = {
                                 <div class="loading-card"></div>
                             </div>
                         </div>
-
-                        <!-- Пагинация -->
-                        <div class="pagination" id="pagination"></div>
                     </div>
                 </section>
             </div>
@@ -350,12 +279,10 @@ const GroundPage = {
     addCatalogStyles() {
         const style = document.createElement('style');
         style.textContent = `
-            /* Страница каталога */
             .catalog-page {
                 min-height: 100vh;
             }
 
-            /* Хедер каталога */
             .catalog-header {
                 padding: 3rem 0 2rem;
                 background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-accent) 100%);
@@ -431,7 +358,6 @@ const GroundPage = {
                 letter-spacing: 1px;
             }
 
-            /* Секция фильтров */
             .filters-section {
                 padding: 2rem 0;
                 background: var(--bg-secondary);
@@ -522,7 +448,6 @@ const GroundPage = {
                 font-weight: 500;
             }
 
-            /* Расширенные фильтры */
             .advanced-filters-toggle {
                 text-align: center;
                 margin: 1rem 0;
@@ -550,7 +475,6 @@ const GroundPage = {
                 }
             }
 
-            /* Секция результатов */
             .results-section {
                 padding: 2rem 0 4rem;
             }
@@ -635,7 +559,6 @@ const GroundPage = {
                 min-width: 200px;
             }
 
-            /* Сетка карточек */
             .vehicles-grid {
                 display: grid;
                 grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
@@ -787,7 +710,6 @@ const GroundPage = {
                 justify-content: center;
             }
 
-            /* Карточки загрузки */
             .loading-cards {
                 display: grid;
                 grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
@@ -819,49 +741,6 @@ const GroundPage = {
                 100% { left: 100%; }
             }
 
-            /* Пагинация */
-            .pagination {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                gap: 0.5rem;
-                margin-top: 2rem;
-            }
-
-            .pagination-btn {
-                padding: 0.5rem 1rem;
-                background: var(--bg-card);
-                border: 1px solid var(--border-color);
-                color: var(--text-primary);
-                border-radius: var(--radius);
-                cursor: pointer;
-                transition: var(--transition);
-                font-size: 0.9rem;
-            }
-
-            .pagination-btn:hover:not(.disabled) {
-                border-color: var(--accent-red);
-                color: var(--accent-red);
-            }
-
-            .pagination-btn.active {
-                background: var(--accent-red);
-                border-color: var(--accent-red);
-                color: white;
-            }
-
-            .pagination-btn.disabled {
-                opacity: 0.5;
-                cursor: not-allowed;
-            }
-
-            .pagination-info {
-                color: var(--text-secondary);
-                font-size: 0.9rem;
-                margin: 0 1rem;
-            }
-
-            /* Адаптивность */
             @media (max-width: 968px) {
                 .filters-grid {
                     grid-template-columns: 1fr;
@@ -917,17 +796,12 @@ const GroundPage = {
                     flex-direction: column;
                     gap: 0.5rem;
                 }
-
-                .pagination {
-                    flex-wrap: wrap;
-                }
             }
         `;
         document.head.appendChild(style);
     },
 
     async loadVehicles() {
-        // Временные данные для демонстрации
         this.vehicles = [
             {
                 id: 't-72b3',
@@ -1014,27 +888,6 @@ const GroundPage = {
                 image: null
             },
             {
-                id: 'btr-82a',
-                name: 'БТР-82А',
-                year: '2013',
-                country: 'russia',
-                category: 'apc',
-                era: 'modern',
-                description: 'Модернизированный бронетранспортер с улучшенным вооружением и защитой.',
-                weight: 15.4,
-                crew: 3,
-                main_gun: 30,
-                engine_power: 300,
-                armor: 'light',
-                speed: 80,
-                road_range: 600,
-                trench_width: 2.0,
-                ammunition: 500,
-                production_start: 2013,
-                production_end: null,
-                image: null
-            },
-            {
                 id: 'm1a2-abrams',
                 name: 'M1A2 Abrams',
                 year: '1992',
@@ -1074,111 +927,6 @@ const GroundPage = {
                 ammunition: 42,
                 production_start: 2014,
                 production_end: null,
-                image: null
-            },
-            {
-                id: 'challenger-2',
-                name: 'Challenger 2',
-                year: '1998',
-                country: 'uk',
-                category: 'mbt',
-                era: 'modern',
-                description: 'Британский основной боевой танк с знаменитой броней Chobham.',
-                weight: 62.5,
-                crew: 4,
-                main_gun: 120,
-                engine_power: 1200,
-                armor: 'composite',
-                speed: 59,
-                road_range: 450,
-                trench_width: 2.8,
-                ammunition: 52,
-                production_start: 1998,
-                production_end: null,
-                image: null
-            },
-            {
-                id: 'merkava-mk4',
-                name: 'Merkava Mk.4',
-                year: '2004',
-                country: 'israel',
-                category: 'mbt',
-                era: 'modern',
-                description: 'Израильский основной боевой танк с уникальной компоновкой и advanced защитой.',
-                weight: 65,
-                crew: 4,
-                main_gun: 120,
-                engine_power: 1500,
-                armor: 'composite',
-                speed: 64,
-                road_range: 500,
-                trench_width: 3.0,
-                ammunition: 48,
-                production_start: 2004,
-                production_end: null,
-                image: null
-            },
-            {
-                id: 'type-10',
-                name: 'Type 10',
-                year: '2012',
-                country: 'japan',
-                category: 'mbt',
-                era: 'modern',
-                description: 'Японский основной боевой танк с modular броней и advanced электроникой.',
-                weight: 48,
-                crew: 3,
-                main_gun: 120,
-                engine_power: 1200,
-                armor: 'composite',
-                speed: 70,
-                road_range: 500,
-                trench_width: 2.7,
-                ammunition: 40,
-                production_start: 2012,
-                production_end: null,
-                image: null
-            },
-            {
-                id: 't-34-85',
-                name: 'Т-34-85',
-                year: '1944',
-                country: 'russia',
-                category: 'medium_tank',
-                era: 'ww2',
-                description: 'Советский средний танк периода Второй мировой войны, самый массовый танк в истории.',
-                weight: 32,
-                crew: 5,
-                main_gun: 85,
-                engine_power: 500,
-                armor: 'medium',
-                speed: 55,
-                road_range: 300,
-                trench_width: 2.5,
-                ammunition: 60,
-                production_start: 1944,
-                production_end: 1958,
-                image: null
-            },
-            {
-                id: 'tiger-i',
-                name: 'Tiger I',
-                year: '1942',
-                country: 'germany',
-                category: 'heavy_tank',
-                era: 'ww2',
-                description: 'Немецкий тяжелый танк времен Второй мировой войны, известный своей мощной броней и вооружением.',
-                weight: 57,
-                crew: 5,
-                main_gun: 88,
-                engine_power: 700,
-                armor: 'heavy',
-                speed: 45,
-                road_range: 195,
-                trench_width: 2.3,
-                ammunition: 92,
-                production_start: 1942,
-                production_end: 1944,
                 image: null
             }
         ];
@@ -1250,27 +998,6 @@ const GroundPage = {
             this.applyFilters();
         });
 
-        // Новые расширенные фильтры
-        document.getElementById('road-range-filter').addEventListener('change', (e) => {
-            this.filters.road_range = e.target.value;
-            this.applyFilters();
-        });
-
-        document.getElementById('trench-filter').addEventListener('change', (e) => {
-            this.filters.trench_width = e.target.value;
-            this.applyFilters();
-        });
-
-        document.getElementById('ammo-filter').addEventListener('change', (e) => {
-            this.filters.ammunition = e.target.value;
-            this.applyFilters();
-        });
-
-        document.getElementById('production-filter').addEventListener('change', (e) => {
-            this.filters.production_years = e.target.value;
-            this.applyFilters();
-        });
-
         // Сброс фильтров
         document.getElementById('reset-filters').addEventListener('click', () => {
             this.resetFilters();
@@ -1289,27 +1016,22 @@ const GroundPage = {
 
     applyFilters() {
         this.filteredVehicles = this.vehicles.filter(vehicle => {
-            // Поиск по названию
             if (this.filters.search && !vehicle.name.toLowerCase().includes(this.filters.search.toLowerCase())) {
                 return false;
             }
 
-            // Фильтр по категории
             if (this.filters.category && vehicle.category !== this.filters.category) {
                 return false;
             }
 
-            // Фильтр по стране
             if (this.filters.country && vehicle.country !== this.filters.country) {
                 return false;
             }
 
-            // Фильтр по периоду
             if (this.filters.era && vehicle.era !== this.filters.era) {
                 return false;
             }
 
-            // Фильтр по массе
             if (this.filters.weight_min && vehicle.weight < parseFloat(this.filters.weight_min)) {
                 return false;
             }
@@ -1317,7 +1039,6 @@ const GroundPage = {
                 return false;
             }
 
-            // Фильтр по экипажу
             if (this.filters.crew_min && vehicle.crew < parseInt(this.filters.crew_min)) {
                 return false;
             }
@@ -1325,7 +1046,6 @@ const GroundPage = {
                 return false;
             }
 
-            // Расширенные фильтры
             if (this.filters.main_gun && !this.checkRangeFilter(vehicle.main_gun, this.filters.main_gun)) {
                 return false;
             }
@@ -1339,23 +1059,6 @@ const GroundPage = {
             }
 
             if (this.filters.speed && !this.checkRangeFilter(vehicle.speed, this.filters.speed)) {
-                return false;
-            }
-
-            // Новые расширенные фильтры
-            if (this.filters.road_range && !this.checkRangeFilter(vehicle.road_range, this.filters.road_range)) {
-                return false;
-            }
-
-            if (this.filters.trench_width && !this.checkRangeFilter(vehicle.trench_width, this.filters.trench_width)) {
-                return false;
-            }
-
-            if (this.filters.ammunition && !this.checkRangeFilter(vehicle.ammunition, this.filters.ammunition)) {
-                return false;
-            }
-
-            if (this.filters.production_years && !this.checkProductionYears(vehicle, this.filters.production_years)) {
                 return false;
             }
 
@@ -1390,36 +1093,6 @@ const GroundPage = {
             case '126-150': return value >= 126 && value <= 150;
             case '150+': return value > 150;
             
-            case '0-200': return value <= 200;
-            case '201-400': return value >= 201 && value <= 400;
-            case '401-600': return value >= 401 && value <= 600;
-            case '601-800': return value >= 601 && value <= 800;
-            case '800+': return value > 800;
-            
-            case '0-2': return value <= 2;
-            case '2.1-2.5': return value >= 2.1 && value <= 2.5;
-            case '2.6-3.0': return value >= 2.6 && value <= 3.0;
-            case '3.0+': return value > 3.0;
-            
-            case '0-20': return value <= 20;
-            case '21-40': return value >= 21 && value <= 40;
-            case '41-60': return value >= 41 && value <= 60;
-            case '60+': return value > 60;
-            
-            default: return true;
-        }
-    },
-
-    checkProductionYears(vehicle, range) {
-        const startYear = vehicle.production_start;
-        if (!startYear) return false;
-        
-        switch (range) {
-            case '1910-1940': return startYear >= 1910 && startYear <= 1940;
-            case '1941-1960': return startYear >= 1941 && startYear <= 1960;
-            case '1961-1980': return startYear >= 1961 && startYear <= 1980;
-            case '1981-2000': return startYear >= 1981 && startYear <= 2000;
-            case '2001+': return startYear >= 2001;
             default: return true;
         }
     },
@@ -1444,12 +1117,10 @@ const GroundPage = {
             production_years: ''
         };
 
-        // Сброс значений в DOM
         const filterIds = [
             'search-filter', 'category-filter', 'country-filter', 'era-filter',
             'weight-min', 'weight-max', 'crew-min', 'crew-max',
-            'main-gun-filter', 'engine-filter', 'armor-filter', 'speed-filter',
-            'road-range-filter', 'trench-filter', 'ammo-filter', 'production-filter'
+            'main-gun-filter', 'engine-filter', 'armor-filter', 'speed-filter'
         ];
 
         filterIds.forEach(id => {
@@ -1489,12 +1160,6 @@ const GroundPage = {
             case 'weight_desc':
                 this.filteredVehicles.sort((a, b) => b.weight - a.weight);
                 break;
-            case 'speed_asc':
-                this.filteredVehicles.sort((a, b) => a.speed - b.speed);
-                break;
-            case 'speed_desc':
-                this.filteredVehicles.sort((a, b) => b.speed - a.speed);
-                break;
         }
         this.updateDisplay();
     },
@@ -1512,7 +1177,7 @@ const GroundPage = {
                     <p style="color: var(--text-secondary); margin-bottom: 2rem;">
                         Попробуйте изменить параметры фильтрации или сбросить фильтры
                     </p>
-                    <button onclick="app.pages.ground.resetFilters()" class="btn btn-primary">
+                    <button class="btn btn-primary" onclick="app.pages.ground.resetFilters()">
                         <i class="fas fa-redo"></i>
                         Сбросить фильтры
                     </button>
@@ -1535,12 +1200,7 @@ const GroundPage = {
             'france': 'Франция',
             'china': 'Китай',
             'japan': 'Япония',
-            'israel': 'Израиль',
-            'italy': 'Италия',
-            'sweden': 'Швеция',
-            'ukraine': 'Украина',
-            'poland': 'Польша',
-            'czech': 'Чехия'
+            'israel': 'Израиль'
         };
 
         const categoryNames = {
@@ -1606,7 +1266,7 @@ const GroundPage = {
                         </div>
                     </div>
                     <div class="vehicle-actions">
-                        <button class="btn btn-primary btn-full" onclick="window.location.hash = '/vehicle/${vehicle.id}'">
+                        <button class="btn btn-primary btn-full" onclick="window.navigateToVehicle('${vehicle.id}')">
                             <i class="fas fa-info-circle"></i>
                             Подробнее
                         </button>
@@ -1621,7 +1281,7 @@ const GroundPage = {
             card.addEventListener('click', (e) => {
                 if (!e.target.closest('button')) {
                     const vehicleId = card.dataset.vehicleId;
-                    app.navigateToVehicle(vehicleId);
+                    window.navigateToVehicle(vehicleId);
                 }
             });
         });
@@ -1636,14 +1296,12 @@ const GroundPage = {
         const activeFiltersContainer = document.getElementById('active-filters');
         const activeFilters = [];
 
-        // Функция для добавления фильтра
         const addFilter = (key, label, value) => {
             if (value) {
                 activeFilters.push({ key, label, value });
             }
         };
 
-        // Основные фильтры
         addFilter('search', `Поиск: "${this.filters.search}"`, this.filters.search);
 
         const categoryLabels = {
@@ -1678,14 +1336,10 @@ const GroundPage = {
             addFilter('crew', `Экипаж: ${min}-${max} чел.`, 'crew');
         }
 
-        // Расширенные фильтры
         const rangeLabels = {
             'main_gun': 'Калибр орудия',
             'engine_power': 'Мощность двигателя',
-            'speed': 'Макс. скорость',
-            'road_range': 'Запас хода',
-            'trench_width': 'Ширина рва',
-            'ammunition': 'Боекомплект'
+            'speed': 'Макс. скорость'
         };
 
         Object.keys(rangeLabels).forEach(key => {
@@ -1702,38 +1356,31 @@ const GroundPage = {
             addFilter('armor', `Броня: ${armorLabels[this.filters.armor]}`, this.filters.armor);
         }
 
-        if (this.filters.production_years) {
-            addFilter('production_years', `Годы: ${this.filters.production_years}`, this.filters.production_years);
-        }
-
         if (activeFilters.length === 0) {
             activeFiltersContainer.innerHTML = '';
         } else {
             activeFiltersContainer.innerHTML = activeFilters.map(filter => `
                 <div class="active-filter">
                     <span>${filter.label}</span>
-                    <button class="remove-filter" data-filter-key="${filter.key}" data-filter-value="${filter.value}">
+                    <button class="remove-filter" data-filter-key="${filter.key}">
                         <i class="fas fa-times"></i>
                     </button>
                 </div>
             `).join('');
 
-            // Добавляем обработчики для кнопок удаления фильтров
             document.querySelectorAll('.remove-filter').forEach(button => {
                 button.addEventListener('click', (e) => {
                     e.stopPropagation();
                     const key = button.dataset.filterKey;
-                    this.removeFilter(key, button.dataset.filterValue);
+                    this.removeFilter(key);
                 });
             });
         }
     },
 
-    removeFilter(key, value) {
-        // Сбрасываем фильтр
+    removeFilter(key) {
         this.filters[key] = '';
         
-        // Сбрасываем соответствующий элемент DOM
         const elementIds = {
             'search': 'search-filter',
             'category': 'category-filter',
@@ -1744,11 +1391,7 @@ const GroundPage = {
             'main_gun': 'main-gun-filter',
             'engine_power': 'engine-filter',
             'armor': 'armor-filter',
-            'speed': 'speed-filter',
-            'road_range': 'road-range-filter',
-            'trench_width': 'trench-filter',
-            'ammunition': 'ammo-filter',
-            'production_years': 'production-filter'
+            'speed': 'speed-filter'
         };
 
         const elementId = elementIds[key];
@@ -1766,7 +1409,6 @@ const GroundPage = {
     }
 };
 
-// Сохраняем ссылку на страницу в глобальной области видимости
 window.app = window.app || {};
 window.app.pages = window.app.pages || {};
 window.app.pages.ground = GroundPage;

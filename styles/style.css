@@ -23,6 +23,22 @@
   --transition-slow: all 0.5s ease;
 }
 
+/* Светлая тема */
+.light-theme {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8f9fa;
+  --bg-card: #ffffff;
+  --bg-accent: #fef2f2;
+  --bg-gradient: linear-gradient(135deg, #ffffff 0%, #f8f9fa 50%, #fef2f2 100%);
+  --text-primary: #1a1a1a;
+  --text-secondary: #4b5563;
+  --text-muted: #6b7280;
+  --border-color: #e5e7eb;
+  --border-light: #f3f4f6;
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 25px -3px rgba(0, 0, 0, 0.1);
+}
+
 /* Сброс и базовые стили */
 * {
   margin: 0;
@@ -40,6 +56,7 @@ body {
   color: var(--text-primary);
   line-height: 1.6;
   overflow-x: hidden;
+  transition: var(--transition-slow);
 }
 
 .container {
@@ -63,6 +80,11 @@ h1, h2, h3, h4, h5, h6 {
   top: 0;
   z-index: 1000;
   backdrop-filter: blur(10px);
+  transition: var(--transition);
+}
+
+.light-theme .header {
+  background-color: rgba(248, 249, 250, 0.95);
 }
 
 .nav {
@@ -79,6 +101,7 @@ h1, h2, h3, h4, h5, h6 {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  text-decoration: none;
 }
 
 .logo i {
@@ -355,7 +378,7 @@ h1, h2, h3, h4, h5, h6 {
   padding: 1.5rem;
   border-bottom: 1px solid var(--border-color);
   display: flex;
-  justify-content: between;
+  justify-content: space-between;
   align-items: center;
 }
 
@@ -452,6 +475,48 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 1.1rem;
 }
 
+.btn-small {
+  padding: 0.5rem 1rem;
+  font-size: 0.8rem;
+}
+
+.btn-full {
+  width: 100%;
+  justify-content: center;
+}
+
+/* Стили для страниц-заглушек */
+.page-header {
+  padding: 4rem 0 2rem;
+  background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-accent) 100%);
+  border-bottom: 1px solid var(--border-color);
+  text-align: center;
+}
+
+.page-header h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-red) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.page-header p {
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  max-width: 600px;
+  margin: 0 auto 2rem;
+}
+
+.page-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
 /* Адаптивность */
 @media (max-width: 1200px) {
   .footer-content {
@@ -513,6 +578,10 @@ h1, h2, h3, h4, h5, h6 {
     grid-template-columns: 1fr;
     gap: 2rem;
   }
+
+  .page-header h1 {
+    font-size: 2.5rem;
+  }
 }
 
 @media (max-width: 480px) {
@@ -528,5 +597,19 @@ h1, h2, h3, h4, h5, h6 {
   .admin-access-btn {
     width: 35px;
     height: 35px;
+  }
+
+  .page-header h1 {
+    font-size: 2rem;
+  }
+
+  .page-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .btn-large {
+    padding: 0.875rem 1.5rem;
+    font-size: 1rem;
   }
 }

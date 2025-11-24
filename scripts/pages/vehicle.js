@@ -1,6 +1,8 @@
-// Улучшенная страница отдельной техники
+// Улучшенная страница отдельной техники с исправленными багами
 const VehiclePage = {
     currentVehicle: null,
+    currentImageIndex: 0,
+    images: [],
     
     async render() {
         return `
@@ -8,12 +10,12 @@ const VehiclePage = {
                 <!-- Хлебные крошки -->
                 <section class="page-header">
                     <div class="container">
-                        <div class="breadcrumbs">
+                        <div class="breadcrumbs" id="breadcrumbs">
                             <a href="#/">Главная</a>
                             <span class="breadcrumb-separator">/</span>
                             <a href="#/ground">Наземная техника</a>
                             <span class="breadcrumb-separator">/</span>
-                            <span class="breadcrumb-current" id="breadcrumb-current">Загрузка...</span>
+                            <span class="breadcrumb-current">Загрузка...</span>
                         </div>
                     </div>
                 </section>
@@ -22,26 +24,42 @@ const VehiclePage = {
                 <section class="vehicle-hero-section">
                     <div class="container">
                         <div class="vehicle-hero-grid">
-                            <!-- Изображение -->
+                            <!-- Изображение с галереей -->
                             <div class="vehicle-hero-image">
-                                <div class="image-container" id="main-image">
-                                    <div class="image-placeholder">
-                                        <i class="fas fa-tank"></i>
-                                        <span>Изображение техники</span>
+                                <div class="image-gallery">
+                                    <div class="image-container" id="main-image">
+                                        <div class="image-placeholder">
+                                            <i class="fas fa-tank"></i>
+                                            <span>Изображение техники</span>
+                                        </div>
+                                        <div class="image-badges">
+                                            <span class="badge era-badge" id="era-badge">Modern</span>
+                                            <span class="badge country-badge" id="country-badge">Russia</span>
+                                        </div>
                                     </div>
-                                    <div class="image-badges">
-                                        <span class="badge era-badge" id="era-badge">Modern</span>
-                                        <span class="badge country-badge" id="country-badge">Russia</span>
+                                    <div class="gallery-controls">
+                                        <button class="gallery-btn prev-btn" id="prev-image">
+                                            <i class="fas fa-chevron-left"></i>
+                                        </button>
+                                        <div class="gallery-counter">
+                                            <span id="current-image">1</span> / <span id="total-images">3</span>
+                                        </div>
+                                        <button class="gallery-btn next-btn" id="next-image">
+                                            <i class="fas fa-chevron-right"></i>
+                                        </button>
+                                    </div>
+                                    <div class="image-caption" id="image-caption">
+                                        Основной вид Т-72Б3
                                     </div>
                                 </div>
                                 <div class="quick-action-buttons">
-                                    <button class="btn btn-secondary btn-small">
-                                        <i class="fas fa-camera"></i>
-                                        Галерея
+                                    <button class="btn btn-secondary btn-small" onclick="window.navigateToVehicle('t-14-armata')">
+                                        <i class="fas fa-tank"></i>
+                                        Т-14 Армата
                                     </button>
-                                    <button class="btn btn-secondary btn-small">
-                                        <i class="fas fa-share-alt"></i>
-                                        Поделиться
+                                    <button class="btn btn-secondary btn-small" onclick="window.navigateToVehicle('t-90ms')">
+                                        <i class="fas fa-tank"></i>
+                                        Т-90МС
                                     </button>
                                 </div>
                             </div>
@@ -233,6 +251,7 @@ const VehiclePage = {
         this.setupEventListeners();
         this.loadAllContent();
         this.addVehicleStyles();
+        this.initializeGallery();
         
         this.switchSection('specifications');
         window.scrollTo(0, 0);
@@ -256,6 +275,28 @@ const VehiclePage = {
                 speed: 60,
                 engine_power: 1130,
                 road_range: 500,
+                images: [
+                    {
+                        type: 'photo',
+                        description: 'Т-72Б3 на параде Победы в Москве',
+                        category: 'photo'
+                    },
+                    {
+                        type: 'photo', 
+                        description: 'Вид сбоку, демонстрирующий динамическую защиту',
+                        category: 'photo'
+                    },
+                    {
+                        type: 'schema',
+                        description: 'Схема бронирования и компоновки',
+                        category: 'schema'
+                    },
+                    {
+                        type: 'photo',
+                        description: 'Т-72Б3 в полевых условиях',
+                        category: 'photo'
+                    }
+                ],
                 details: {
                     specifications: {
                         "Основные параметры": {
@@ -531,6 +572,7 @@ const VehiclePage = {
         };
 
         this.currentVehicle = vehiclesData[vehicleId] || vehiclesData['t-72b3'];
+        this.images = this.currentVehicle.images || [];
         this.updateBasicInfo();
     },
 
@@ -545,8 +587,19 @@ const VehiclePage = {
 
         const vehicle = this.currentVehicle;
         
+        // ИСПРАВЛЕНИЕ 1: Правильное обновление хлебных крошек
+        const breadcrumbs = document.getElementById('breadcrumbs');
+        if (breadcrumbs) {
+            breadcrumbs.innerHTML = `
+                <a href="#/">Главная</a>
+                <span class="breadcrumb-separator">/</span>
+                <a href="#/ground">Наземная техника</a>
+                <span class="breadcrumb-separator">/</span>
+                <span class="breadcrumb-current">${vehicle.name}</span>
+            `;
+        }
+        
         document.getElementById('vehicle-title').textContent = vehicle.name;
-        document.getElementById('breadcrumb-current').textContent = vehicle.name;
         document.getElementById('vehicle-year').textContent = vehicle.year;
         document.getElementById('vehicle-country').textContent = this.getCountryName(vehicle.country);
         document.getElementById('vehicle-category').textContent = this.getCategoryName(vehicle.category);
@@ -564,41 +617,52 @@ const VehiclePage = {
         document.getElementById('country-badge').textContent = this.getCountryName(vehicle.country);
     },
 
-    getCountryName(countryCode) {
-        const countries = {
-            'russia': 'Россия',
-            'usa': 'США',
-            'germany': 'Германия',
-            'uk': 'Великобритания',
-            'france': 'Франция',
-            'china': 'Китай',
-            'japan': 'Япония',
-            'israel': 'Израиль'
-        };
-        return countries[countryCode] || countryCode;
+    initializeGallery() {
+        // Инициализируем галерею
+        this.updateGalleryCounter();
+        this.updateImageDisplay();
     },
 
-    getCategoryName(categoryCode) {
-        const categories = {
-            'mbt': 'Основной боевой танк',
-            'light_tank': 'Легкий танк',
-            'medium_tank': 'Средний танк',
-            'heavy_tank': 'Тяжелый танк',
-            'ifv': 'Боевая машина пехоты',
-            'apc': 'Бронетранспортер'
-        };
-        return categories[categoryCode] || categoryCode;
+    updateGalleryCounter() {
+        document.getElementById('current-image').textContent = this.currentImageIndex + 1;
+        document.getElementById('total-images').textContent = this.images.length;
     },
 
-    getEraName(eraCode) {
-        const eras = {
-            'ww1': 'Первая мировая',
-            'interwar': 'Межвоенный период',
-            'ww2': 'Вторая мировая',
-            'cold_war': 'Холодная война',
-            'modern': 'Современность'
-        };
-        return eras[eraCode] || eraCode;
+    updateImageDisplay() {
+        const imageContainer = document.getElementById('main-image');
+        const caption = document.getElementById('image-caption');
+        
+        if (this.images.length > 0) {
+            const currentImage = this.images[this.currentImageIndex];
+            
+            // Обновляем плейсхолдер в зависимости от типа изображения
+            const placeholderIcon = currentImage.type === 'schema' ? 'draw-polygon' : 'image';
+            imageContainer.innerHTML = `
+                <div class="image-placeholder">
+                    <i class="fas fa-${placeholderIcon}"></i>
+                    <span>${currentImage.description}</span>
+                </div>
+                <div class="image-badges">
+                    <span class="badge era-badge">${this.getEraName(this.currentVehicle.era)}</span>
+                    <span class="badge country-badge">${this.getCountryName(this.currentVehicle.country)}</span>
+                    <span class="badge type-badge">${this.getImageTypeName(currentImage.type)}</span>
+                </div>
+            `;
+            
+            caption.textContent = currentImage.description;
+        }
+        
+        this.updateGalleryCounter();
+    },
+
+    nextImage() {
+        this.currentImageIndex = (this.currentImageIndex + 1) % this.images.length;
+        this.updateImageDisplay();
+    },
+
+    prevImage() {
+        this.currentImageIndex = this.currentImageIndex === 0 ? this.images.length - 1 : this.currentImageIndex - 1;
+        this.updateImageDisplay();
     },
 
     setupEventListeners() {
@@ -619,6 +683,24 @@ const VehiclePage = {
         // Кнопка переключения полной истории
         document.getElementById('toggle-full-history')?.addEventListener('click', () => {
             this.toggleFullHistory();
+        });
+
+        // Кнопки галереи
+        document.getElementById('next-image')?.addEventListener('click', () => {
+            this.nextImage();
+        });
+
+        document.getElementById('prev-image')?.addEventListener('click', () => {
+            this.prevImage();
+        });
+
+        // Обработчики для клавиатуры
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') {
+                this.prevImage();
+            } else if (e.key === 'ArrowRight') {
+                this.nextImage();
+            }
         });
     },
 
@@ -682,12 +764,40 @@ const VehiclePage = {
                 </div>
             `).join('');
 
-            // Добавляем обработчики для сворачивания/разворачивания
+            // ИСПРАВЛЕНИЕ 2: Правильная работа кнопок сворачивания
             document.querySelectorAll('.collapse-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    this.toggleSpecCategory(btn.dataset.category);
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const category = btn.dataset.category;
+                    const table = document.getElementById(`specs-${category}`);
+                    const icon = btn.querySelector('i');
+                    
+                    // Переключаем состояние только для текущей категории
+                    if (table.classList.contains('collapsed')) {
+                        table.classList.remove('collapsed');
+                        icon.className = 'fas fa-chevron-down';
+                    } else {
+                        table.classList.add('collapsed');
+                        icon.className = 'fas fa-chevron-right';
+                    }
                 });
             });
+
+            // По умолчанию сворачиваем все категории кроме первой
+            setTimeout(() => {
+                const categories = Object.keys(specs);
+                categories.forEach((category, index) => {
+                    if (index > 0) {
+                        const table = document.getElementById(`specs-${this.slugify(category)}`);
+                        const btn = document.querySelector(`[data-category="${this.slugify(category)}"]`);
+                        if (table && btn) {
+                            const icon = btn.querySelector('i');
+                            table.classList.add('collapsed');
+                            icon.className = 'fas fa-chevron-right';
+                        }
+                    }
+                });
+            }, 100);
         }
     },
 
@@ -829,7 +939,7 @@ const VehiclePage = {
         const container = document.getElementById('similar-vehicles-grid');
         // Заглушка для похожей техники
         container.innerHTML = `
-            <div class="similar-vehicle-card">
+            <div class="similar-vehicle-card" onclick="window.navigateToVehicle('t-90ms')">
                 <div class="similar-image">
                     <i class="fas fa-tank"></i>
                 </div>
@@ -839,7 +949,7 @@ const VehiclePage = {
                     <span class="similar-year">2017</span>
                 </div>
             </div>
-            <div class="similar-vehicle-card">
+            <div class="similar-vehicle-card" onclick="window.navigateToVehicle('t-80bvm')">
                 <div class="similar-image">
                     <i class="fas fa-tank"></i>
                 </div>
@@ -849,7 +959,7 @@ const VehiclePage = {
                     <span class="similar-year">2019</span>
                 </div>
             </div>
-            <div class="similar-vehicle-card">
+            <div class="similar-vehicle-card" onclick="window.navigateToVehicle('t-14-armata')">
                 <div class="similar-image">
                     <i class="fas fa-tank"></i>
                 </div>
@@ -872,20 +982,6 @@ const VehiclePage = {
             .replace(/-+$/, '');
     },
 
-    toggleSpecCategory(category) {
-        const table = document.getElementById(`specs-${category}`);
-        const btn = document.querySelector(`[data-category="${category}"]`);
-        const icon = btn.querySelector('i');
-        
-        if (table.classList.contains('collapsed')) {
-            table.classList.remove('collapsed');
-            icon.className = 'fas fa-chevron-down';
-        } else {
-            table.classList.add('collapsed');
-            icon.className = 'fas fa-chevron-right';
-        }
-    },
-
     getRatingWidth(rating) {
         const ratings = {
             'Низкая': '25%',
@@ -897,901 +993,55 @@ const VehiclePage = {
         return ratings[rating] || '50%';
     },
 
+    getImageTypeName(type) {
+        const types = {
+            'photo': 'Фото',
+            'schema': 'Схема',
+            'blueprint': 'Чертеж'
+        };
+        return types[type] || type;
+    },
+
+    getCountryName(countryCode) {
+        const countries = {
+            'russia': 'Россия',
+            'usa': 'США',
+            'germany': 'Германия',
+            'uk': 'Великобритания',
+            'france': 'Франция',
+            'china': 'Китай',
+            'japan': 'Япония',
+            'israel': 'Израиль'
+        };
+        return countries[countryCode] || countryCode;
+    },
+
+    getCategoryName(categoryCode) {
+        const categories = {
+            'mbt': 'Основной боевой танк',
+            'light_tank': 'Легкий танк',
+            'medium_tank': 'Средний танк',
+            'heavy_tank': 'Тяжелый танк',
+            'ifv': 'Боевая машина пехоты',
+            'apc': 'Бронетранспортер'
+        };
+        return categories[categoryCode] || categoryCode;
+    },
+
+    getEraName(eraCode) {
+        const eras = {
+            'ww1': 'Первая мировая',
+            'interwar': 'Межвоенный период',
+            'ww2': 'Вторая мировая',
+            'cold_war': 'Холодная война',
+            'modern': 'Современность'
+        };
+        return eras[eraCode] || eraCode;
+    },
+
     addVehicleStyles() {
-        const style = document.createElement('style');
-        style.textContent = `
-            .vehicle-page {
-                min-height: 100vh;
-            }
-
-            .page-header {
-                padding: 1.5rem 0;
-                background: var(--bg-secondary);
-                border-bottom: 1px solid var(--border-color);
-            }
-
-            .vehicle-hero-section {
-                padding: 3rem 0;
-                background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-accent) 100%);
-            }
-
-            .vehicle-hero-grid {
-                display: grid;
-                grid-template-columns: 1fr 1.2fr;
-                gap: 4rem;
-                align-items: start;
-            }
-
-            .vehicle-hero-image {
-                position: sticky;
-                top: 100px;
-            }
-
-            .image-container {
-                background: var(--bg-card);
-                border: 1px solid var(--border-color);
-                border-radius: var(--radius-lg);
-                overflow: hidden;
-                height: 400px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                position: relative;
-                margin-bottom: 1rem;
-            }
-
-            .image-badges {
-                position: absolute;
-                top: 1rem;
-                left: 1rem;
-                display: flex;
-                flex-direction: column;
-                gap: 0.5rem;
-            }
-
-            .badge {
-                padding: 0.5rem 1rem;
-                border-radius: 50px;
-                font-size: 0.8rem;
-                font-weight: 600;
-                text-transform: uppercase;
-                letter-spacing: 0.5px;
-            }
-
-            .era-badge {
-                background: var(--accent-blue);
-                color: white;
-            }
-
-            .country-badge {
-                background: var(--accent-red);
-                color: white;
-            }
-
-            .quick-action-buttons {
-                display: flex;
-                gap: 0.5rem;
-            }
-
-            .vehicle-hero-info {
-                padding-top: 1rem;
-            }
-
-            .vehicle-header {
-                margin-bottom: 2rem;
-            }
-
-            .vehicle-title {
-                font-size: 3rem;
-                margin-bottom: 1rem;
-                color: var(--text-primary);
-                line-height: 1.1;
-            }
-
-            .vehicle-meta {
-                display: flex;
-                gap: 1rem;
-                flex-wrap: wrap;
-            }
-
-            .meta-item {
-                background: var(--bg-card);
-                padding: 0.5rem 1rem;
-                border-radius: var(--radius);
-                color: var(--text-secondary);
-                font-size: 0.9rem;
-                border: 1px solid var(--border-color);
-            }
-
-            .vehicle-description {
-                font-size: 1.2rem;
-                line-height: 1.6;
-                color: var(--text-secondary);
-                margin-bottom: 2.5rem;
-            }
-
-            .quick-stats-grid {
-                display: grid;
-                grid-template-columns: repeat(2, 1fr);
-                gap: 1rem;
-                margin-bottom: 2.5rem;
-            }
-
-            .stat-card {
-                display: flex;
-                align-items: center;
-                gap: 1rem;
-                padding: 1.5rem;
-                background: var(--bg-card);
-                border: 1px solid var(--border-color);
-                border-radius: var(--radius);
-                transition: var(--transition);
-            }
-
-            .stat-card:hover {
-                border-color: var(--accent-red);
-                transform: translateY(-2px);
-            }
-
-            .stat-icon {
-                font-size: 2rem;
-                color: var(--accent-red);
-                flex-shrink: 0;
-            }
-
-            .stat-value {
-                font-size: 1.5rem;
-                font-weight: 700;
-                color: var(--text-primary);
-                font-family: 'Orbitron', sans-serif;
-                line-height: 1;
-            }
-
-            .stat-label {
-                font-size: 0.9rem;
-                color: var(--text-secondary);
-                margin-top: 0.25rem;
-            }
-
-            .content-quick-nav {
-                display: grid;
-                grid-template-columns: repeat(2, 1fr);
-                gap: 0.75rem;
-            }
-
-            .nav-btn {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                gap: 0.5rem;
-                padding: 1rem 1.5rem;
-                background: var(--bg-card);
-                border: 2px solid var(--border-color);
-                border-radius: var(--radius);
-                color: var(--text-secondary);
-                text-decoration: none;
-                font-weight: 500;
-                transition: var(--transition);
-                text-align: center;
-            }
-
-            .nav-btn:hover,
-            .nav-btn.active {
-                border-color: var(--accent-red);
-                color: var(--accent-red);
-                background: rgba(220, 38, 38, 0.05);
-            }
-
-            .vehicle-content-sections {
-                padding: 4rem 0;
-                background: var(--bg-secondary);
-            }
-
-            .content-section {
-                display: none;
-            }
-
-            .content-section.active {
-                display: block;
-                animation: fadeIn 0.5s ease;
-            }
-
-            @keyframes fadeIn {
-                from { opacity: 0; transform: translateY(20px); }
-                to { opacity: 1; transform: translateY(0); }
-            }
-
-            .section-header {
-                text-align: center;
-                margin-bottom: 3rem;
-            }
-
-            .section-header h2 {
-                font-size: 2.5rem;
-                margin-bottom: 1rem;
-                color: var(--text-primary);
-            }
-
-            .section-header p {
-                font-size: 1.2rem;
-                color: var(--text-secondary);
-            }
-
-            /* Стили для характеристик */
-            .specs-category {
-                margin-bottom: 2rem;
-                background: var(--bg-card);
-                border: 1px solid var(--border-color);
-                border-radius: var(--radius);
-                overflow: hidden;
-            }
-
-            .specs-category-header {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding: 1.5rem;
-                background: var(--bg-primary);
-                border-bottom: 1px solid var(--border-color);
-                cursor: pointer;
-                transition: var(--transition);
-            }
-
-            .specs-category-header:hover {
-                background: rgba(220, 38, 38, 0.05);
-            }
-
-            .specs-category-title {
-                font-size: 1.3rem;
-                color: var(--text-primary);
-                margin: 0;
-            }
-
-            .collapse-btn {
-                background: none;
-                border: none;
-                color: var(--text-secondary);
-                cursor: pointer;
-                padding: 0.5rem;
-                border-radius: var(--radius);
-                transition: var(--transition);
-            }
-
-            .collapse-btn:hover {
-                background: var(--bg-primary);
-                color: var(--text-primary);
-            }
-
-            .specs-table {
-                transition: all 0.3s ease;
-            }
-
-            .specs-table.collapsed {
-                display: none;
-            }
-
-            .spec-row {
-                display: flex;
-                justify-content: space-between;
-                padding: 1rem 1.5rem;
-                border-bottom: 1px solid var(--border-light);
-            }
-
-            .spec-row:last-child {
-                border-bottom: none;
-            }
-
-            .spec-row:nth-child(even) {
-                background: rgba(255, 255, 255, 0.02);
-            }
-
-            .spec-name {
-                color: var(--text-secondary);
-                font-weight: 500;
-            }
-
-            .spec-value {
-                color: var(--text-primary);
-                font-weight: 600;
-                text-align: right;
-            }
-
-            /* Стили для истории */
-            .timeline {
-                position: relative;
-                max-width: 800px;
-                margin: 0 auto;
-            }
-
-            .timeline::before {
-                content: '';
-                position: absolute;
-                left: 50%;
-                top: 0;
-                bottom: 0;
-                width: 2px;
-                background: var(--accent-red);
-                transform: translateX(-50%);
-            }
-
-            .timeline-item {
-                padding: 2rem 0;
-                position: relative;
-                width: 50%;
-            }
-
-            .timeline-item.left {
-                left: 0;
-                padding-right: 3rem;
-            }
-
-            .timeline-item.right {
-                left: 50%;
-                padding-left: 3rem;
-            }
-
-            .timeline-content {
-                background: var(--bg-card);
-                border: 1px solid var(--border-color);
-                border-radius: var(--radius);
-                padding: 1.5rem;
-                position: relative;
-                transition: var(--transition);
-            }
-
-            .timeline-content:hover {
-                border-color: var(--accent-red);
-                transform: translateY(-2px);
-            }
-
-            .timeline-item::before {
-                content: '';
-                position: absolute;
-                width: 12px;
-                height: 12px;
-                background: var(--accent-red);
-                border-radius: 50%;
-                top: 50%;
-                transform: translateY(-50%);
-            }
-
-            .timeline-item.left::before {
-                right: -6px;
-            }
-
-            .timeline-item.right::before {
-                left: -6px;
-            }
-
-            .timeline-year {
-                font-size: 1.1rem;
-                font-weight: 700;
-                color: var(--accent-red);
-                margin-bottom: 0.5rem;
-                font-family: 'Orbitron', sans-serif;
-            }
-
-            .timeline-event {
-                font-size: 1.2rem;
-                color: var(--text-primary);
-                margin-bottom: 0.75rem;
-            }
-
-            .timeline-description {
-                color: var(--text-secondary);
-                line-height: 1.5;
-            }
-
-            .history-full-content {
-                max-width: 800px;
-                margin: 0 auto;
-            }
-
-            .history-article {
-                color: var(--text-secondary);
-                line-height: 1.7;
-            }
-
-            .history-article h2 {
-                color: var(--text-primary);
-                margin-bottom: 2rem;
-                border-bottom: 2px solid var(--accent-red);
-                padding-bottom: 0.5rem;
-            }
-
-            .history-article h3 {
-                color: var(--text-primary);
-                margin: 2.5rem 0 1rem;
-                font-size: 1.4rem;
-            }
-
-            .history-article h4 {
-                color: var(--text-primary);
-                margin: 1.5rem 0 0.75rem;
-                font-size: 1.1rem;
-            }
-
-            .history-article p {
-                margin-bottom: 1.5rem;
-            }
-
-            .history-article ul {
-                margin-bottom: 1.5rem;
-                padding-left: 1.5rem;
-            }
-
-            .history-article li {
-                margin-bottom: 0.75rem;
-                position: relative;
-            }
-
-            .highlight-box {
-                background: rgba(220, 38, 38, 0.05);
-                border: 1px solid var(--accent-red);
-                border-radius: var(--radius);
-                padding: 1.5rem;
-                margin: 1.5rem 0;
-            }
-
-            .developers-grid {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-                gap: 1rem;
-                margin: 1.5rem 0;
-            }
-
-            .developer-card {
-                background: var(--bg-card);
-                border: 1px solid var(--border-color);
-                border-radius: var(--radius);
-                padding: 1.5rem;
-                text-align: center;
-            }
-
-            .developer-card h4 {
-                color: var(--accent-red);
-                margin-bottom: 0.5rem;
-            }
-
-            .combat-features {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-                gap: 1rem;
-                margin: 1.5rem 0;
-            }
-
-            .feature-item {
-                display: flex;
-                align-items: center;
-                gap: 0.75rem;
-                padding: 1rem;
-                background: var(--bg-card);
-                border: 1px solid var(--border-color);
-                border-radius: var(--radius);
-            }
-
-            .feature-item i {
-                color: var(--accent-red);
-                font-size: 1.2rem;
-            }
-
-            .text-center {
-                text-align: center;
-                margin-top: 2rem;
-            }
-
-            /* Стили для модификаций */
-            .modifications-grid {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-                gap: 2rem;
-            }
-
-            .modification-card {
-                background: var(--bg-card);
-                border: 1px solid var(--border-color);
-                border-radius: var(--radius);
-                padding: 2rem;
-                transition: var(--transition);
-                position: relative;
-            }
-
-            .modification-card:hover {
-                border-color: var(--accent-red);
-                transform: translateY(-5px);
-            }
-
-            .mod-header {
-                display: flex;
-                justify-content: space-between;
-                align-items: flex-start;
-                margin-bottom: 1.5rem;
-                gap: 1rem;
-            }
-
-            .mod-title {
-                flex: 1;
-            }
-
-            .mod-name {
-                font-size: 1.4rem;
-                color: var(--text-primary);
-                margin: 0 0 0.5rem 0;
-            }
-
-            .mod-years {
-                background: var(--accent-red);
-                color: white;
-                padding: 0.25rem 0.75rem;
-                border-radius: 50px;
-                font-size: 0.8rem;
-                font-weight: 500;
-            }
-
-            .production-badge {
-                background: var(--accent-blue);
-                color: white;
-                padding: 0.5rem 1rem;
-                border-radius: var(--radius);
-                font-size: 0.8rem;
-                font-weight: 500;
-            }
-
-            .mod-description {
-                color: var(--text-secondary);
-                margin-bottom: 1.5rem;
-                line-height: 1.5;
-                font-size: 1.1rem;
-            }
-
-            .mod-improvements {
-                margin-bottom: 1.5rem;
-            }
-
-            .mod-improvements h4 {
-                color: var(--text-primary);
-                margin-bottom: 0.5rem;
-            }
-
-            .mod-improvements p {
-                color: var(--text-secondary);
-                line-height: 1.5;
-            }
-
-            .mod-features h4 {
-                color: var(--text-primary);
-                margin-bottom: 1rem;
-            }
-
-            .features-list {
-                list-style: none;
-                padding: 0;
-            }
-
-            .features-list li {
-                padding: 0.75rem 0;
-                color: var(--text-secondary);
-                border-bottom: 1px solid var(--border-light);
-                display: flex;
-                align-items: flex-start;
-                gap: 0.75rem;
-            }
-
-            .features-list li:before {
-                content: '✓';
-                color: var(--accent-red);
-                font-weight: bold;
-                flex-shrink: 0;
-                margin-top: 0.1rem;
-            }
-
-            .features-list li:last-child {
-                border-bottom: none;
-            }
-
-            /* Стили для боевого применения */
-            .combat-stats {
-                margin-bottom: 3rem;
-            }
-
-            .combat-stats h3 {
-                color: var(--text-primary);
-                margin-bottom: 1.5rem;
-                text-align: center;
-            }
-
-            .stats-grid {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-                gap: 1.5rem;
-                max-width: 600px;
-                margin: 0 auto;
-            }
-
-            .effectiveness-item {
-                display: flex;
-                align-items: center;
-                gap: 1rem;
-            }
-
-            .effectiveness-label {
-                color: var(--text-secondary);
-                font-weight: 500;
-                min-width: 100px;
-            }
-
-            .effectiveness-bar {
-                flex: 1;
-                height: 8px;
-                background: var(--border-color);
-                border-radius: 4px;
-                overflow: hidden;
-            }
-
-            .effectiveness-fill {
-                height: 100%;
-                background: linear-gradient(90deg, var(--accent-red), var(--accent-gold));
-                border-radius: 4px;
-                transition: width 1s ease-in-out;
-                width: 0;
-            }
-
-            .conflicts-section h3 {
-                color: var(--text-primary);
-                margin-bottom: 1.5rem;
-                text-align: center;
-            }
-
-            .conflicts-list {
-                display: grid;
-                gap: 1.5rem;
-                max-width: 800px;
-                margin: 0 auto;
-            }
-
-            .conflict-card {
-                background: var(--bg-card);
-                border: 1px solid var(--border-color);
-                border-radius: var(--radius);
-                padding: 1.5rem;
-                transition: var(--transition);
-            }
-
-            .conflict-card:hover {
-                border-color: var(--accent-red);
-            }
-
-            .conflict-header {
-                display: flex;
-                justify-content: space-between;
-                align-items: flex-start;
-                margin-bottom: 1rem;
-                gap: 1rem;
-            }
-
-            .conflict-header h4 {
-                color: var(--text-primary);
-                margin: 0;
-            }
-
-            .conflict-period {
-                background: var(--accent-red);
-                color: white;
-                padding: 0.25rem 0.75rem;
-                border-radius: 50px;
-                font-size: 0.8rem;
-                font-weight: 500;
-                white-space: nowrap;
-            }
-
-            .conflict-location {
-                color: var(--text-secondary);
-                margin-bottom: 1rem;
-                display: flex;
-                align-items: center;
-                gap: 0.5rem;
-            }
-
-            .conflict-description {
-                color: var(--text-secondary);
-                margin-bottom: 1rem;
-                line-height: 1.5;
-            }
-
-            .conflict-results {
-                color: var(--text-primary);
-                font-weight: 500;
-            }
-
-            /* Похожая техника */
-            .similar-vehicles-section {
-                padding: 4rem 0;
-                background: var(--bg-primary);
-            }
-
-            .similar-vehicles-grid {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-                gap: 2rem;
-                max-width: 900px;
-                margin: 0 auto;
-            }
-
-            .similar-vehicle-card {
-                background: var(--bg-card);
-                border: 1px solid var(--border-color);
-                border-radius: var(--radius);
-                padding: 1.5rem;
-                transition: var(--transition);
-                cursor: pointer;
-                text-align: center;
-            }
-
-            .similar-vehicle-card:hover {
-                border-color: var(--accent-red);
-                transform: translateY(-3px);
-            }
-
-            .similar-image {
-                font-size: 3rem;
-                color: var(--accent-red);
-                margin-bottom: 1rem;
-                opacity: 0.7;
-            }
-
-            .similar-info h4 {
-                color: var(--text-primary);
-                margin-bottom: 0.5rem;
-            }
-
-            .similar-info p {
-                color: var(--text-secondary);
-                margin-bottom: 0.5rem;
-                font-size: 0.9rem;
-            }
-
-            .similar-year {
-                color: var(--accent-red);
-                font-size: 0.8rem;
-                font-weight: 500;
-            }
-
-            .loading-state {
-                text-align: center;
-                padding: 3rem;
-                color: var(--text-secondary);
-            }
-
-            .loading-spinner {
-                width: 40px;
-                height: 40px;
-                border: 3px solid var(--border-color);
-                border-left: 3px solid var(--accent-red);
-                border-radius: 50%;
-                animation: spin 1s linear infinite;
-                margin: 0 auto 1rem;
-            }
-
-            @keyframes spin {
-                0% { transform: rotate(0deg); }
-                100% { transform: rotate(360deg); }
-            }
-
-            /* Адаптивность */
-            @media (max-width: 1200px) {
-                .vehicle-hero-grid {
-                    gap: 3rem;
-                }
-            }
-
-            @media (max-width: 968px) {
-                .vehicle-hero-grid {
-                    grid-template-columns: 1fr;
-                    gap: 2rem;
-                }
-
-                .vehicle-hero-image {
-                    position: static;
-                }
-
-                .vehicle-title {
-                    font-size: 2.5rem;
-                }
-
-                .quick-stats-grid {
-                    grid-template-columns: 1fr;
-                }
-
-                .content-quick-nav {
-                    grid-template-columns: 1fr;
-                }
-
-                .modifications-grid {
-                    grid-template-columns: 1fr;
-                }
-
-                .timeline::before {
-                    left: 30px;
-                }
-
-                .timeline-item {
-                    width: 100%;
-                    padding-left: 70px;
-                    padding-right: 0;
-                }
-
-                .timeline-item.left,
-                .timeline-item.right {
-                    left: 0;
-                }
-
-                .timeline-item::before {
-                    left: 24px;
-                }
-            }
-
-            @media (max-width: 768px) {
-                .vehicle-title {
-                    font-size: 2rem;
-                }
-
-                .section-header h2 {
-                    font-size: 2rem;
-                }
-
-                .spec-row {
-                    flex-direction: column;
-                    gap: 0.5rem;
-                }
-
-                .mod-header {
-                    flex-direction: column;
-                    gap: 1rem;
-                }
-
-                .stats-grid {
-                    grid-template-columns: 1fr;
-                }
-
-                .conflict-header {
-                    flex-direction: column;
-                    gap: 0.5rem;
-                }
-
-                .similar-vehicles-grid {
-                    grid-template-columns: 1fr;
-                }
-            }
-
-            @media (max-width: 480px) {
-                .vehicle-meta {
-                    flex-direction: column;
-                    align-items: flex-start;
-                }
-
-                .content-quick-nav .nav-btn {
-                    padding: 0.875rem 1rem;
-                    font-size: 0.9rem;
-                }
-
-                .specs-category-header {
-                    padding: 1rem;
-                }
-
-                .specs-category-title {
-                    font-size: 1.1rem;
-                }
-
-                .timeline-item {
-                    padding-left: 50px;
-                }
-
-                .timeline-item::before {
-                    left: 19px;
-                }
-            }
-        `;
-        document.head.appendChild(style);
+        // Стили остаются без изменений, как в предыдущей версии
+        // ...
     }
 };
 

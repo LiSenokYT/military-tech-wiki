@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Военная энциклопедия | Главная страница</title>
+    <title>Арсенал | Энциклопедия военной техники</title>
+    <meta name="description" content="Полная энциклопедия современной и исторической военной техники: танки, самолеты, корабли, системы вооружения. Тактико-технические характеристики, фото, анализ.">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,8 +17,8 @@
     <header class="main-header">
         <div class="container header-container">
             <a href="index.html" class="logo">
-                <i class="fas fa-tank"></i>
-                <span>Военная энциклопедия</span>
+                <i class="fas fa-shield-alt"></i>
+                <span>АРСЕНАЛ</span>
             </a>
 
             <nav class="main-nav">
@@ -26,7 +27,7 @@
                     <li class="nav-item"><a href="pages/ground.html" class="nav-link"><i class="fas fa-tank"></i> Наземная</a></li>
                     <li class="nav-item"><a href="pages/air.html" class="nav-link"><i class="fas fa-fighter-jet"></i> Воздушная</a></li>
                     <li class="nav-item"><a href="pages/naval.html" class="nav-link"><i class="fas fa-ship"></i> Морская</a></li>
-                    <li class="nav-item"><a href="pages/ammunition.html" class="nav-link"><i class="fas fa-crosshairs"></i> Боеприпасы</a></li>
+                    <li class="nav-item"><a href="pages/ammunition.html" class="nav-link"><i class="fas fa-missile"></i> Вооружение</a></li>
                 </ul>
             </nav>
 
@@ -34,8 +35,7 @@
                 <button id="themeToggle" class="btn-icon" title="Сменить тему">
                     <i class="fas fa-moon"></i> <span class="btn-text">Тема</span>
                 </button>
-                <!-- Место для будущего поиска или кнопки входа -->
-                <button class="btn-icon" id="searchBtn" title="Поиск (скоро)"><i class="fas fa-search"></i></button>
+                <button class="btn-icon" id="searchBtn" title="Поиск"><i class="fas fa-search"></i></button>
             </div>
 
             <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Меню">
@@ -51,7 +51,7 @@
             <li><a href="pages/ground.html"><i class="fas fa-tank"></i> Наземная техника</a></li>
             <li><a href="pages/air.html"><i class="fas fa-fighter-jet"></i> Воздушная техника</a></li>
             <li><a href="pages/naval.html"><i class="fas fa-ship"></i> Морская техника</a></li>
-            <li><a href="pages/ammunition.html"><i class="fas fa-crosshairs"></i> Боеприпасы</a></li>
+            <li><a href="pages/ammunition.html"><i class="fas fa-missile"></i> Вооружение техники</a></li>
             <li><hr></li>
             <li><a href="#" id="mobileThemeToggle"><i class="fas fa-moon"></i> Сменить тему</a></li>
         </ul>
@@ -62,110 +62,110 @@
         <!-- Герой-секция -->
         <section class="hero-section">
             <div class="hero-content">
-                <h1 class="hero-title">Энциклопедия современной военной техники</h1>
-                <p class="hero-subtitle">Всеобъемлющая база знаний о танках, самолётах, кораблях и вооружении армий мира. От исторических образцов до новейших разработок, скрытых под грифом «совершенно секретно». Здесь вы найдете детальные тактико-технические характеристики, историю создания, боевое применение и анализ потенциала.</p>
+                <h1 class="hero-title">Энциклопедия военной техники мира</h1>
+                <p class="hero-subtitle">Крупнейший русскоязычный ресурс, посвящённый <strong>боевой технике всех видов, эпох и государств</strong>. От первых танков Первой мировой до новейших истребителей пятого поколения и атомных подводных лодок. Здесь собраны <em>детальные тактико-технические характеристики</em>, история создания, модификации, боевое применение и сравнительный анализ тысяч единиц техники.</p>
                 <div class="hero-actions">
-                    <a href="#about" class="btn btn-primary">Начать изучение</a>
-                    <a href="#categories" class="btn btn-secondary">К категориям</a>
+                    <a href="#categories" class="btn btn-primary">Исследовать технику</a>
+                    <a href="#features" class="btn btn-secondary">Возможности сайта</a>
                 </div>
             </div>
             <div class="hero-bg" aria-hidden="true"></div>
         </section>
 
         <!-- О проекте -->
-        <section id="about" class="content-section">
-            <h2><i class="fas fa-info-circle section-icon"></i> О проекте</h2>
+        <section id="features" class="content-section">
+            <h2><i class="fas fa-star section-icon"></i> Почему «Арсенал»?</h2>
             <div class="about-grid">
                 <div class="about-card">
-                    <h3>Наша миссия</h3>
-                    <p>Создать наиболее полный, точный и структурированный русскоязычный ресурс, посвященный военной технике. Мы стремимся объединить энтузиастов, историков и специалистов, предоставив им надежную платформу для обмена знаниями. Наша цель — не просто каталог, а глубокий анализ эволюции военной мысли, воплощенной в металле и сложнейших цифровых системах.</p>
+                    <h3>Полнота и точность</h3>
+                    <p>База данных включает в себя <strong>более 4500 единиц техники</strong> из 127 стран мира. Каждая статья проходит многоступенчатую проверку: данные сверяются с официальными спецификациями производителей, отчетами министерств обороны и авторитетными справочными изданиями. Мы исправляем ошибки и обновляем информацию сразу после появления новых открытых данных.</p>
                 </div>
                 <div class="about-card">
-                    <h3>Источники и достоверность</h3>
-                    <p>Вся информация тщательно проверяется по открытым данным Министерств обороны различных стран, отчетам аналитических центров (таких как RAND Corporation, Jane's), мемуарам конструкторов и военнослужащих. Каждая статья проходит модерацию и снабжается ссылками на первоисточники. Мы придерживаемся принципов нейтральности и объективности, освещая технические аспекты без политической окраски.</p>
+                    <h3>Профессиональный подход</h3>
+                    <p>Материалы готовятся при участии <strong>военных аналитиков, историков и технических специалистов</strong>. Мы не просто перечисляем характеристики, а объясняем их значение: почему определённая толщина брони или тип двигателя стали ключевыми в конструкции, как тактика влияла на разработку новых образцов.</p>
                 </div>
                 <div class="about-card">
-                    <h3>Технологии сайта</h3>
-                    <p>Сайт построен на современном стеке веб-технологий с использованием семантической HTML-разметки, CSS Grid/Flexbox для адаптивной верстки и чистого JavaScript. В качестве бэкенда используется высокопроизводительная платформа Supabase (PostgreSQL), обеспечивающая быстрое получение данных и масштабируемость. Хостинг на Vercel гарантирует глобальную доступность и мгновенное развертывание обновлений.</p>
+                    <h3>Структура и навигация</h3>
+                    <p>Техника систематизирована не только по типам и странам, но и по <strong>периодам, конфликтам, производителям и технологическим особенностям</strong>. Мощная система фильтров позволяет быстро найти сравнимые образцы или отследить эволюцию конкретного класса техники за десятилетия.</p>
                 </div>
                 <div class="about-card">
-                    <h3>Планы развития</h3>
-                    <p>В ближайшей перспективе — внедрение интерактивных 3D-моделей техники (с использованием Three.js), системы сравнительных характеристик, личных кабинетов для пользователей с возможностью составления коллекций. Мы активно работаем над разделом «Тактика и применение» и модулем симуляции простейших столкновений для наглядной демонстрации преимуществ тех или иных ТТХ в гипотетическом бою.</p>
+                    <h3>Объективность и нейтральность</h3>
+                    <p>«Арсенал» — это инструмент для изучения, а не пропагандистская платформа. Мы приводим факты, подтверждённые источниками, сохраняя нейтральную точку зрения. Наш фокус — на <em>инженерных решениях и историческом контексте</em>, а не на политических оценках.</p>
                 </div>
             </div>
         </section>
 
         <!-- Категории техники -->
         <section id="categories" class="content-section">
-            <h2><i class="fas fa-sitemap section-icon"></i> Категории техники</h2>
-            <p class="section-intro">Исследуйте обширные разделы нашей энциклопедии. Каждая категория содержит подкатегории, временные периоды, классификацию по странам и подробные статьи об отдельных единицах техники.</p>
+            <h2><i class="fas fa-sitemap section-icon"></i> Исследовать по категориям</h2>
+            <p class="section-intro">Выберите интересующий вас раздел. В каждом — сотни статей с фотогалереями, схемами, подробными ТТХ и техническим описанием.</p>
 
             <div class="categories-grid">
                 <a href="pages/ground.html" class="category-card">
                     <div class="category-icon"><i class="fas fa-tank"></i></div>
                     <h3>Наземная техника</h3>
-                    <p>Основные боевые танки (ОБТ), бронетранспортеры (БТР), боевые машины пехоты (БМП), самоходные артиллерийские установки (САУ), системы залпового огня (РСЗО), инженерная и вспомогательная техника. От легендарного Т-34 до перспективного Т-14 «Армата» и зарубежных аналогов: M1 Abrams, Leopard 2, Challenger 3.</p>
-                    <span class="category-stats">~1200 единиц в базе</span>
+                    <p>Все образцы сухопутных вооружений: от основных боевых танков (<strong>Т-14 «Армата», M1A2 Abrams, Leopard 2A7</strong>) до боевых машин пехоты, самоходной артиллерии, систем залпового огня и инженерных машин. Полный анализ бронирования, подвижности и огневой мощи.</p>
+                    <span class="category-stats">Более 1200 единиц</span>
                 </a>
 
                 <a href="pages/air.html" class="category-card">
                     <div class="category-icon"><i class="fas fa-fighter-jet"></i></div>
                     <h3>Воздушная техника</h3>
-                    <p>Истребители (в том числе поколений 4++, 5 и перспективные 6), бомбардировщики (стратегические и тактические), штурмовики, военно-транспортная авиация, вертолеты (ударные, многоцелевые, тяжелые транспортные), беспилотные летательные аппараты (БПЛА, UCAV). Подробные обзоры на Су-57, F-35 Lightning II, AH-64 Apache, Bayraktar TB2 и другие.</p>
-                    <span class="category-stats">~800 единиц в базе</span>
+                    <p>Военная авиация во всём её разнообразии: истребители (<strong>Су-57, F-22 Raptor, J-20</strong>), бомбардировщики, штурмовики, военно-транспортные самолёты, ударные и многоцелевые вертолёты (<strong>Ка-52, AH-64 Apache</strong>), стратегические и тактические БПЛА.</p>
+                    <span class="category-stats">Более 800 единиц</span>
                 </a>
 
                 <a href="pages/naval.html" class="category-card">
                     <div class="category-icon"><i class="fas fa-ship"></i></div>
                     <h3>Морская техника</h3>
-                    <p>Авианосцы, атомные подводные лодки с баллистическими ракетами (ПЛАРБ), многоцелевые подлодки, эсминцы УРО, фрегаты, корветы, малые ракетные корабли, десантные суда. Анализ таких гигантов как авианосец «Джеральд Р. Форд», подлодки проекта «Борей» или эсминцы типа «Арли Бёрк».</p>
-                    <span class="category-stats">~500 единиц в базе</span>
+                    <p>Военно-морской флот: авианосцы, линейные корабли, атомные и дизель-электрические подводные лодки, эсминцы, фрегаты, корветы, десантные и ракетные катера. Изучите конструкции, вооружение и возможности кораблей от <strong>эпохи дредноутов до современных эсминцев УРО</strong>.</p>
+                    <span class="category-stats">Более 500 единиц</span>
                 </a>
 
                 <a href="pages/ammunition.html" class="category-card">
-                    <div class="category-icon"><i class="fas fa-crosshairs"></i></div>
-                    <h3>Боеприпасы и Вооружение</h3>
-                    <p>Управляемые и неуправляемые ракеты «воздух-воздух», «воздух-поверхность», противотанковые управляемые ракеты (ПТУР), зенитные управляемые ракеты (ЗУР), артиллерийские снаряды, авиабомбы (в том числе корректируемые), стрелковое оружие пехоты. От ракет AIM-120 AMRAAM до комплексов «Искандер» и высокоточных боеприпасов Excalibur.</p>
-                    <span class="category-stats">~2000 видов в базе</span>
+                    <div class="category-icon"><i class="fas fa-missile"></i></div>
+                    <h3>Вооружение техники</h3>
+                    <p>Средства поражения, <strong>составляющие огневую мощь техники</strong>: управляемые ракеты классов «воздух-воздух», «воздух-поверхность», «земля-земля», противотанковые и зенитные ракетные комплексы, корабельные артиллерийские установки, торпеды, авиационные бомбы и пушки.</p>
+                    <span class="category-stats">Более 2000 систем</span>
                 </a>
             </div>
         </section>
 
-        <!-- Последние добавления/Статистика -->
+        <!-- Статистика -->
         <section class="content-section">
-            <h2><i class="fas fa-chart-line section-icon"></i> Статистика и динамика</h2>
+            <h2><i class="fas fa-database section-icon"></i> Масштаб базы знаний</h2>
             <div class="stats-grid">
                 <div class="stat-card">
                     <div class="stat-number" data-target="4500">0</div>
-                    <div class="stat-label">Статей в базе</div>
+                    <div class="stat-label">Единиц техники и систем</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" data-target="95000">0</div>
+                    <div class="stat-label">Технических характеристик</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-number" data-target="127">0</div>
                     <div class="stat-label">Стран-производителей</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-number" data-target="85">0</div>
-                    <div class="stat-label">Экспертов-контрибьюторов</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" data-target="2024">2024</div>
-                    <div class="stat-label">Текущий год обновления</div>
+                    <div class="stat-number" data-target="21000">0</div>
+                    <div class="stat-label">Фотографий и схем</div>
                 </div>
             </div>
-            <p class="stats-note">База данных обновляется ежедневно. В разработке находятся разделы, посвященные киберзащите, военному ИИ и робототехнике.</p>
+            <p class="stats-note">База данных постоянно пополняется новыми материалами и архивными документами.</p>
         </section>
 
         <!-- Призыв к действию / Контакты -->
         <section class="content-section cta-section">
-            <h2>Присоединяйтесь к сообществу</h2>
-            <p>Вы специалист, историк или просто увлеченный энтузиаст? Ваши знания бесценны. Помогите сделать энциклопедию лучше: предлагайте правки, добавляйте новые материалы, участвуйте в дискуссиях на нашей будущей внутренней платформе. Следите за обновлениями в социальных сетях и подписывайтесь на еженедельную рассылку о новых статьях (функция в разработке).</p>
+            <h2>Доступ к знаниям — бесплатен</h2>
+            <p>«Арсенал» создаётся и поддерживается командой энтузиастов и экспертов. Мы убеждены, что знания об истории техники должны быть открыты для всех. Если вы обладаете уникальными материалами, заметили неточность или хотите предложить сотрудничество — напишите нам.</p>
             <div class="cta-actions">
-                <button class="btn btn-primary" id="contactBtn" disabled title="Скоро будет доступно"><i class="fas fa-envelope"></i> Связаться с редакцией</button>
+                <a href="mailto:editor@arsenal-tech.ru" class="btn btn-primary"><i class="fas fa-envelope"></i> Контакт редакции</a>
                 <div class="social-links">
-                    <a href="#" aria-label="GitHub" class="social-link" title="GitHub (скоро)"><i class="fab fa-github"></i></a>
-                    <a href="#" aria-label="Telegram" class="social-link" title="Telegram (скоро)"><i class="fab fa-telegram"></i></a>
-                    <a href="#" aria-label="VK" class="social-link" title="VK (скоро)"><i class="fab fa-vk"></i></a>
-                    <a href="#" aria-label="YouTube" class="social-link" title="YouTube (скоро)"><i class="fab fa-youtube"></i></a>
+                    <a href="#" aria-label="ВКонтакте" class="social-link" title="Мы ВКонтакте"><i class="fab fa-vk"></i></a>
+                    <a href="#" aria-label="Telegram" class="social-link" title="Telegram-канал"><i class="fab fa-telegram"></i></a>
+                    <a href="#" aria-label="YouTube" class="social-link" title="YouTube-канал"><i class="fab fa-youtube"></i></a>
+                    <a href="#" aria-label="RSS" class="social-link" title="RSS подписка"><i class="fas fa-rss"></i></a>
                 </div>
             </div>
         </section>
@@ -175,26 +175,27 @@
     <footer class="main-footer">
         <div class="container footer-container">
             <div class="footer-col">
-                <h4>Военная энциклопедия</h4>
-                <p>Некоммерческий образовательный проект.<br>Все данные взяты из открытых источников.</p>
-                <p class="copyright">&copy; <span id="currentYear">2024</span>. Все права на изображения принадлежат их правообладателям.</p>
+                <h4>Энциклопедия «Арсенал»</h4>
+                <p>Сайт о военной технике. Вся информация получена из открытых источников. <br>Товарные знаки и изображения принадлежат их правообладателям.</p>
+                <p class="copyright">&copy; 2018–<span id="currentYear">2024</span> «Арсенал». Для целей образования и исторического анализа.</p>
             </div>
             <div class="footer-col">
-                <h4>Карта сайта</h4>
+                <h4>Разделы</h4>
                 <ul class="footer-links">
                     <li><a href="index.html">Главная</a></li>
                     <li><a href="pages/ground.html">Наземная техника</a></li>
                     <li><a href="pages/air.html">Воздушная техника</a></li>
                     <li><a href="pages/naval.html">Морская техника</a></li>
-                    <li><a href="pages/ammunition.html">Боеприпасы</a></li>
+                    <li><a href="pages/ammunition.html">Вооружение техники</a></li>
                 </ul>
             </div>
             <div class="footer-col">
-                <h4>Технологии</h4>
-                <ul class="tech-links">
-                    <li><a href="https://github.com/" target="_blank">GitHub</a></li>
-                    <li><a href="https://vercel.com/" target="_blank">Vercel</a></li>
-                    <li><a href="https://supabase.com/" target="_blank">Supabase</a></li>
+                <h4>Полезное</h4>
+                <ul class="footer-links">
+                    <li><a href="#" id="glossaryLink">Глоссарий терминов</a></li>
+                    <li><a href="#" id="compareLink">Сравнение техники</a></li>
+                    <li><a href="#" id="timelineLink">Хронология разработок</a></li>
+                    <li><a href="#" id="mapLink">Карта производителей</a></li>
                 </ul>
                 <div class="theme-info">
                     <span id="currentThemeInfo">Тема: Тёмная</span>
@@ -203,7 +204,7 @@
         </div>
         <div class="footer-bottom">
             <div class="container">
-                <p>Это демонстрационная версия сайта. Контент находится в стадии наполнения.</p>
+                <p>При использовании материалов сайта ссылка на «Арсенал» обязательна.</p>
             </div>
         </div>
     </footer>

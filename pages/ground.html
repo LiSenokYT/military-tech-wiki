@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Наземная техника | Арсенал</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../pages/ground.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=Exo+2:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="../assets/images/favicon.ico">
+</head>
+<body>
+    <!-- Шапка сайта -->
+    <header class="main-header">
+        <div class="container header-container">
+            <a href="../index.html" class="logo">
+                <i class="fas fa-shield-alt"></i>
+                <span>АРСЕНАЛ</span>
+            </a>
+
+            <nav class="main-nav">
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="../index.html" class="nav-link"><i class="fas fa-home"></i> Главная</a></li>
+                    <li class="nav-item"><a href="ground.html" class="nav-link active"><i class="fas fa-tank"></i> Наземная</a></li>
+                    <li class="nav-item"><a href="air.html" class="nav-link"><i class="fas fa-fighter-jet"></i> Воздушная</a></li>
+                    <li class="nav-item"><a href="naval.html" class="nav-link"><i class="fas fa-ship"></i> Морская</a></li>
+                    <li class="nav-item"><a href="ammunition.html" class="nav-link"><i class="fas fa-missile"></i> Вооружение</a></li>
+                </ul>
+            </nav>
+
+            <div class="header-actions">
+                <button id="themeToggle" class="btn-icon" title="Сменить тему">
+                    <i class="fas fa-moon"></i> <span class="btn-text">Тема</span>
+                </button>
+                <button class="btn-icon" id="searchBtn" title="Поиск"><i class="fas fa-search"></i></button>
+            </div>
+
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Меню">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Мобильное меню -->
+    <nav class="mobile-nav" id="mobileNav">
+        <ul>
+            <li><a href="../index.html"><i class="fas fa-home"></i> Главная</a></li>
+            <li><a href="ground.html" class="active"><i class="fas fa-tank"></i> Наземная техника</a></li>
+            <li><a href="air.html"><i class="fas fa-fighter-jet"></i> Воздушная техника</a></li>
+            <li><a href="naval.html"><i class="fas fa-ship"></i> Морская техника</a></li>
+            <li><a href="ammunition.html"><i class="fas fa-missile"></i> Вооружение техники</a></li>
+            <li><hr></li>
+            <li><a href="#" id="mobileThemeToggle"><i class="fas fa-moon"></i> Сменить тему</a></li>
+        </ul>
+    </nav>
+
+    <!-- Основной контент -->
+    <main class="container ground-container">
+        <!-- Заголовок и описание -->
+        <div class="page-header">
+            <h1><i class="fas fa-tank"></i> Наземная военная техника</h1>
+            <p class="page-description">
+                База данных содержит <span id="totalCount">0</span> единиц наземной техники из разных стран и эпох. 
+                Используйте фильтры для поиска нужных образцов по характеристикам.
+            </p>
+        </div>
+
+        <div class="ground-content">
+            <!-- Левая панель: Фильтры -->
+            <aside class="filters-panel">
+                <div class="filters-header">
+                    <h3><i class="fas fa-filter"></i> Фильтры и сортировка</h3>
+                    <button class="btn-icon btn-small" id="resetFilters">
+                        <i class="fas fa-redo"></i> Сбросить
+                    </button>
+                </div>
+
+                <div class="filters-section">
+                    <!-- Быстрый поиск -->
+                    <div class="filter-group">
+                        <label for="quickSearch"><i class="fas fa-search"></i> Быстрый поиск</label>
+                        <input type="text" id="quickSearch" placeholder="Название, индекс...">
+                    </div>
+
+                    <!-- Сортировка -->
+                    <div class="filter-group">
+                        <label for="sortBy"><i class="fas fa-sort-amount-down"></i> Сортировать по</label>
+                        <select id="sortBy">
+                            <option value="name">Названию (А-Я)</option>
+                            <option value="name_desc">Названию (Я-А)</option>
+                            <option value="year">Году (новые)</option>
+                            <option value="year_old">Году (старые)</option>
+                            <option value="weight">Массе (большие)</option>
+                            <option value="weight_light">Массе (маленькие)</option>
+                            <option value="crew">Экипажу (больше)</option>
+                            <option value="country">Стране</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Аккордеон фильтров -->
+                <div class="filters-accordion">
+                    <!-- Основные фильтры -->
+                    <div class="accordion-item open">
+                        <div class="accordion-header">
+                            <h4><i class="fas fa-star"></i> Основные параметры</h4>
+                            <i class="fas fa-chevron-down accordion-icon"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <div class="filter-group">
+                                <label>Тип техники</label>
+                                <div class="checkbox-group">
+                                    <label><input type="checkbox" name="type" value="ОБТ" checked> Основной боевой танк (ОБТ)</label>
+                                    <label><input type="checkbox" name="type" value="БМП" checked> Боевая машина пехоты (БМП)</label>
+                                    <label><input type="checkbox" name="type" value="БТР" checked> Бронетранспортёр (БТР)</label>
+                                    <label><input type="checkbox" name="type" value="БМД"> Боевая машина десанта (БМД)</label>
+                                    <label><input type="checkbox" name="type" value="САУ"> Самоходная артиллерия (САУ)</label>
+                                    <label><input type="checkbox" name="type" value="РСЗО"> РСЗО</label>
+                                    <label><input type="checkbox" name="type" value="БРЭМ"> БРЭМ</label>
+                                    <label><input type="checkbox" name="type" value="ПТ-САУ"> ПТ-САУ</label>
+                                    <label><input type="checkbox" name="type" value="Инженерная"> Инженерная</label>
+                                    <label><input type="checkbox" name="type" value="ЗРК"> ЗРК</label>
+                                    <label><input type="checkbox" name="type" value="Другое"> Другое</label>
+                                </div>
+                            </div>
+
+                            <div class="filter-group">
+                                <label>Страна-производитель</label>
+                                <div class="checkbox-group scrollable" style="max-height: 200px;">
+                                    <!-- Страны будут заполняться JavaScript -->
+                                </div>
+                                <div class="filter-actions">
+                                    <button class="btn-small select-all">Выбрать все</button>
+                                    <button class="btn-small clear-selection">Очистить</button>
+                                </div>
+                            </div>
+
+                            <div class="filter-group">
+                                <label>Период разработки</label>
+                                <div class="range-slider">
+                                    <div class="range-values">
+                                        <span id="yearMin">1940</span> — <span id="yearMax">2024</span>
+                                    </div>
+                                    <input type="range" id="yearRange" min="1900" max="2024" value="1940" class="range-track">
+                                    <input type="range" id="yearRange2" min="1900" max="2024" value="2024" class="range-track">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Тактико-технические характеристики -->
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <h4><i class="fas fa-cogs"></i> ТТХ</h4>
+                            <i class="fas fa-chevron-down accordion-icon"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <div class="filter-group">
+                                <label>Масса (тонны)</label>
+                                <div class="range-slider">
+                                    <div class="range-values">
+                                        <span id="weightMin">5</span> — <span id="weightMax">70</span>
+                                    </div>
+                                    <input type="range" id="weightRange" min="1" max="100" value="5" class="range-track">
+                                    <input type="range" id="weightRange2" min="1" max="100" value="70" class="range-track">
+                                </div>
+                            </div>
+
+                            <div class="filter-group">
+                                <label>Экипаж (человек)</label>
+                                <div class="range-slider">
+                                    <div class="range-values">
+                                        <span id="crewMin">1</span> — <span id="crewMax">12</span>
+                                    </div>
+                                    <input type="range" id="crewRange" min="1" max="15" value="1" class="range-track">
+                                    <input type="range" id="crewRange2" min="1" max="15" value="12" class="range-track">
+                                </div>
+                            </div>
+
+                            <div class="filter-group">
+                                <label>Двигатель (л.с.)</label>
+                                <div class="range-slider">
+                                    <div class="range-values">
+                                        <span id="powerMin">50</span> — <span id="powerMax">2000</span>
+                                    </div>
+                                    <input type="range" id="powerRange" min="20" max="2500" value="50" class="range-track">
+                                    <input type="range" id="powerRange2" min="20" max="2500" value="2000" class="range-track">
+                                </div>
+                            </div>
+
+                            <div class="filter-group">
+                                <label>Макс. скорость (км/ч)</label>
+                                <div class="range-slider">
+                                    <div class="range-values">
+                                        <span id="speedMin">20</span> — <span id="speedMax">100</span>
+                                    </div>
+                                    <input type="range" id="speedRange" min="5" max="120" value="20" class="range-track">
+                                    <input type="range" id="speedRange2" min="5" max="120" value="100" class="range-track">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Вооружение -->
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <h4><i class="fas fa-crosshairs"></i> Вооружение</h4>
+                            <i class="fas fa-chevron-down accordion-icon"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <div class="filter-group">
+                                <label>Основное вооружение</label>
+                                <div class="checkbox-group">
+                                    <label><input type="checkbox" name="weapon" value="120mm"> 120-мм пушка</label>
+                                    <label><input type="checkbox" name="weapon" value="125mm"> 125-мм пушка</label>
+                                    <label><input type="checkbox" name="weapon" value="105mm"> 105-мм пушка</label>
+                                    <label><input type="checkbox" name="weapon" value="152mm"> 152-мм орудие</label>
+                                    <label><input type="checkbox" name="weapon" value="30mm"> 30-мм пушка</label>
+                                    <label><input type="checkbox" name="weapon" value="АТГМ"> ПТУР/АТГМ</label>
+                                    <label><input type="checkbox" name="weapon" value="ЗУР"> ЗУР</label>
+                                    <label><input type="checkbox" name="weapon" value="РСЗО"> Ракетное</label>
+                                </div>
+                            </div>
+
+                            <div class="filter-group">
+                                <label>Дополнительное вооружение</label>
+                                <div class="checkbox-group">
+                                    <label><input type="checkbox" name="secondary" value="Пулемет"> Пулемёт</label>
+                                    <label><input type="checkbox" name="secondary" value="Гранатомет"> Гранатомёт</label>
+                                    <label><input type="checkbox" name="secondary" value="Дым"> Дымовые гранаты</label>
+                                    <label><input type="checkbox" name="secondary" value="ЗПУ"> Зенитная установка</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Конструкция -->
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <h4><i class="fas fa-hard-hat"></i> Конструкция</h4>
+                            <i class="fas fa-chevron-down accordion-icon"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <div class="filter-group">
+                                <label>Компоновка</label>
+                                <div class="checkbox-group">
+                                    <label><input type="checkbox" name="layout" value="Классическая"> Классическая</label>
+                                    <label><input type="checkbox" name="layout" value="Безбашенная"> Безбашенная</label>
+                                    <label><input type="checkbox" name="layout" value="Капотная"> Капотная</label>
+                                    <label><input type="checkbox" name="layout" value="Мотор-задняя"> Мотор сзади</label>
+                                </div>
+                            </div>
+
+                            <div class="filter-group">
+                                <label>Защита</label>
+                                <div class="checkbox-group">
+                                    <label><input type="checkbox" name="protection" value="Комбинированная"> Комбинированная броня</label>
+                                    <label><input type="checkbox" name="protection" value="Динамическая"> Динамическая защита</label>
+                                    <label><input type="checkbox" name="protection" value="Реактивная"> Реактивная броня</label>
+                                    <label><input type="checkbox" name="protection" value="Кевлар"> Кевлар/керамика</label>
+                                    <label><input type="checkbox" name="protection" value="Электроника"> АФАР/системы РЭБ</label>
+                                </div>
+                            </div>
+
+                            <div class="filter-group">
+                                <label>Ходовая часть</label>
+                                <div class="checkbox-group">
+                                    <label><input type="checkbox" name="chassis" value="Гусеницы"> Гусеничная</label>
+                                    <label><input type="checkbox" name="chassis" value="Колеса"> Колёсная</label>
+                                    <label><input type="checkbox" name="chassis" value="Амфибия"> Амфибийная</label>
+                                    <label><input type="checkbox" name="chassis" value="ВДВ"> Для ВДВ</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="active-filters" id="activeFilters">
+                    <h5>Активные фильтры:</h5>
+                    <div class="filter-tags"></div>
+                </div>
+            </aside>
+
+            <!-- Правая панель: Карточки техники -->
+            <section class="vehicles-grid-container">
+                <div class="grid-controls">
+                    <div class="results-info">
+                        Найдено: <span id="foundCount">0</span> из <span id="totalCount2">0</span>
+                    </div>
+                    <div class="view-controls">
+                        <button class="btn-icon btn-small view-btn active" data-view="grid">
+                            <i class="fas fa-th-large"></i>
+                        </button>
+                        <button class="btn-icon btn-small view-btn" data-view="list">
+                            <i class="fas fa-list"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="vehicles-grid" id="vehiclesGrid">
+                    <!-- Карточки будут заполняться JavaScript -->
+                </div>
+
+                <div class="no-results" id="noResults" style="display: none;">
+                    <div class="no-results-content">
+                        <i class="fas fa-search fa-3x" style="color: var(--color-text-muted); margin-bottom: 20px;"></i>
+                        <h3>Техника не найдена</h3>
+                        <p>Попробуйте изменить параметры фильтрации или сбросить фильтры.</p>
+                        <button class="btn btn-primary" id="resetNoResults">
+                            <i class="fas fa-redo"></i> Сбросить фильтры
+                        </button>
+                    </div>
+                </div>
+
+                <div class="pagination" id="pagination">
+                    <!-- Пагинация будет генерироваться JavaScript -->
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Подвал -->
+    <footer class="main-footer">
+        <div class="container footer-container">
+            <div class="footer-col">
+                <h4>Энциклопедия «Арсенал»</h4>
+                <p>Сайт о военной технике. Вся информация получена из открытых источников.</p>
+                <p class="copyright">&copy; 2018–<span id="currentYear">2024</span> «Арсенал».</p>
+            </div>
+            <div class="footer-col">
+                <h4>Разделы</h4>
+                <ul class="footer-links">
+                    <li><a href="../index.html">Главная</a></li>
+                    <li><a href="ground.html">Наземная техника</a></li>
+                    <li><a href="air.html">Воздушная техника</a></li>
+                    <li><a href="naval.html">Морская техника</a></li>
+                    <li><a href="ammunition.html">Вооружение техники</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Полезное</h4>
+                <ul class="footer-links">
+                    <li><a href="#" id="glossaryLink">Глоссарий терминов</a></li>
+                    <li><a href="#" id="compareLink">Сравнение техники</a></li>
+                    <li><a href="#" id="timelineLink">Хронология разработок</a></li>
+                </ul>
+                <div class="theme-info">
+                    <span id="currentThemeInfo">Тема: Тёмная</span>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <p>При использовании материалов сайта ссылка на «Арсенал» обязательна.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Подключаем скрипты -->
+    <script src="../theme-toggle.js"></script>
+    <script src="../data/ground-data.js"></script>
+    <script src="../pages/ground.js"></script>
+    <script src="../script.js"></script>
+</body>
+</html>

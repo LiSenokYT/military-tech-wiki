@@ -8,11 +8,10 @@ document.addEventListener('DOMContentLoaded', function() {
     if (mobileMenuBtn) {
         mobileMenuBtn.addEventListener('click', function() {
             mobileNav.classList.toggle('active');
-            // Меняем иконку кнопки
             const icon = this.querySelector('i');
             if (mobileNav.classList.contains('active')) {
                 icon.className = 'fas fa-times';
-                document.body.style.overflow = 'hidden'; // Блокируем скролл
+                document.body.style.overflow = 'hidden';
             } else {
                 icon.className = 'fas fa-bars';
                 document.body.style.overflow = '';
@@ -20,7 +19,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Закрытие меню при клике на ссылку
     mobileNavLinks.forEach(link => {
         link.addEventListener('click', function() {
             mobileNav.classList.remove('active');
@@ -29,7 +27,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Закрытие меню при клике вне его области
     document.addEventListener('click', function(event) {
         if (!event.target.closest('.mobile-nav') && !event.target.closest('.mobile-menu-btn') && mobileNav.classList.contains('active')) {
             mobileNav.classList.remove('active');
@@ -46,8 +43,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (entry.isIntersecting) {
                     const element = entry.target;
                     const target = parseInt(element.getAttribute('data-target'));
-                    const duration = 2000; // 2 секунды
-                    const step = target / (duration / 16); // 60fps
+                    const duration = 1800;
+                    const step = target / (duration / 16);
                     let current = 0;
 
                     const timer = setInterval(() => {
@@ -60,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         }
                     }, 16);
 
-                    observer.unobserve(element); // Останавливаем наблюдение после анимации
+                    observer.unobserve(element);
                 }
             });
         }, { threshold: 0.5 });
@@ -74,23 +71,46 @@ document.addEventListener('DOMContentLoaded', function() {
         currentYearElement.textContent = new Date().getFullYear();
     }
 
-    // ===== Заглушки для будущих функций =====
+    // ===== Заглушки для функций в разработке =====
     const searchBtn = document.getElementById('searchBtn');
-    const contactBtn = document.getElementById('contactBtn');
+    const glossaryLink = document.getElementById('glossaryLink');
+    const compareLink = document.getElementById('compareLink');
+    const timelineLink = document.getElementById('timelineLink');
+    const mapLink = document.getElementById('mapLink');
+
+    const inDevelopmentAlert = (featureName) => {
+        alert(`Функция «${featureName}» в данный момент находится в разработке и будет доступна в ближайшем обновлении сайта.`);
+    };
 
     if (searchBtn) {
-        searchBtn.addEventListener('click', function() {
-            alert('Функция поиска находится в разработке. Она будет интегрирована с Supabase для полнотекстового поиска по базе данных.');
+        searchBtn.addEventListener('click', () => inDevelopmentAlert('Поиск по базе данных'));
+    }
+    if (glossaryLink) {
+        glossaryLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            inDevelopmentAlert('Глоссарий терминов');
+        });
+    }
+    if (compareLink) {
+        compareLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            inDevelopmentAlert('Сравнение техники');
+        });
+    }
+    if (timelineLink) {
+        timelineLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            inDevelopmentAlert('Хронология разработок');
+        });
+    }
+    if (mapLink) {
+        mapLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            inDevelopmentAlert('Карта производителей');
         });
     }
 
-    if (contactBtn) {
-        contactBtn.addEventListener('click', function() {
-            alert('Форма обратной связи и система личных кабинетов находятся в разработке.');
-        });
-    }
-
-    // ===== Плавный скролл для якорных ссылок (если не сработает нативный) =====
+    // ===== Плавный скролл =====
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             const href = this.getAttribute('href');
@@ -100,7 +120,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 e.preventDefault();
                 const targetElement = document.querySelector(href);
                 const headerHeight = document.querySelector('.main-header').offsetHeight;
-                const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+                const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - headerHeight - 10;
 
                 window.scrollTo({
                     top: targetPosition,
@@ -110,5 +130,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    console.log('Сайт "Военная энциклопедия" загружен. Добро пожаловать!');
+    // ===== Имитация загрузки (для реалистичности) =====
+    console.log('%cАрсенал | Энциклопедия военной техники', 'color: #2d8c3c; font-size: 16px; font-weight: bold;');
+    console.log('База данных загружена. Добро пожаловать.');
 });

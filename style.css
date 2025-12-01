@@ -708,3 +708,25 @@ p {
         width: 100%;
     }
 }
+
+/* Хлебные крошки */
+.breadcrumbs {
+    padding: 15px 0;
+    color: var(--color-text-secondary);
+    font-size: 0.95rem;
+}
+
+.breadcrumbs a {
+    color: var(--color-text-secondary);
+    text-decoration: none;
+}
+
+.breadcrumbs a:hover {
+    color: var(--color-accent);
+    text-decoration: underline;
+}
+
+.breadcrumbs span {
+    color: var(--color-text-primary);
+    font-weight: 600;
+}

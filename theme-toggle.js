@@ -1,11 +1,10 @@
-// Переключение темы (отдельный файл для удобства)
+// Переключение темы
 document.addEventListener('DOMContentLoaded', function() {
     const themeToggle = document.getElementById('themeToggle');
     const mobileThemeToggle = document.getElementById('mobileThemeToggle');
     const currentThemeInfo = document.getElementById('currentThemeInfo');
     const htmlElement = document.documentElement;
 
-    // Функция переключения темы
     function toggleTheme() {
         const currentTheme = htmlElement.getAttribute('data-theme');
         const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
@@ -15,7 +14,6 @@ document.addEventListener('DOMContentLoaded', function() {
         updateThemeInfo(newTheme);
     }
 
-    // Функция обновления иконки
     function updateThemeIcon(theme) {
         const icon = themeToggle.querySelector('i');
         if (theme === 'dark') {
@@ -31,20 +29,17 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Функция обновления текста информации о теме
     function updateThemeInfo(theme) {
         if (currentThemeInfo) {
             currentThemeInfo.textContent = `Тема: ${theme === 'dark' ? 'Тёмная' : 'Светлая'}`;
         }
     }
 
-    // Инициализация темы из localStorage
     const savedTheme = localStorage.getItem('site-theme') || 'dark';
     htmlElement.setAttribute('data-theme', savedTheme);
     updateThemeIcon(savedTheme);
     updateThemeInfo(savedTheme);
 
-    // Назначение обработчиков событий
     if (themeToggle) {
         themeToggle.addEventListener('click', toggleTheme);
     }
@@ -52,10 +47,11 @@ document.addEventListener('DOMContentLoaded', function() {
         mobileThemeToggle.addEventListener('click', function(e) {
             e.preventDefault();
             toggleTheme();
-            // Закрываем мобильное меню после смены темы (опционально)
             const mobileNav = document.getElementById('mobileNav');
             if (mobileNav && mobileNav.classList.contains('active')) {
                 mobileNav.classList.remove('active');
+                document.querySelector('.mobile-menu-btn i').className = 'fas fa-bars';
+                document.body.style.overflow = '';
             }
         });
     }
